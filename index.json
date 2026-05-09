@@ -1,9 +1,6 @@
-window.htmlFiles = [
+[
     {
         "path": "sol/lectures/WEEK 01/L01/L01.html"
-    },
-    {
-        "path": "sol/lectures/WEEK 11/L01/L01.html"
     },
     {
         "path": "sol/practice/WEEK 01/P01/P01.html"
@@ -458,4 +455,4 @@ window.htmlFiles = [
     {
         "path": "sol/solution/WEEK 09/AQ 9.3_ Activity Questions 3 - Not Graded __ IITM Online Degree.html"
     }
-];
+]

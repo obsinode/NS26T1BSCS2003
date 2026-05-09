@@ -1,5 +1,3 @@
-const staticHtmlFiles = Array.isArray(window.htmlFiles) ? window.htmlFiles : [];
-
 /* DOM refs */
 const searchInput = document.getElementById('search');
 const typeFilter = document.getElementById('typeFilter');
@@ -64,6 +62,61 @@ const rebuildData = files => {
     parsedFiles = currentFiles.map(parseFile);
 };
 
+/* ─── Load index.json ──────────────────────────────────────────── */
+
+const loadIndexJson = async () => {
+    try {
+        const response = await fetch('index.json', {
+            headers: { 'Accept': 'application/json' },
+            cache: 'no-cache'
+        });
+        if (!response.ok) {
+            console.warn(`Failed to load index.json: HTTP ${response.status}`);
+            return [];
+        }
+
+        const data = await response.json();
+
+        // Validate that data is an array
+        if (!Array.isArray(data)) {
+            console.warn('index.json root is not an array:', typeof data);
+            return [];
+        }
+
+        // Validate and extract paths from each entry
+        const files = data
+            .filter((item, idx) => {
+                if (!item || typeof item !== 'object') {
+                    console.warn(`index.json[${idx}] is not an object:`, item);
+                    return false;
+                }
+                if (typeof item.path !== 'string') {
+                    console.warn(`index.json[${idx}].path is not a string:`, item.path);
+                    return false;
+                }
+                return true;
+            })
+            .map(item => ({ path: item.path }));
+
+        if (files.length === 0) {
+            console.warn('No valid file entries found in index.json after validation');
+        } else {
+            console.info(`Successfully loaded ${files.length} files from index.json`);
+        }
+
+        return files;
+    } catch (err) {
+        if (err instanceof SyntaxError) {
+            console.error('index.json contains invalid JSON:', err.message);
+        } else if (err instanceof TypeError) {
+            console.error('Failed to fetch index.json (network error):', err.message);
+        } else {
+            console.error('Unexpected error loading index.json:', err);
+        }
+        return [];
+    }
+};
+
 /* ─── Cache ─────────────────────────────────────────────────────── */
 
 const loadCachedFiles = () => {
@@ -71,8 +124,13 @@ const loadCachedFiles = () => {
         const raw = localStorage.getItem(CACHE_KEY);
         if (!raw) return [];
         const parsed = JSON.parse(raw);
-        return normalizeFileList(parsed?.files || []);
-    } catch {
+        if (!Array.isArray(parsed?.files)) {
+            console.warn('Cached files is not an array');
+            return [];
+        }
+        return normalizeFileList(parsed.files);
+    } catch (err) {
+        console.warn('Failed to load cached files:', err.message);
         return [];
     }
 };
@@ -80,8 +138,8 @@ const loadCachedFiles = () => {
 const saveCachedFiles = files => {
     try {
         localStorage.setItem(CACHE_KEY, JSON.stringify({ savedAt: Date.now(), files }));
-    } catch {
-        /* ignore quota errors */
+    } catch (err) {
+        console.warn('Failed to save files to cache (quota exceeded?):', err.message);
     }
 };
 
@@ -399,10 +457,58 @@ refreshButton.addEventListener('click', () => refreshFromGitHub(true));
 /* ─── Bootstrap ─────────────────────────────────────────────────── */
 
 (() => {
-    const cached = loadCachedFiles();
-    rebuildData(cached.length > 0 ? cached : staticHtmlFiles);
-    populateWeekOptions();
-    renderSummary();
-    renderFullTree();
-    refreshFromGitHub(false);
+    const initializeApp = async () => {
+        // Priority 1: Load from index.json
+        let files = await loadIndexJson();
+
+        // Priority 2: Fall back to cache if index.json is empty
+        if (files.length === 0) {
+            console.info('index.json empty or failed, trying cached data...');
+            files = loadCachedFiles();
+        }
+
+        // Priority 3: Fall back to static HTML files if both fail
+        if (files.length === 0) {
+            console.info('Cache empty, using static HTML files...');
+            files = normalizeFileList(
+                Array.isArray(window.htmlFiles) ? window.htmlFiles : []
+            );
+        }
+
+        // Initialize with resolved data
+        if (files.length === 0) {
+            console.warn(
+                'No file data available: index.json empty, cache empty, and window.htmlFiles not provided'
+            );
+        }
+
+        rebuildData(files);
+        populateWeekOptions();
+        renderSummary();
+        renderFullTree();
+
+        // Save successful load to cache for offline usage
+        if (files.length > 0) {
+            saveCachedFiles(files);
+        }
+
+        // Attempt background refresh from GitHub
+        await refreshFromGitHub(false);
+    };
+
+    initializeApp().catch(err => {
+        console.error('App initialization failed:', err);
+        // Try fallback with cached data on critical error
+        try {
+            const cachedFiles = loadCachedFiles();
+            if (cachedFiles.length > 0) {
+                rebuildData(cachedFiles);
+                populateWeekOptions();
+                renderSummary();
+                renderFullTree();
+            }
+        } catch (fallbackErr) {
+            console.error('Fallback initialization also failed:', fallbackErr);
+        }
+    });
 })();
