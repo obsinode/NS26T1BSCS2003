@@ -1,0 +1,418 @@
+[
+    {
+        "id": 1,
+        "type": "mcq",
+        "difficulty": "medium",
+        "points": 2,
+        "problem-statement": "A computer program encounters the bit sequence `0100 0001` in memory. A developer claims that this sequence must represent the capital letter 'A'. Is the developer correct? Choose the statement that best describes the situation.",
+        "code": {
+            "prefix": "",
+            "body": []
+        },
+        "options-statement": "Select the single best option.",
+        "options": [
+            "Yes, because the binary value of 'A' in ASCII is always 65 (0100 0001).",
+            "Yes, because all character encodings use the same mapping for English letters.",
+            "No, it only represents 'A' if the context tells us the byte is meant to be interpreted as a character encoded in ASCII.",
+            "No, it is a 7‑bit pattern and therefore cannot represent an 8‑bit character."
+        ],
+        "correct": 2,
+        "explanation": "The bit pattern 0100 0001 can be interpreted as the number 65, the character 'A' in ASCII, or simply a raw sequence of bits. The meaning depends entirely on the context (e.g., type of the variable in the program). Without that context, the developer cannot assume it is 'A'.",
+        "detailed": {
+            "concept": {
+                "title": "Context‑dependent interpretation of bits",
+                "description": "In digital systems, a given sequence of bits has no inherent meaning. The same bit pattern can be a number, a character, a machine instruction, or anything else. It is the convention (encoding) and the program’s context that determine how the bits are interpreted. For example, 0100 0001 is 65 in decimal, the ASCII code for 'A', and also a valid UTF‑8 byte representing the same character. The key idea is that bits are just bits; meaning is assigned externally.",
+                "points": [
+                    "Bits have no intrinsic meaning – interpretation is always context‑dependent.",
+                    "0100 0001 is simultaneously a binary number (65), an ASCII 'A', and a UTF‑8 code unit.",
+                    "In a program, data type declarations provide the context (e.g., `char` vs `int`).",
+                    "Without explicit context, a bit pattern cannot be said to ‘be’ a specific character."
+                ],
+                "prerequisites": [
+                    "Understand binary representation and place value.",
+                    "Know ASCII encoding: 'A' = 65 = 0100 0001.",
+                    "Recognise that UTF‑8 is backward compatible with ASCII for the first 128 code points."
+                ],
+                "invariants-required-by-algorithm": [
+                    "Any sequence of bits can be validly interpreted under multiple encodings.",
+                    "The same byte may represent different values depending on whether it is read as a `char`, `unsigned char`, or `int`.",
+                    "Character encodings are conventions – they do not change the physical bits."
+                ],
+                "why-this-code-breaks-the-contract": [
+                    "Option 0 assumes bits inherently represent 'A', ignoring context.",
+                    "Option 1 falsely claims all encodings use the same mapping (ASCII, EBCDIC, etc., differ).",
+                    "Option 3 incorrectly states that a 7‑bit value cannot be stored in 8 bits; in practice, it is often stored zero‑extended."
+                ]
+            },
+            "line-by-line-explanation": [
+                {
+                    "line": "Option 0",
+                    "code": "“…binary value of 'A' in ASCII is always 65…”",
+                    "purpose": "States a true fact but draws a false conclusion about universal interpretation.",
+                    "risk": "Ignores the possibility that the same byte could be an integer or part of a multi‑byte instruction."
+                },
+                {
+                    "line": "Option 2",
+                    "code": "“No, it only represents 'A' if the context tells us the byte is meant to be interpreted as a character encoded in ASCII.”",
+                    "purpose": "Correctly emphasises the role of context and encoding convention.",
+                    "risk": "No risk; this is the accurate, context‑aware answer."
+                }
+            ],
+            "trace": [
+                {
+                    "step": 1,
+                    "op": "Program reads a memory location containing `0100 0001`",
+                    "state": "The hardware provides just a bit pattern.",
+                    "out": "The raw bits are transmitted without any inherent label."
+                },
+                {
+                    "step": 2,
+                    "op": "Program accesses the byte as a `char` variable",
+                    "state": "The compiler or interpreter knows that this memory is to be treated as a character.",
+                    "out": "The program looks up the ASCII table (or current encoding) and displays 'A'."
+                },
+                {
+                    "step": 3,
+                    "op": "The same byte is accessed as an integer",
+                    "state": "A different variable or different program context.",
+                    "out": "The program prints 65."
+                }
+            ],
+            "analysis": {
+                "why-correct-option-is-2": "Only option 2 acknowledges that the meaning of `0100 0001` is not intrinsic; it depends on whether the context interprets it as ASCII, as a number, or as something else.",
+                "whyOptionsWrong": [
+                    {
+                        "option": "0",
+                        "reason": "While ASCII maps 65 to 'A', the byte could equally be an integer 65 or part of a UTF‑8 sequence."
+                    },
+                    {
+                        "option": "1",
+                        "reason": "Different encodings (e.g., EBCDIC) map the same bit pattern to different characters. Unicode and ASCII agree only on the first 128 code points."
+                    },
+                    {
+                        "option": "3",
+                        "reason": "7‑bit values are often stored in 8‑bit bytes by setting the most significant bit to 0, which does not invalidate the character representation."
+                    }
+                ],
+                "exam-trap-signals": [
+                    "Beware of absolute statements like ‘always’ and ‘must’. In computing, context is king.",
+                    "A question about a well‑known bit pattern for 'A' is often a trick to test whether you understand that bits alone are meaningless."
+                ]
+            },
+            "common-mistakes": [
+                "Assuming that the bit pattern for a character is universally valid under all circumstances.",
+                "Confusing the representation of a character with the character itself – the bit pattern is a code, not the letter."
+            ],
+            "tips": [
+                "Remember the phrase: ‘Bits are just bits; context gives them meaning.’",
+                "When asked ‘What is <binary>?’, the safest answer is often ‘It depends on the context.’"
+            ],
+            "warnings": [
+                "Never write code that assumes a byte interpreted as a character will remain the same if the data type is changed."
+            ],
+            "solution-summary-for-engineers": "`0100 0001` is a bit string that can be interpreted as the decimal number 65, the ASCII character 'A', or any other value depending on the encoding convention and program context. Therefore, the developer is wrong to assert it must represent 'A'."
+        }
+    },
+    {
+        "id": 2,
+        "type": "mcq",
+        "difficulty": "medium",
+        "points": 2,
+        "problem-statement": "A document contains only the 26 lowercase English letters (a‑z). A developer wants to use a fixed‑width binary encoding where every letter has the same number of bits, with the goal of minimising the document size. How many bits per character are required?",
+        "code": {
+            "prefix": "",
+            "body": []
+        },
+        "options-statement": "Select the single best option.",
+        "options": [
+            "4 bits",
+            "5 bits",
+            "6 bits",
+            "7 bits"
+        ],
+        "correct": 1,
+        "explanation": "With N bits, you can represent 2^N unique values. 4 bits give only 2^4 = 16 values, too few for 26 letters. 5 bits give 2^5 = 32 values, which is sufficient to encode all 26 lowercase letters with room to spare. Using 6 or 7 bits would waste space without gaining any additional representable characters for this restricted character set.",
+        "detailed": {
+            "concept": {
+                "title": "Minimum fixed‑width encoding size",
+                "description": "The minimum number of bits required to uniquely represent a set of S distinct symbols in a fixed‑width encoding is ⌈log₂(S)⌉. For S = 26, log₂(26) ≈ 4.7, so the ceiling is 5 bits. Any larger width is unnecessary under the given constraints.",
+                "points": [
+                    "With b bits, you can encode 2^b distinct symbols.",
+                    "For 26 symbols, 4 bits (16 values) are insufficient; 5 bits (32 values) are required and sufficient.",
+                    "The formula is ⌈log₂(number of distinct symbols)⌉.",
+                    "This assumes a fixed‑width encoding where each symbol uses the same number of bits."
+                ],
+                "prerequisites": [
+                    "Understand powers of 2: 2^4 = 16, 2^5 = 32, 2^6 = 64.",
+                    "Know the ceiling function: ⌈x⌉ = smallest integer ≥ x."
+                ],
+                "invariants-required-by-algorithm": [
+                    "The number of bits must be an integer.",
+                    "The encoding must be lossless: each symbol must have a unique code.",
+                    "All symbols must use the same number of bits (fixed‑width constraint)."
+                ]
+            },
+            "trace": [
+                {
+                    "step": 1,
+                    "op": "Count distinct symbols",
+                    "state": "The only allowed symbols are a–z, 26 distinct letters.",
+                    "out": "S = 26."
+                },
+                {
+                    "step": 2,
+                    "op": "Compute log₂(26)",
+                    "state": "log₂(26) ≈ 4.700439718",
+                    "out": "Not an integer; must round up."
+                },
+                {
+                    "step": 3,
+                    "op": "Determine minimum bits",
+                    "state": "⌈4.700441⌉ = 5.",
+                    "out": "Thus 5 bits per character are needed."
+                }
+            ],
+            "analysis": {
+                "why-correct-option-is-1": "5 bits can represent 32 values, which is the smallest power of two greater than or equal to 26.",
+                "whyOptionsWrong": [
+                    {
+                        "option": "0",
+                        "reason": "4 bits → 16 values < 26; cannot uniquely encode all letters."
+                    },
+                    {
+                        "option": "2",
+                        "reason": "6 bits → 64 values, sufficient but not minimal."
+                    },
+                    {
+                        "option": "3",
+                        "reason": "7 bits → 128 values, far more than required."
+                    }
+                ]
+            },
+            "common-mistakes": [
+                "Rounding down instead of up: thinking 4 bits are enough because 26 is ‘close’ to 16.",
+                "Forgetting that the bits must be integers; log₂(26) is not an integer."
+            ],
+            "tips": [
+                "Memorise the powers of two: 2^4=16, 2^5=32, 2^6=64, 2^7=128. This will help you quickly answer such questions.",
+                "Use the rule: find the smallest power of two that is ≥ the number of symbols; the exponent is the answer."
+            ],
+            "warnings": [
+                "Do not confuse the number of bits required for a fixed‑width encoding with the minimum possible bits using variable‑length encodings (Huffman, etc.), which could be even smaller but are not asked here."
+            ]
+        }
+    },
+    {
+        "id": 3,
+        "type": "mcq",
+        "difficulty": "easy",
+        "points": 1,
+        "problem-statement": "In HTML, which tag is used to create a bulleted (unordered) list?",
+        "code": {
+            "prefix": "",
+            "body": []
+        },
+        "options-statement": "Select the single best option.",
+        "options": [
+            "<li>",
+            "<ol>",
+            "<ul>",
+            "<dl>"
+        ],
+        "correct": 2,
+        "explanation": "<ul> stands for Unordered List and produces a bulleted list. <ol> creates an ordered (numbered) list. <li> is used inside both <ul> and <ol> to denote a list item, but it is not the container that defines the list type. <dl> is a description list.",
+        "detailed": {
+            "concept": {
+                "title": "HTML list elements",
+                "description": "HTML provides three main list structures: unordered lists (<ul>), ordered lists (<ol>), and description lists (<dl>). Both <ul> and <ol> contain <li> elements as children. The type of bullet or numbering can be controlled via CSS or the deprecated `type` attribute on <ol>.",
+                "points": [
+                    "<ul> = bulleted (unordered) list.",
+                    "<ol> = numbered (ordered) list.",
+                    "<li> = list item, child of <ul> or <ol>.",
+                    "<dl> = description list (term‑description pairs)."
+                ],
+                "prerequisites": [
+                    "Basic knowledge of HTML tags."
+                ]
+            },
+            "analysis": {
+                "why-correct-option-is-2": "<ul> explicitly defines an unordered list, which browsers render with bullet points by default.",
+                "whyOptionsWrong": [
+                    {
+                        "option": "0",
+                        "reason": "<li> is a list item, not the container."
+                    },
+                    {
+                        "option": "1",
+                        "reason": "<ol> creates an ordered (numbered) list."
+                    },
+                    {
+                        "option": "3",
+                        "reason": "<dl> is a description list, not a simple bulleted list."
+                    }
+                ]
+            },
+            "common-mistakes": [
+                "Confusing <ul> (unordered) with <ol> (ordered).",
+                "Thinking <li> by itself creates a bulleted list; it must be nested inside <ul> or <ol>."
+            ],
+            "tips": [
+                "Remember: ‘U’ in <ul> stands for ‘Unordered’ → bullets; ‘O’ in <ol> stands for ‘Ordered’ → numbers."
+            ]
+        }
+    },
+    {
+        "id": 4,
+        "type": "mcq",
+        "difficulty": "easy",
+        "points": 1,
+        "problem-statement": "When multiple CSS rules target the same HTML element, which type of CSS declaration takes the highest precedence?",
+        "code": {
+            "prefix": "",
+            "body": []
+        },
+        "options-statement": "Select the single best option.",
+        "options": [
+            "Internal CSS (inside a <style> block in <head>)",
+            "External CSS (linked .css file)",
+            "Inline CSS (style attribute on the element)",
+            "Browser default stylesheet"
+        ],
+        "correct": 2,
+        "explanation": "Inline CSS (applied directly via the `style` attribute) has the highest specificity and overrides both internal and external stylesheets, as well as browser defaults. The cascade order (from lowest to highest) is: Browser defaults → External CSS → Internal CSS → Inline CSS.",
+        "detailed": {
+            "concept": {
+                "title": "CSS cascade and specificity",
+                "description": "CSS resolves conflicting rules through the cascade: later rules override earlier ones of equal specificity, and more specific selectors win over less specific ones. Inline styles are considered to have the highest specificity among the basic author origins, beating internal and external stylesheets.",
+                "points": [
+                    "Cascade order (lowest to highest): Browser defaults → External → Internal → Inline.",
+                    "Inline styles override all other ordinary declarations.",
+                    "The `!important` flag can override inline styles, but is out of scope for this question."
+                ],
+                "prerequisites": [
+                    "Familiarity with the three ways to include CSS: inline, internal, external."
+                ]
+            },
+            "analysis": {
+                "why-correct-option-is-2": "Inline CSS is applied directly to an element and has the highest specificity in the cascade among the given options.",
+                "whyOptionsWrong": [
+                    {
+                        "option": "0",
+                        "reason": "Internal CSS is overridden by inline styles."
+                    },
+                    {
+                        "option": "1",
+                        "reason": "External CSS has lower precedence than internal and inline."
+                    },
+                    {
+                        "option": "3",
+                        "reason": "Browser defaults have the lowest precedence."
+                    }
+                ]
+            },
+            "common-mistakes": [
+                "Confusing internal with inline: internal means inside a <style> block; inline means directly on the element.",
+                "Thinking external CSS always overrides internal because it is ‘separate’ – precedence depends on specificity and order, not the file location."
+            ],
+            "tips": [
+                "To quickly override a style during debugging, add an inline style; it will win unless another rule uses `!important`."
+            ]
+        }
+    },
+    {
+        "id": 5,
+        "type": "mcq",
+        "difficulty": "hard",
+        "points": 3,
+        "problem-statement": "Consider the sentence: 'the five boxing wizards jump quickly'. A character set Q is defined to contain only the distinct characters that appear in this sentence (including space). The sentence is to be saved in a document using a minimal fixed‑width bit encoding for each character, with no additional metadata or context. What is the total size of the document in bits?",
+        "code": {
+            "prefix": "",
+            "body": []
+        },
+        "options-statement": "Select the single best option.",
+        "options": [
+            "175 bits",
+            "180 bits",
+            "252 bits",
+            "256 bits"
+        ],
+        "correct": 1,
+        "explanation": "First, count the distinct characters in the sentence (including spaces). The sentence is: 'the five boxing wizards jump quickly'. Unique characters: t, h, e, space, f, i, v, b, o, x, n, g, w, z, a, r, d, s, j, u, m, p, q, c, k, l, y. That is 27 distinct symbols. Minimum bits per character = ⌈log₂(27)⌉ = 5 bits (since 2^5 = 32 ≥ 27). Length of sentence (including spaces) is 36 characters. Total size = 36 × 5 = 180 bits.",
+        "detailed": {
+            "concept": {
+                "title": "Minimum encoding size for a defined character set",
+                "description": "To find the minimum size of a document using a fixed‑width encoding with only the characters that appear in it, first determine the size of the character set (S), then compute the bits per character as ⌈log₂(S)⌉. Multiply by the total number of characters in the document (including spaces) to get the total size.",
+                "points": [
+                    "Identify all unique characters (including space, punctuation if any).",
+                    "Compute bits/char = ⌈log₂(number of unique characters)⌉.",
+                    "Length = number of characters in the document.",
+                    "Total bits = length × bits/char.",
+                    "The sentence has 36 characters and 27 distinct symbols → 5 bits/char → 180 bits."
+                ],
+                "prerequisites": [
+                    "Can count distinct characters in a string.",
+                    "Know the ceiling log formula.",
+                    "Understand that the fixed‑width constraint forces the same number of bits for every character, even if more common characters could be made shorter."
+                ]
+            },
+            "trace": [
+                {
+                    "step": 1,
+                    "op": "List all distinct characters",
+                    "state": "String: 'the five boxing wizards jump quickly'",
+                    "out": "Distinct chars: t,h,e,space,f,i,v,b,o,x,n,g,w,z,a,r,d,s,j,u,m,p,q,c,k,l,y → 27 unique."
+                },
+                {
+                    "step": 2,
+                    "op": "Compute bits per character",
+                    "state": "log₂(27) ≈ 4.75",
+                    "out": "⌈4.75⌉ = 5 bits."
+                },
+                {
+                    "step": 3,
+                    "op": "Count total characters",
+                    "state": "Sentence length: 36 (including 5 spaces).",
+                    "out": "36 characters."
+                },
+                {
+                    "step": 4,
+                    "op": "Calculate total bits",
+                    "state": "36 × 5",
+                    "out": "180 bits."
+                }
+            ],
+            "analysis": {
+                "why-correct-option-is-1": "After counting 27 unique symbols and 36 characters, 36×5=180 bits. All other options miscount the unique symbols or the length.",
+                "whyOptionsWrong": [
+                    {
+                        "option": "0",
+                        "reason": "175 bits would correspond to 35 characters × 5 bits, or 36× something non‑integer – incorrect counting."
+                    },
+                    {
+                        "option": "2",
+                        "reason": "252 bits = 36×7, but 7 bits are not needed (only 27 unique symbols)."
+                    },
+                    {
+                        "option": "3",
+                        "reason": "256 bits = 32×8 or 64×4; not matching either the length or the bits per char."
+                    }
+                ]
+            },
+            "common-mistakes": [
+                "Forgetting to include the space as a distinct character.",
+                "Counting unique letters incorrectly (the sentence actually contains all 26 letters plus space, making 27).",
+                "Using log₂ of the number of *possible* characters (like 128 for ASCII) instead of the actual distinct characters in the set Q.",
+                "Miscalculating the total number of characters in the sentence (should be 36)."
+            ],
+            "tips": [
+                "For this type of question, write down all unique characters explicitly or use a set.",
+                "Remember that a space is a character that must be encoded.",
+                "The formula is always ⌈log₂(distinct count)⌉ for fixed width; any extra bits are wasted."
+            ],
+            "warnings": [
+                "Do not assume the sentence must contain all 26 letters – check the actual string.",
+                "The phrase ‘minimum encoding’ in the question means you are allowed to define your own mapping, but the width per character must be constant across the whole document."
+            ]
+        }
+    }
+]

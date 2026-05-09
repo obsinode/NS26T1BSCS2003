@@ -1,0 +1,835 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Modern Application Development - I -- Week 1 -- Study Notes</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+        onload="renderMathInElement(document.body,{delimiters:[{left:'\\(',right:'\\)',display:false},{left:'\\[',right:'\\]',display:true}]})">
+    </script>
+    <link rel="stylesheet" href="../../../../scr/ui/ui.css" />
+    <script src="../../../../scr/ui/ui.js"></script>
+</head>
+
+<body>
+    <div class="study-guide-container">
+        <h1 class="week-title">WEEK 1: Foundations of Apps and the Web</h1>
+
+        <div class="week-overview">
+            <strong>Overview:</strong>
+            This week lays the foundational understanding of applications (apps), their components, architectures, and the web as a platform. We begin by defining what an app is, exploring different platforms (Desktop, Mobile, Web, Embedded), and dissecting the core components of any application: Storage, Computation, and Presentation. We then examine two fundamental network architectures—Client-Server and Peer-to-Peer—followed by software architecture patterns with a deep focus on the Model-View-Controller (MVC) paradigm. The week transitions into the web: its historical evolution from circuit-switched telephone networks to packet-switched networks, ARPANET, TCP/IP, domain names, and hypertext. We learn how web servers work, the HTTP protocol, and practical demonstrations using command-line tools like <code>curl</code> and simple servers in shell script and Python. Finally, we analyze the performance of websites, covering latency, bandwidth, memory, and storage considerations that inform scalable application design.
+        </div>
+
+        <div class="table-of-contents">
+            <h2>Table of Contents</h2>
+            <ul>
+                <li><a href="#lecture-1">Lecture 1.1: What is an App?</a></li>
+                <li><a href="#lecture-2">Lecture 1.2: Components of an App</a></li>
+                <li><a href="#lecture-3">Lecture 1.3: Client-Server and Peer-to-Peer Architecture</a></li>
+                <li><a href="#lecture-4">Lecture 1.4: Software Architectures (MVC)</a></li>
+                <li><a href="#lecture-5">Lecture 1.5: Introduction to the Web</a></li>
+                <li><a href="#lecture-6">Lecture 1.6: How Does the Web Work?</a></li>
+                <li><a href="#lecture-7">Lecture 1.7: Simple Web Server</a></li>
+                <li><a href="#lecture-8">Lecture 1.8: What is a Protocol?</a></li>
+                <li><a href="#lecture-9">Lecture 1.9: Performance of a Website</a></li>
+            </ul>
+        </div>
+
+        <!-- LECTURE 1.1 -->
+        <div class="topic-section" id="lecture-1">
+            <h2 class="topic-title">Lecture 1.1: What is an App?</h2>
+
+            <div class="concept-card">
+                <h3>1. Definition of an Application (App)</h3>
+                <div class="definition-box">
+                    <strong>Definition:</strong>
+                    An app is computer software or a program, most commonly a small, specific one designed for a particular purpose. Originally, the term referred to any mobile or desktop application, but with the emergence of app stores, it has evolved to refer to small programs that can be downloaded and installed all at once on smartphones, tablets, and other devices.
+                </div>
+                <div class="explanation-section">
+                    <div class="section-subtitle">Explanation</div>
+                    <p>At its core, an app is a piece of software designed to solve a specific problem or perform a focused set of tasks. Unlike large, monolithic software suites, apps tend to be self-contained, lightweight, and purpose-built. The term gained widespread popularity with the launch of Apple's iPhone and the App Store, which created a marketplace where users could easily discover, download, and install small programs tailored to specific needs—social media, shopping, gaming, productivity, etc.</p>
+                    <p>Apps can be categorized not only by function (web browsers, code editors, word processors, social media, email clients) but also by the platform on which they run. This platform-based classification—Desktop, Mobile, Web, and Embedded—is fundamental to understanding the constraints, capabilities, and design patterns associated with each type of application.</p>
+                </div>
+                <div class="concept-section">
+                    <h3>Key Details</h3>
+                    <ul class="key-points-list">
+                        <li><strong>Standalone capability:</strong> Many traditional desktop apps (e.g., word processors, text editors) can function without a network connection, relying on local data storage.</li>
+                        <li><strong>Network orientation:</strong> Mobile and web apps are heavily network-dependent. Mobile apps like Twitter, Instagram, and Amazon shopping apps constantly communicate with remote servers.</li>
+                        <li><strong>SDK dependency:</strong> Desktop apps are typically built using OS-specific Software Development Kits (SDKs) with custom frameworks, making cross-platform development challenging without adaptation.</li>
+                        <li><strong>Cross-platform convergence:</strong> Web apps run inside browsers (Chrome, Firefox, Safari) which have been ported to virtually all operating systems, providing a unified, cross-platform runtime environment.</li>
+                    </ul>
+                </div>
+                <div class="example-worked">
+                    <strong>Example Walkthrough:</strong>
+                    <p>Consider the Amazon app icon on a smartphone. This app allows users to browse products, read reviews, add items to a cart, and complete purchases. It relies entirely on network connectivity to Amazon's servers for product data, user accounts, and payment processing. In contrast, Microsoft Word on a desktop can create and edit documents entirely offline, saving files to the local hard drive. Visual Studio Code, a code editor, works offline for editing but may connect to the internet for extensions, updates, or Git integration.</p>
+                </div>
+                <div class="edge-case-box">
+                    <strong>Edge Cases:</strong>
+                    <ul>
+                        <li><strong>Embedded applications:</strong> An electronic calculator is an embedded application. It performs a specific task (arithmetic calculations), is installed directly in a device, and typically does not require network connectivity. It is not "network oriented" by default.</li>
+                        <li><strong>Hybrid apps:</strong> Some applications blur the line—a mobile game may work offline but require periodic network checks for license validation or in-app purchases.</li>
+                    </ul>
+                </div>
+                <div class="misconception-box">
+                    <strong>Common Mistakes &amp; Misconceptions:</strong>
+                    <ul>
+                        <li><strong>Misconception:</strong> "An embedded application is always network oriented." <strong>Correction:</strong> Embedded applications can be standalone (like a calculator or a microwave oven controller) and are not required to be network-oriented. They are defined by being single-function and limited in scope, not by connectivity.</li>
+                        <li><strong>Misconception:</strong> "An embedded application cannot be installed in a device." <strong>Correction:</strong> Embedded applications are inherently installed within devices; that is their defining characteristic—they are part of the device's firmware or dedicated software.</li>
+                    </ul>
+                </div>
+                <div class="pro-tip-card">
+                    <div class="card-icon">💡</div>
+                    <div class="card-content"><strong>Pro Tip:</strong> When identifying an app's platform, ask two questions: Does it require a specific OS to run? (Desktop/Mobile) Does it run inside a browser? (Web) Is it built into a device for a single purpose? (Embedded)</div>
+                </div>
+                <div class="key-points">
+                    <strong>Key Takeaways:</strong>
+                    <p>
+                        * An app is a small, specific computer program, often downloaded and installed via an app store.<br />
+                        * Apps can be categorized by platform: Desktop, Mobile, Web, and Embedded.<br />
+                        * Desktop apps are often standalone with local storage; mobile apps are network-oriented with sensor interfaces.<br />
+                        * Web apps run in browsers and are inherently cross-platform; embedded apps are single-function and device-specific.
+                    </p>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>2. Platform Features: Desktop, Mobile, Web, and Embedded</h3>
+                <div class="definition-box">
+                    <strong>Definition:</strong>
+                    A platform is the underlying hardware and operating system environment on which an application executes. Each platform imposes constraints and offers unique interfaces that shape the design and functionality of applications built for it.
+                </div>
+                <div class="explanation-section">
+                    <div class="section-subtitle">Explanation</div>
+                    <p><strong>Desktop Platform:</strong> Characterized by keyboard, mouse, and video (large display). The "desktop paradigm" uses metaphors of folders, files, and documents. Desktop applications often work offline, store data locally, and may use the network optionally. SDKs are typically OS-specific (Windows API, Cocoa for macOS, GTK/Qt for Linux).</p>
+                    <p><strong>Mobile Platform:</strong> Targeted at phones and tablets. Constraints include limited screen space, touch-based interaction (replacing keyboard/mouse), reduced memory and processing power, and battery-powered operation. New interfaces emerge: voice, tilt sensors, cameras, gyroscopes, magnetometers. Frameworks may be OS-specific (Swift for iOS) or cross-platform (Flutter, React Native). Network connectivity is usually assumed.</p>
+                    <p><strong>Web Platform:</strong> Built on the browser as a runtime environment. It abstracts away OS-specific details, providing a cross-platform "operating system." It is heavily network-dependent, with data typically stored in remote data centers (the cloud). Key advantages include access anywhere, multi-device synchronization, and no installation required.</p>
+                    <p><strong>Embedded Platform:</strong> Single-function, limited-scope devices. Examples include digital cameras (historical), smart watches, smart refrigerators, and microwave ovens. These devices may run a stripped-down OS and are highly specialized for their task.</p>
+                </div>
+                <div class="insight-section">
+                    <h4 class="insight-subtitle">Exam Tips & Points to Remember</h4>
+                    <ul class="insight-list">
+                        <li><strong>Desktop:</strong> Keyboard/mouse/video, desktop paradigm, local storage, optional network.</li>
+                        <li><strong>Mobile:</strong> Touchscreen, voice/camera/tilt, power/memory constraints, network-oriented.</li>
+                        <li><strong>Web:</strong> Browser-based, cross-platform, cloud storage, network-dependent.</li>
+                        <li><strong>Embedded:</strong> Single function, limited scope, device-specific, not always networked.</li>
+                    </ul>
+                </div>
+                <div class="pro-tip-card">
+                    <div class="card-icon">💡</div>
+                    <div class="card-content"><strong>Pro Tip:</strong> When designing an app, choosing the right platform is critical. The web platform is the focus of this course because it maximizes reach across devices while minimizing platform-specific development overhead.</div>
+                </div>
+                <div class="key-points">
+                    <strong>Key Takeaways:</strong>
+                    <p>
+                        * Desktop: standalone, local storage, OS-specific SDKs.<br />
+                        * Mobile: touch/voice sensors, power/memory limited, heavily networked.<br />
+                        * Web: browser as OS, cross-platform, cloud-centric.<br />
+                        * Embedded: single-task, device-integrated, limited scope.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- LECTURE 1.2 -->
+        <div class="topic-section" id="lecture-2">
+            <h2 class="topic-title">Lecture 1.2: Components of an App</h2>
+
+            <div class="concept-card">
+                <h3>1. The Three Core Components: Storage, Computation, Presentation</h3>
+                <div class="definition-box">
+                    <strong>Definition:</strong>
+                    Every application, regardless of platform, can be decomposed into three fundamental components: <strong>Storage</strong> (where data is kept persistently or temporarily), <strong>Computation</strong> (how data is manipulated and processed), and <strong>Presentation</strong> (how data and results are displayed to the user).
+                </div>
+                <div class="explanation-section">
+                    <div class="section-subtitle">Explanation</div>
+                    <p><strong>Storage:</strong> This component handles the persistence of application data. Data can be stored permanently (in databases, file systems, or cloud storage) or temporarily (in RAM or cache). Storage is not just about keeping data; it also involves organizing data for efficient retrieval—indexing, structuring, and formatting. For example, an email client must store emails, attachments, folder structures, and metadata (sender, recipient, timestamps).</p>
+                    <p><strong>Computation:</strong> Also known as "business logic," this component manipulates data based on user requests or system rules. It includes operations like searching, sorting, filtering, transforming, and analyzing data. In an email client, computation handles indexing emails for fast search, filtering emails by date or sender, and managing rules (e.g., auto-archiving old emails).</p>
+                    <p><strong>Presentation:</strong> This is the user-facing side of the application. It renders data in a human-readable format and provides interfaces for user interaction. In an email client, presentation includes displaying the list of emails in the inbox, rendering individual email content (HTML/text), showing folders, and providing buttons for compose, delete, reply, etc.</p>
+                </div>
+                <div class="example-worked">
+                    <strong>Example Walkthrough: Email Client (e.g., Gmail)</strong>
+                    <p><strong>Storage:</strong> Emails are stored on Google's servers in proprietary formats optimized for retrieval and indexing. Metadata (to, from, date, subject, labels) is indexed separately for fast searching.</p>
+                    <p><strong>Computation:</strong> When a user searches for "all emails from Alice in March 2021," the computation layer queries the indexed metadata, filters results, and returns matching emails. This is the "business logic."</p>
+                    <p><strong>Presentation:</strong> The results are displayed in the browser as a list of email summaries. Clicking an email renders its full content. The presentation layer handles formatting, threading, and interactive elements like buttons.</p>
+                </div>
+                <div class="misconception-box">
+                    <strong>Common Mistakes &amp; Misconceptions:</strong>
+                    <ul>
+                        <li><strong>Misconception:</strong> "Storage is only for permanent data." <strong>Correction:</strong> Storage can be both permanent (databases, files) and temporary (caches, session data). Both forms are part of the storage component.</li>
+                        <li><strong>Misconception:</strong> "Storage is used to manipulate data based on request." <strong>Correction:</strong> Manipulation of data is the role of Computation (business logic), not Storage. Storage handles persistence and retrieval.</li>
+                        <li><strong>Misconception:</strong> "Storage is the interface on which requested data is rendered." <strong>Correction:</strong> Rendering and displaying data is the role of Presentation, not Storage.</li>
+                    </ul>
+                </div>
+                <div class="key-points">
+                    <strong>Key Takeaways:</strong>
+                    <p>
+                        * Storage = persistence and retrieval of data (permanent or temporary).<br />
+                        * Computation = business logic; manipulation, searching, indexing, filtering.<br />
+                        * Presentation = user interface; rendering data, handling interaction.
+                    </p>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>2. Mapping Components to Email Client Functionality</h3>
+                <div class="definition-box">
+                    <strong>Definition:</strong>
+                    Understanding how the three core components map to specific features of an application clarifies their roles and responsibilities in a real-world context.
+                </div>
+                <div class="explanation-section">
+                    <div class="section-subtitle">Explanation</div>
+                    <p><strong>Filtering emails by month (e.g., March):</strong> This is a <strong>Computation</strong> task. The user requests a filtered view, and the computation layer applies the filter logic to the stored email data, selecting only those matching the criteria.</p>
+                    <p><strong>Displaying the list of emails:</strong> This is a <strong>Presentation</strong> task. The filtered (or unfiltered) list must be rendered visually in the user interface, showing summaries (subject, sender, date) for each email.</p>
+                    <p><strong>Storing emails permanently:</strong> This is a <strong>Storage</strong> task. The raw email data, metadata, and indexes must be persisted so they survive server restarts and are available for future retrieval.</p>
+                </div>
+                <div class="insight-section">
+                    <h4 class="insight-subtitle">Exam Tips & Points to Remember</h4>
+                    <ul class="insight-list">
+                        <li>If the question involves filtering, sorting, searching, or any logical operation on data, it falls under <strong>Computation</strong>.</li>
+                        <li>If the question involves showing, rendering, or displaying information to the user, it falls under <strong>Presentation</strong>.</li>
+                        <li>If the question involves saving, persisting, or retrieving raw data, it falls under <strong>Storage</strong>.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- LECTURE 1.3 -->
+        <div class="topic-section" id="lecture-3">
+            <h2 class="topic-title">Lecture 1.3: Client-Server and Peer-to-Peer Architecture</h2>
+
+            <div class="concept-card">
+                <h3>1. Client-Server Architecture</h3>
+                <div class="definition-box">
+                    <strong>Definition:</strong>
+                    Client-Server architecture is a distributed application structure that partitions tasks between providers of a resource or service (servers) and service requesters (clients). There is a clear differentiation: servers store data and perform computations, while clients request data and handle user interaction.
+                </div>
+                <div class="explanation-section">
+                    <div class="section-subtitle">Explanation</div>
+                    <p>In this model, the <strong>server</strong> is a centralized machine (or cluster) that stores data, provides data on demand, and may perform computations. The <strong>clients</strong> are end-user devices (laptops, phones, tablets) that request data and present it to the user. The <strong>network</strong> acts as a data pipe connecting them, transmitting requests and responses without modification.</p>
+                    <p>Crucially, the server and client roles are explicit and well-defined. A machine client (e.g., an antivirus updater) may act on behalf of a user without direct user interaction. Examples include Email (Gmail servers + browser/mail client), Databases (database server + application clients), WhatsApp (central servers relay messages), and Web Browsing (web server + browser).</p>
+                </div>
+                <div class="concept-section">
+                    <h3>Key Details</h3>
+                    <ul class="key-points-list">
+                        <li><strong>Explicit differentiation:</strong> You always know which is the client and which is the server.</li>
+                        <li><strong>Server responsibilities:</strong> Storage, computation, data provision on demand.</li>
+                        <li><strong>Client responsibilities:</strong> User interaction, display, requesting data.</li>
+                        <li><strong>Network role:</strong> Transparent data pipe; no alteration of data in transit.</li>
+                        <li><strong>Machine clients:</strong> Software that acts as a client without direct user interaction (e.g., software updaters).</li>
+                    </ul>
+                </div>
+                <div class="example-worked">
+                    <strong>Example Walkthrough: Database Client-Server</strong>
+                    <p>A web application may use a MySQL database server. The web server (acting as a client to the database) sends SQL queries to the database server. The database server processes these queries, retrieves or modifies data, and returns results. The end user never directly interacts with the database—the web server acts as an intermediary client.</p>
+                </div>
+                <div class="key-points">
+                    <strong>Key Takeaways:</strong>
+                    <p>
+                        * Client-Server = clear separation of roles.<br />
+                        * Server = data storage + computation.<br />
+                        * Client = requests + user interaction + display.<br />
+                        * Network = transparent pipe connecting them.
+                    </p>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>2. Peer-to-Peer (P2P) Architecture</h3>
+                <div class="definition-box">
+                    <strong>Definition:</strong>
+                    Peer-to-Peer architecture is a distributed application structure in which all nodes (peers) are considered equivalent. There is no central server; each peer can act as both a client and a server, sharing resources directly with other peers.
+                </div>
+                <div class="explanation-section">
+                    <div class="section-subtitle">Explanation</div>
+                    <p>In P2P, there is no clear distinction between client and server. Data can flow in both directions. Peers share information and resources (files, processing power) among themselves. Some peers may be "more equal" than others—for example, high-bandwidth nodes may serve as super-peers or introducers, but there is no single point of control.</p>
+                    <p>P2P networks are remarkably tolerant to failures: if one node goes down, others can take over. However, they have limited applicability. Email, for instance, is not suitable for P2P because users typically want their emails stored on trusted, centralized servers, not on random peers' machines.</p>
+                </div>
+                <div class="concept-section">
+                    <h3>Key Details</h3>
+                    <ul class="key-points-list">
+                        <li><strong>Equivalent peers:</strong> No inherent client/server distinction; each node can serve and request.</li>
+                        <li><strong>Error tolerance:</strong> Networks can self-heal; if a master node fails, others can elect a new one.</li>
+                        <li><strong>Introducers/Masters:</strong> Some nodes facilitate peer discovery but do not control the network centrally.</li>
+                        <li><strong>Shared information:</strong> Data may be distributed across multiple nodes, often encrypted for privacy.</li>
+                    </ul>
+                </div>
+                <div class="example-worked">
+                    <strong>Example Walkthrough: BitTorrent</strong>
+                    <p>In BitTorrent, a user downloading a file simultaneously uploads pieces of that file to other users. There is no central server storing the file; instead, the file is distributed across many peers. Trackers (introducers) help peers find each other, but the actual data transfer happens directly between peers.</p>
+                </div>
+                <div class="key-points">
+                    <strong>Key Takeaways:</strong>
+                    <p>
+                        * P2P = all nodes are peers; no central server.<br />
+                        * Fault-tolerant; data is distributed and often encrypted.<br />
+                        * Examples: BitTorrent, Blockchain, IPFS, Tahoe.<br />
+                        * Not suitable for applications requiring centralized trust (e.g., email).
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- LECTURE 1.4 -->
+        <div class="topic-section" id="lecture-4">
+            <h2 class="topic-title">Lecture 1.4: Software Architectures (MVC)</h2>
+
+            <div class="concept-card">
+                <h3>1. Design Patterns in Software Engineering</h3>
+                <div class="definition-box">
+                    <strong>Definition:</strong>
+                    A design pattern is a general, reusable solution to a commonly occurring problem within a given context in software design. Patterns are discovered, not invented; experienced designers observe recurring structures in code that have proven effective.
+                </div>
+                <div class="explanation-section">
+                    <div class="section-subtitle">Explanation</div>
+                    <p>Design patterns guide the design and thought process, making development faster and more reliable. They are not rigid rules but flexible templates that can be adapted to specific situations. Common software architecture patterns include MVC, MVA, MVP, HMVC, and MVVM. Each has its uses, but the fundamentals are similar—separating concerns to improve code organization, maintainability, and scalability.</p>
+                </div>
+                <div class="pro-tip-card">
+                    <div class="card-icon">💡</div>
+                    <div class="card-content"><strong>Pro Tip:</strong> Design patterns are guidelines, not laws. Use them when they clarify your design, but don't force-fit a pattern where it doesn't naturally apply.</div>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>2. Model-View-Controller (MVC) Architecture</h3>
+                <div class="definition-box">
+                    <strong>Definition:</strong>
+                    MVC is a software design pattern that separates an application into three interconnected components: <strong>Model</strong> (core data and business rules), <strong>View</strong> (user interface and presentation), and <strong>Controller</strong> (handles input and orchestrates interactions between Model and View).
+                </div>
+                <div class="explanation-section">
+                    <div class="section-subtitle">Explanation</div>
+                    <p>MVC originated in the Smalltalk language (1979) but remains relevant today. It provides a clear separation of concerns:</p>
+                    <p><strong>Model:</strong> Represents the core data of the application and the business rules that govern access to and updates of that data. It is responsible for adding, deleting, updating, and fetching data from the database. The model does NOT depend on the view or controller—it is self-contained.</p>
+                    <p><strong>View:</strong> The user-facing side of the application. It displays data from the model and provides interfaces for user interaction. Importantly, "view" does not always refer to what the user can see visually—it can also be an audio interface, a machine-readable output (JSON/XML), or any other form of presentation. The view is responsible for displaying data and receiving user input.</p>
+                    <p><strong>Controller:</strong> Acts as an intermediary between Model and View. It receives user input from the View, processes it (potentially invoking business logic), and updates the Model accordingly. The controller can interact with both the model and the view. Business logic—the rules that determine how data is created, displayed, stored, and changed—should be included in the Controller.</p>
+                </div>
+                <div class="concept-section">
+                    <h3>Key Details</h3>
+                    <ul class="key-points-list">
+                        <li><strong>Multiple views:</strong> One model can have multiple views (e.g., the same data displayed as a table, a chart, or an audio readout).</li>
+                        <li><strong>View independence:</strong> Modifications to the user interface do NOT always affect the model—this is a key benefit of the separation.</li>
+                        <li><strong>MVC is not the only architecture:</strong> Other patterns exist (MVP, MVVM, HMVC), but MVC provides a solid conceptual foundation.</li>
+                        <li><strong>Database access:</strong> The end user/client should NOT directly update the database; all modifications should go through the Controller and Model layers.</li>
+                    </ul>
+                </div>
+                <div class="example-worked">
+                    <strong>Example Walkthrough: Email Application</strong>
+                    <p><strong>User action:</strong> User clicks "Delete" on an email. <strong>Controller:</strong> Receives the delete command, validates the request, and calls the Model to remove the email. <strong>Model:</strong> Removes the email from the database and notifies the View of the change. <strong>View:</strong> Refreshes the email list to reflect the deletion.</p>
+                </div>
+                <div class="misconception-box">
+                    <strong>Common Mistakes &amp; Misconceptions:</strong>
+                    <ul>
+                        <li><strong>Mistake:</strong> "The model controls user interaction." <strong>Correction:</strong> The Controller handles user interaction and orchestrates responses. The Model is purely concerned with data and business rules.</li>
+                        <li><strong>Mistake:</strong> "The controller cannot interact with both the model and the view." <strong>Correction:</strong> The controller CAN and DOES interact with both—it receives input from the view and updates the model, and it can also instruct the view to refresh.</li>
+                        <li><strong>Mistake:</strong> "Databases can be directly updated by the end user/client." <strong>Correction:</strong> In MVC, all updates go through the controller and model layers to maintain data integrity and security.</li>
+                        <li><strong>Mistake:</strong> "In MVC, the business logic belongs in the Model." <strong>Correction:</strong> The business logic—how data is manipulated—belongs in the Controller. The Model handles data persistence and retrieval.</li>
+                    </ul>
+                </div>
+                <div class="pro-tip-card">
+                    <div class="card-icon">💡</div>
+                    <div class="card-content"><strong>Pro Tip:</strong> Think of MVC as a feedback loop: User → Controller → Model → View → User. The controller is the "traffic cop" directing the flow of data and actions.</div>
+                </div>
+                <div class="key-points">
+                    <strong>Key Takeaways:</strong>
+                    <p>
+                        * Model = data + database operations (CRUD: Create, Read, Update, Delete).<br />
+                        * View = user interface + display + input reception.<br />
+                        * Controller = business logic + interaction orchestration.<br />
+                        * MVC enables separation of concerns, multiple views per model, and independent modification of UI and data layers.
+                    </p>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>3. Three-Layer Architecture in Web Applications</h3>
+                <div class="definition-box">
+                    <strong>Definition:</strong>
+                    A web application can be logically divided into three layers: <strong>Presentation Layer</strong> (user interface), <strong>Business Layer</strong> (application logic and rules), and <strong>Persistence Layer</strong> (data storage and retrieval).
+                </div>
+                <div class="explanation-section">
+                    <div class="section-subtitle">Explanation</div>
+                    <p><strong>Presentation Layer:</strong> Provides the interface to the end user. In a web application, this is typically HTML/CSS/JavaScript rendered in a browser. It handles displaying data and capturing user input.</p>
+                    <p><strong>Business Layer:</strong> Contains the core application logic. It processes user requests, applies business rules, performs calculations (e.g., calculating simple interest), and coordinates between the presentation and persistence layers. This is where "computation" happens.</p>
+                    <p><strong>Persistence Layer:</strong> Manages data storage and retrieval. It interacts with databases, file systems, or external APIs to persist data permanently. It handles CRUD operations at the storage level.</p>
+                </div>
+                <div class="example-worked">
+                    <strong>Example: Simple Interest Calculator Web App</strong>
+                    <p><strong>Presentation Layer:</strong> Displays input fields for principal, rate, and time; shows the calculated result.<br />
+                    <strong>Business Layer:</strong> Receives input values, validates them, calculates <code>SI = (P * R * T) / 100</code>, and returns the result.<br />
+                    <strong>Persistence Layer:</strong> May store calculation history in a database for future reference.</p>
+                </div>
+                <div class="key-points">
+                    <strong>Key Takeaways:</strong>
+                    <p>
+                        * Presentation Layer = user interface (what the user sees and interacts with).<br />
+                        * Business Layer = logic, calculations, rules (the "brain" of the app).<br />
+                        * Persistence Layer = data storage and retrieval (database operations).
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- LECTURE 1.5 -->
+        <div class="topic-section" id="lecture-5">
+            <h2 class="topic-title">Lecture 1.5: Introduction to the Web</h2>
+
+            <div class="concept-card">
+                <h3>1. Circuit-Switched vs. Packet-Switched Networks</h3>
+                <div class="definition-box">
+                    <strong>Definition:</strong>
+                    <strong>Circuit switching</strong> establishes a dedicated physical path (a closed loop of wires) between two communicating parties for the duration of the call, even when no data is being transmitted. <strong>Packet switching</strong> breaks data into small packets that are independently routed through the network, sharing wires among multiple conversations for more efficient use.
+                </div>
+                <div class="explanation-section">
+                    <div class="section-subtitle">Explanation</div>
+                    <p><strong>Circuit Switching (1890s telephone networks):</strong> When A calls B, a set of physical wires is engaged exclusively for that connection, forming a closed loop. These wires cannot be used by anyone else, even during silence. This is simple and provides guaranteed real-time communication but leads to severe underutilization of resources.</p>
+                    <p><strong>Packet Switching (1960s):</strong> Data is digitized and broken into packets. Each packet contains header information (source, destination, sequence number) and payload data. A single set of wires between exchanges can carry packets from many different conversations interleaved together. The wire is occupied only when data is being sent, enabling more efficient resource utilization. The network becomes neutral to data type—voice, video, text, images all become just bits.</p>
+                </div>
+                <div class="concept-section">
+                    <h3>Key Details</h3>
+                    <ul class="key-points-list">
+                        <li><strong>Dedicated vs. shared:</strong> Circuit-switched = dedicated path; Packet-switched = shared infrastructure.</li>
+                        <li><strong>Resource utilization:</strong> Circuit switching can waste resources during idle periods; packet switching maximizes utilization.</li>
+                        <li><strong>Real-time communication:</strong> Circuit-switched networks inherently support real-time voice; packet-switched networks can also support real-time applications with proper protocols.</li>
+                    </ul>
+                </div>
+                <div class="key-points">
+                    <strong>Key Takeaways:</strong>
+                    <p>
+                        * Circuit-switched: dedicated wires, closed loop, real-time, underutilized resources.<br />
+                        * Packet-switched: shared wires, data as packets, efficient utilization, neutral to data type.
+                    </p>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>2. Historical Evolution: ARPANET to the Internet</h3>
+                <div class="definition-box">
+                    <strong>Definition:</strong>
+                    ARPANET (Advanced Research Projects Agency Network) was an early packet-switched network developed in 1969, primarily connecting universities. It was a node-to-node network that laid the groundwork for the modern Internet.
+                </div>
+                <div class="explanation-section">
+                    <div class="section-subtitle">Explanation</div>
+                    <p>In the late 1960s, multiple networking technologies emerged: ARPANET, IBM's SNA, Digital's DECNet, Xerox's Ethernet. Each had its own protocol for formatting packets and placing them on wires. These networks could not easily interoperate. The need for an "inter-network" protocol led to the development of IP (Internet Protocol) in 1983, which defined standardized headers and packet formats that could be carried over different underlying networks (Ethernet, DECNet, PPP, SLIP).</p>
+                    <p>Alongside IP, TCP (Transmission Control Protocol) was standardized to provide reliable, connection-oriented communication with error control and flow adaptation. TCP/IP became the backbone of the Internet. In 1985, the Domain Name System (DNS) was introduced, allowing human-readable names to be used instead of numeric IP addresses.</p>
+                </div>
+                <div class="concept-section">
+                    <h3>Key Details</h3>
+                    <ul class="key-points-list">
+                        <li><strong>ARPANET (1969):</strong> First packet-switched network; university-driven; precursor to the Internet.</li>
+                        <li><strong>TCP/IP (1983):</strong> Standardized internetworking protocol suite; IP for packet delivery, TCP for reliable transmission.</li>
+                        <li><strong>DNS (1985):</strong> Hierarchical naming system; maps domain names (e.g., google.com) to IP addresses.</li>
+                        <li><strong>HyperText (1989+):</strong> Tim Berners-Lee at CERN developed the concept of hypertext documents with embedded links, leading to the World Wide Web.</li>
+                    </ul>
+                </div>
+                <div class="example-worked">
+                    <strong>ARPANET Full Form:</strong>
+                    <p><strong>Advanced Research Projects Agency Network</strong> (not "American Research Protocol Agency Network" or similar variants).</p>
+                </div>
+                <div class="key-points">
+                    <strong>Key Takeaways:</strong>
+                    <p>
+                        * ARPANET = Advanced Research Projects Agency Network (1969).<br />
+                        * TCP/IP standardized January 1, 1983.<br />
+                        * DNS introduced ~1985 to replace numeric IP addresses with names.<br />
+                        * World Wide Web emerged from hypertext concepts at CERN (~1989).
+                    </p>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>3. Internet vs. World Wide Web</h3>
+                <div class="definition-box">
+                    <strong>Definition:</strong>
+                    The <strong>Internet</strong> is a global network of interconnected networks—the physical and logical infrastructure that connects computers worldwide. The <strong>World Wide Web (WWW)</strong> is a system of interconnected hypertext documents and resources accessed via the Internet, using HTTP as the transfer protocol.
+                </div>
+                <div class="explanation-section">
+                    <div class="section-subtitle">Explanation</div>
+                    <p>The Internet is the underlying "network of networks." It's the hardware, cables, routers, switches, and the TCP/IP protocol suite that enables data transfer. The World Wide Web is an application that runs on top of the Internet. It's a collection of web pages, images, videos, and other resources linked together via hyperlinks and accessed through web browsers using URLs.</p>
+                </div>
+                <div class="concept-section">
+                    <h3>Key Details</h3>
+                    <ul class="key-points-list">
+                        <li><strong>Internet = Network of networks</strong> (infrastructure).</li>
+                        <li><strong>WWW = System of interconnected resources</strong> over the Internet (application).</li>
+                        <li>The Internet existed before the Web; email, FTP, and other services also run on the Internet.</li>
+                    </ul>
+                </div>
+                <div class="misconception-box">
+                    <strong>Common Mistakes &amp; Misconceptions:</strong>
+                    <ul>
+                        <li><strong>Mistake:</strong> Using "Internet" and "World Wide Web" interchangeably. <strong>Correction:</strong> The Internet is the infrastructure; the Web is one of many services running on it.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>4. TCP vs. UDP</h3>
+                <div class="definition-box">
+                    <strong>Definition:</strong>
+                    TCP (Transmission Control Protocol) is a connection-oriented, reliable protocol that ensures data is delivered correctly and in order, with acknowledgments and retransmissions. UDP (User Datagram Protocol) is a connectionless, lightweight protocol that sends data without guarantees of delivery, ordering, or duplicate protection.
+                </div>
+                <div class="explanation-section">
+                    <div class="section-subtitle">Explanation</div>
+                    <p><strong>TCP:</strong> Prioritizes reliability. It establishes a connection (via a three-way handshake), tracks sent packets, and resends any that are not acknowledged. It automatically adjusts transmission speed based on network conditions. TCP is used for applications where data integrity is critical (web pages, file transfers, email).</p>
+                    <p><strong>UDP:</strong> Prioritizes speed and simplicity. It sends data without establishing a connection and does not wait for acknowledgments. This makes it faster but can result in data loss. UDP is used for real-time applications (video streaming, online gaming, VoIP) where occasional packet loss is acceptable but latency is critical.</p>
+                </div>
+                <div class="concept-section">
+                    <h3>Key Details</h3>
+                    <ul class="key-points-list">
+                        <li><strong>TCP:</strong> Connection-oriented, reliable, acknowledgment-based, ordered delivery. Prioritizes reliability.</li>
+                        <li><strong>UDP:</strong> Connectionless, unreliable (no guarantee of delivery), no acknowledgments, potentially out-of-order. Prioritizes speed.</li>
+                        <li><strong>TCP/IP:</strong> A session establishment protocol between client and server.</li>
+                    </ul>
+                </div>
+                <div class="key-points">
+                    <strong>Key Takeaways:</strong>
+                    <p>
+                        * TCP = Reliable, connection-oriented, acknowledgment-based (used for HTTP, FTP, email).<br />
+                        * UDP = Fast, connectionless, no delivery guarantees, can lose data (used for streaming, gaming).<br />
+                        * TCP/IP is the protocol suite for establishing sessions between client and server.
+                    </p>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>5. Understanding Client and Server in Web Requests</h3>
+                <div class="definition-box">
+                    <strong>Definition:</strong>
+                    From the server's point of view, the <strong>client</strong> is the software (typically a web browser like Chrome, Firefox, or a command-line tool like curl) that initiates the HTTP request. The server (e.g., google.com) is the machine that receives the request and sends back a response.
+                </div>
+                <div class="explanation-section">
+                    <div class="section-subtitle">Explanation</div>
+                    <p>When you type <code>https://www.google.com/</code> into a browser, the browser constructs an HTTP request and sends it to Google's server. From the server's perspective, the client is the web browser that made the request—not the Google home page (which is the response), and not the Google server itself. The browser is the software acting on behalf of the user.</p>
+                </div>
+                <div class="example-worked">
+                    <strong>Example:</strong>
+                    <p>Request: <code>curl https://www.google.com/</code><br />
+                    Client (from server's perspective): The curl program (or more broadly, the web browser).<br />
+                    Server: Google's web server at the IP address resolved from www.google.com.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- LECTURE 1.6 -->
+        <div class="topic-section" id="lecture-6">
+            <h2 class="topic-title">Lecture 1.6: How Does the Web Work?</h2>
+
+            <div class="concept-card">
+                <h3>1. What is a Web Server?</h3>
+                <div class="definition-box">
+                    <strong>Definition:</strong>
+                    A web server is a computer or virtual machine used to run web applications. It stores, processes, and delivers web pages to clients. The term "web server" can refer to the hardware (the physical machine), the software (e.g., Apache, Nginx, IIS), or the combination of both.
+                </div>
+                <div class="explanation-section">
+                    <div class="section-subtitle">Explanation</div>
+                    <p>At its most basic, any computer with a network connection and appropriate software can act as a web server. The software listens for incoming network connections on a fixed port (typically port 80 for HTTP, 443 for HTTPS). When a request arrives, the server processes it—retrieving a file, running a script, querying a database—and returns a response with appropriate headers and data.</p>
+                    <p>The operating system handles low-level networking (opening ports, managing connections, routing packets). The web server software handles HTTP-specific tasks: parsing requests, generating responses, managing sessions, and interfacing with backend applications.</p>
+                </div>
+                <div class="concept-section">
+                    <h3>Key Details</h3>
+                    <ul class="key-points-list">
+                        <li>A web server accepts incoming network connections on a fixed port.</li>
+                        <li>It responds to client requests in specific, protocol-defined ways.</li>
+                        <li>A web server does NOT inherently maintain the state of the client—HTTP is a stateless protocol (state management requires additional mechanisms like cookies or sessions).</li>
+                        <li>Examples of web server software: Apache Tomcat, IIS (Internet Information Server), Mongoose, Nginx.</li>
+                        <li>Python is a programming language, NOT a web server by itself (though it includes modules like <code>http.server</code> that can function as one).</li>
+                    </ul>
+                </div>
+                <div class="edge-case-box">
+                    <strong>Edge Cases:</strong>
+                    <ul>
+                        <li>The computer on which web server software runs is also colloquially called a "web server."So, the term can refer to both hardware and software.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>2. HTTP Basics</h3>
+                <div class="definition-box">
+                    <strong>Definition:</strong>
+                    HTTP (HyperText Transfer Protocol) is a text-based, stateless protocol used for transferring hypertext documents and other data between a client and a server. It defines how clients formulate requests and how servers format responses.
+                </div>
+                <div class="explanation-section">
+                    <div class="section-subtitle">Explanation</div>
+                    <p>HTTP requests specify a method (GET, POST, etc.), a resource path (e.g., /index.html), and headers that convey metadata. Responses include a status code (200 OK, 404 Not Found), headers (Content-Type, Content-Length), and the response body. HTTP is primarily text-based, meaning you can read the raw bytes of requests and responses.</p>
+                </div>
+                <div class="concept-section">
+                    <h3>Key Details</h3>
+                    <ul class="key-points-list">
+                        <li>HTTP is a <strong>text-based protocol</strong> (requests and responses are human-readable).</li>
+                        <li>HTTP stands for <strong>Hypertext Transfer Protocol</strong>.</li>
+                        <li>HTTP is <strong>stateless</strong>—each request is independent; the server does not retain information about previous requests by default.</li>
+                        <li>FTP stands for <strong>File Transfer Protocol</strong> (not "File Traffic Protocol").</li>
+                        <li>HTTP and FTP use <strong>different port numbers</strong> (HTTP typically port 80, FTP ports 20/21).</li>
+                    </ul>
+                </div>
+                <div class="misconception-box">
+                    <strong>Common Mistakes &amp; Misconceptions:</strong>
+                    <ul>
+                        <li><strong>Mistake:</strong> "HTTP is a stateful protocol." <strong>Correction:</strong> HTTP is inherently stateless. State is simulated using cookies, sessions, and other mechanisms layered on top.</li>
+                        <li><strong>Mistake:</strong> "FTP stands for File Traffic Protocol." <strong>Correction:</strong> FTP = File Transfer Protocol.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>3. Network Protocol Defined</h3>
+                <div class="definition-box">
+                    <strong>Definition:</strong>
+                    A network protocol is a set of rules that describes the formatting, transmission, and receiving of data between two network devices. It ensures that both sides agree on how to communicate.
+                </div>
+                <div class="explanation-section">
+                    <div class="section-subtitle">Explanation</div>
+                    <p>A protocol covers aspects like: how packets are formatted, how they are placed on the physical medium, what headers/checksums are used, how errors are detected and corrected, and how the communication session is established and terminated. Both the client and server must agree to follow the same protocol for successful communication.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- LECTURE 1.7 -->
+        <div class="topic-section" id="lecture-7">
+            <h2 class="topic-title">Lecture 1.7: Simple Web Server</h2>
+
+            <div class="concept-card">
+                <h3>1. The Simplest Web Server (Shell Script)</h3>
+                <div class="definition-box">
+                    <strong>Definition:</strong>
+                    A minimal web server can be implemented in a single line of shell script that listens on a port and responds with HTTP-formatted data. This demonstrates the fundamental simplicity of the HTTP protocol.
+                </div>
+                <div class="explanation-section">
+                    <div class="section-subtitle">Explanation</div>
+                    <p>The command:</p>
+                    <div class="code-example"><pre><code>while true; do echo -e "HTTP/1.1 200 OK\n\n $(date)" | nc -l localhost 1500; done</code></pre></div>
+                    <p>This script runs an infinite loop. Each iteration:</p>
+                    <p>1. <code>echo -e</code> prints an HTTP response: status line "HTTP/1.1 200 OK", two newlines (separating headers from body), and the current date.</p>
+                    <p>2. The pipe <code>|</code> redirects this output to <code>nc -l localhost 1500</code> (netcat listening on port 1500). Netcat accepts incoming TCP connections and sends the echoed data as the response.</p>
+                    <p>This server does not parse the request—it blindly responds with the same output to any connection. It always returns status code 200 regardless of what was requested.</p>
+                </div>
+                <div class="example-worked">
+                    <strong>Testing with curl:</strong>
+                    <div class="code-example"><pre><code>curl -v http://localhost:1500</code></pre></div>
+                    <p>The verbose output shows the full request sent by curl (GET / HTTP/1.1, Host header, User-Agent, Accept headers) and the response from the simple server (HTTP/1.1 200 OK, followed by the date).</p>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>2. Anatomy of an HTTP Request</h3>
+                <div class="definition-box">
+                    <strong>Definition:</strong>
+                    An HTTP request consists of a request line (method, resource path, protocol version), headers (key-value pairs providing metadata), and an optional body. A blank line separates headers from the body.
+                </div>
+                <div class="explanation-section">
+                    <div class="section-subtitle">Explanation</div>
+                    <p>A typical GET request from curl looks like:</p>
+                    <div class="code-example"><pre><code>GET / HTTP/1.1
+Host: localhost:1500
+User-Agent: curl/7.64.1
+Accept: */*</code></pre></div>
+                    <p><strong>GET:</strong> The HTTP method—retrieve the specified resource.</p>
+                    <p><strong>/ HTTP/1.1:</strong> The resource path ("/" = root) and protocol version.</p>
+                    <p><strong>Host:</strong> Required in HTTP/1.1; specifies the target host (useful when multiple virtual hosts share one IP).</p>
+                    <p><strong>User-Agent:</strong> Identifies the client software (useful for server-side adaptation).</p>
+                    <p><strong>Accept:</strong> Specifies the MIME types the client can handle. <code>*/*</code> means "I'll accept anything." <code>image/*</code> would mean "I can only understand images."</p>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>3. Anatomy of an HTTP Response</h3>
+                <div class="definition-box">
+                    <strong>Definition:</strong>
+                    An HTTP response consists of a status line (protocol version, status code, reason phrase), headers, a blank line, and the response body.
+                </div>
+                <div class="explanation-section">
+                    <div class="section-subtitle">Explanation</div>
+                    <p>From the Python HTTP server:</p>
+                    <div class="code-example"><pre><code>HTTP/1.0 200 OK
+Server: SimpleHTTP/0.6 Python/3.9.2
+Date: Thu, 17 Jun 2021 03:11:15 GMT
+Content-type: text/html
+Content-Length: 31
+Last-Modified: Thu, 17 Jun 2021 03:10:18 GMT
+
+&lt;h1&gt;Hello world&lt;/h1&gt;
+Hi there!</code></pre></div>
+                    <p><strong>Status line:</strong> HTTP/1.0 200 OK (protocol, status code, reason).</p>
+                    <p><strong>Headers:</strong> Server info, date, content type (MIME), content length, last modified timestamp.</p>
+                    <p><strong>Body:</strong> The actual HTML content.</p>
+                </div>
+                <div class="concept-section">
+                    <h3>Key Details</h3>
+                    <ul class="key-points-list">
+                        <li><strong>MIME types:</strong> <code>text/html</code> for HTML, <code>application/x-sh</code> for shell scripts, <code>image/png</code> for images, etc. The Content-Type header tells the client how to interpret the body.</li>
+                        <li><strong>MIME:</strong> Originally "Multipurpose Internet Mail Extensions" for email attachments; now widely used in HTTP.</li>
+                        <li><strong>CGI (Common Gateway Interface):</strong> An interface specification enabling web servers to execute external programs and return dynamic content. It is an abbreviation for "Common Gateway Interface."</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>4. IP Addresses: IPv4, IPv6, and Loopback</h3>
+                <div class="definition-box">
+                    <strong>Definition:</strong>
+                    IP addresses uniquely identify devices on a network. <strong>IPv4</strong> uses 32-bit addresses (4 octets, 0-255 each, dotted decimal). <strong>IPv6</strong> uses 128-bit addresses (8 groups of 4 hex digits, separated by colons). <strong>Loopback addresses</strong> refer to the local machine itself.
+                </div>
+                <div class="explanation-section">
+                    <div class="section-subtitle">Explanation</div>
+                    <p><strong>Valid IPv4 octets:</strong> Each octet must be in the range 0-255. So 192.168.64.34 and 34.39.43.202 are valid. 192.168.256.1 is invalid (256 &gt; 255). 34.239.314.206 is invalid (314 &gt; 255).</p>
+                    <p><strong>Loopback addresses:</strong> 127.0.0.1 (IPv4) and ::1 (IPv6) are the standard loopback addresses. They always refer to "this machine." 128.0.0.8 and 1::.1 are not standard loopback addresses.</p>
+                    <p><strong>0.0.0.0 in IPv6:</strong> Represented as :: (all zeros compressed) or ::0. 10::1 and 01::0 do not represent 0.0.0.0.</p>
+                </div>
+                <div class="concept-section">
+                    <h3>Key Details</h3>
+                    <ul class="key-points-list">
+                        <li><strong>Valid IPv4:</strong> 4 numbers (0-255), separated by dots.</li>
+                        <li><strong>Loopback:</strong> 127.0.0.1 (IPv4), ::1 (IPv6).</li>
+                        <li><strong>IPv6 zero compression:</strong> All-zero groups can be compressed to :: (only once per address).</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- LECTURE 1.8 -->
+        <div class="topic-section" id="lecture-8">
+            <h2 class="topic-title">Lecture 1.8: What is a Protocol?</h2>
+
+            <div class="concept-card">
+                <h3>1. Protocol Fundamentals</h3>
+                <div class="definition-box">
+                    <strong>Definition:</strong>
+                    A protocol is a set of rules agreed upon by <strong>both</strong> the client and server that governs how data is formatted, transmitted, and interpreted during communication. It ensures mutual understanding between communicating parties.
+                </div>
+                <div class="explanation-section">
+                    <div class="section-subtitle">Explanation</div>
+                    <p>Just as humans follow social protocols (greeting, shaking hands, taking turns speaking), computer networks require protocols for meaningful communication. A protocol defines: the format of messages, the sequence of exchanges, error handling procedures, and how to interpret received data. Without a shared protocol, two devices cannot communicate effectively.</p>
+                </div>
+                <div class="misconception-box">
+                    <strong>Common Mistakes &amp; Misconceptions:</strong>
+                    <ul>
+                        <li><strong>Mistake:</strong> "A protocol is rules agreed to by the client only." <strong>Correction:</strong> Both client and server must agree to and follow the protocol.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>2. HTTP Methods: GET vs. POST</h3>
+                <div class="definition-box">
+                    <strong>Definition:</strong>
+                    HTTP defines request methods that specify the desired action. <strong>GET</strong> is used to request a resource (data is visible in the URL query string). <strong>POST</strong> is used to submit data to be processed (data is included in the request body, not visible in the URL).
+                </div>
+                <div class="explanation-section">
+                    <div class="section-subtitle">Explanation</div>
+                    <p><strong>GET Method:</strong> Generally used to request a resource from the server. Parameters are appended to the URL as a query string (e.g., <code>?uid=10&sid=4032013</code>). Data is visible in the URL, making GET suitable for search queries, navigation, and requests that can be bookmarked. GET requests should be idempotent (repeating them should not change server state).</p>
+                    <p><strong>POST Method:</strong> Generally used to submit forms, upload files, or send large text blocks. Data is sent in the request body, not visible in the URL. POST is suitable for actions that modify server state (creating, updating, deleting resources).</p>
+                    <p>Both GET and POST are methods used by HTTP to transfer data between a browser and a server.</p>
+                </div>
+                <div class="concept-section">
+                    <h3>Key Details</h3>
+                    <ul class="key-points-list">
+                        <li><strong>GET:</strong> Data visible in URL, used for simple requests and search queries, idempotent.</li>
+                        <li><strong>POST:</strong> Data in request body (not URL), used for forms and file uploads, modifies server state.</li>
+                        <li>HTTP can use both GET and POST for data transfer.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>3. Understanding the Accept Header</h3>
+                <div class="definition-box">
+                    <strong>Definition:</strong>
+                    The <code>Accept</code> header in an HTTP request tells the server what MIME types the client is willing to accept in the response. <code>Accept: */*</code> means the client accepts any type of data. <code>Accept: image/*</code> means the client can only understand images.
+                </div>
+                <div class="explanation-section">
+                    <div class="section-subtitle">Explanation</div>
+                    <p>The <code>*/*</code> wildcard is a catch-all indicating the client will accept any MIME type. This is commonly used by command-line tools like curl that simply dump the response to the terminal. In contrast, <code>Accept: image/*</code> indicates the client can handle any image format (image/png, image/jpeg, etc.) but not other types like text or audio. This allows servers to tailor responses based on client capabilities.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- LECTURE 1.9 -->
+        <div class="topic-section" id="lecture-9">
+            <h2 class="topic-title">Lecture 1.9: Performance of a Website</h2>
+
+            <div class="concept-card">
+                <h3>1. Latency and Round Trip Time (RTT)</h3>
+                <div class="definition-box">
+                    <strong>Definition:</strong>
+                    <strong>Latency</strong> is the time delay between a request being sent and the response being received. <strong>RTT (Round Trip Time)</strong> is the time for a signal to travel from the client to the server and back again.
+                </div>
+                <div class="explanation-section">
+                    <div class="section-subtitle">Explanation</div>
+                    <p>Speed of light in fiber cable is approximately \(2 \times 10^8\) m/s. This translates to about 5 ns per meter, or 5 ms per 1000 km. For a server 1500 km away:</p>
+                    <p>One-way time = \(1500 \times 10^3 / (2 \times 10^8) = 7.5 \times 10^{-3} = 7.5\) ms.</p>
+                    <p>RTT = 2 × 7.5 ms = <strong>15 ms</strong>.</p>
+                    <p>For a server 12,500 km away: one-way = \(12500 \times 10^3 / (2 \times 10^8) = 62.5\) ms; RTT = 125 ms.</p>
+                    <p>If a new request can only be sent after receiving the response to the previous request, the maximum number of requests per second is limited by the RTT. As distance increases, RTT increases, so the maximum requests per second <strong>decreases</strong>.</p>
+                </div>
+                <div class="concept-section">
+                    <h3>Key Details</h3>
+                    <ul class="key-points-list">
+                        <li>Speed of light in cable: \(2 \times 10^8\) m/s.</li>
+                        <li>Latency = distance / speed.</li>
+                        <li>RTT = 2 × one-way latency.</li>
+                        <li>Max requests/sec = 1 / RTT (if sequential).</li>
+                    </ul>
+                </div>
+                <div class="example-worked">
+                    <strong>Example Calculation:</strong>
+                    <p>Server at 1500 km: One-way = 7.5 ms, RTT = 15 ms.<br />
+                    Server at 2000 km: One-way = 10 ms, RTT = 20 ms.<br />
+                    Max requests/sec at 2000 km = 1/0.020 = 50 requests/sec.</p>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>2. Bandwidth Requirements</h3>
+                <div class="definition-box">
+                    <strong>Definition:</strong>
+                    <strong>Bandwidth</strong> is the maximum rate of data transfer across a network connection, measured in bits per second (bps). The minimum bandwidth required for a server depends on the number of requests per second and the size of each response.
+                </div>
+                <div class="explanation-section">
+                    <div class="section-subtitle">Explanation</div>
+                    <p>If a server handles \(N\) requests per second, each with a response size of \(S\) kilobytes, the minimum bandwidth required is \(N \times S \times 8\) kbps (converting bytes to bits).</p>
+                </div>
+                <div class="example-worked">
+                    <strong>Example: 6,250 requests/sec of 200 KB each</strong>
+                    <p>Total data per second = \(6250 \times 200 = 1,250,000\) KB = \(1.25 \times 10^9\) bytes.<br />
+                    In bits: \(1.25 \times 10^9 \times 8 = 10 \times 10^9 = 10\) Gbps.<br />
+                    <strong>Answer: 10 Gbps.</strong></p>
+                </div>
+                <div class="example-worked">
+                    <strong>Example: 10,000 requests/sec of 150 KB each (Graded Assignment)</strong>
+                    <p>Total data per second = \(10000 \times 150 = 1,500,000\) KB = \(1.5 \times 10^9\) bytes.<br />
+                    In bits: \(1.5 \times 10^9 \times 8 = 12 \times 10^9 = 12\) Gbps.<br />
+                    <strong>Answer: 12 Gbps.</strong></p>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>3. Memory (RAM) Requirements</h3>
+                <div class="definition-box">
+                    <strong>Definition:</strong>
+                    Server RAM requirements scale with the number of concurrent connections. Each connection typically spawns a process that consumes a baseline amount of memory.
+                </div>
+                <div class="explanation-section">
+                    <div class="section-subtitle">Explanation</div>
+                    <p>A single Python HTTP server process consumes approximately 6 MB of RAM. For long-running connections (e.g., video streaming), each concurrent viewer requires a persistent server process. If \(C\) is the number of concurrent viewers, the minimum RAM = \(C \times 6\) MB.</p>
+                    <p>For a video occupying 2 MB per connection with 5 million concurrent viewers:<br />
+                    Total RAM = \(5 \times 10^6 \times 2 = 10 \times 10^6\) MB = \(10,000,000\) MB = \(10,000\) GB = <strong>10 TB</strong>.</p>
+                </div>
+                <div class="key-points">
+                    <strong>Key Takeaways:</strong>
+                    <p>
+                        * RTT (Round Trip Time) = 2 × (distance / speed_of_light_in_cable).<br />
+                        * Bandwidth (bps) = requests/sec × response_size × 8.<br />
+                        * RAM (MB) = concurrent_connections × memory_per_process.<br />
+                        * As distance increases, latency increases and max requests/sec decreases.<br />
+                        * Scaling requires distributing load across many servers, not just adding resources to one machine.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>

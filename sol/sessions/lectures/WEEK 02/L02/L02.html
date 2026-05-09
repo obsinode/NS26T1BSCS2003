@@ -1,0 +1,2021 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Modern Application Development - I -- Week 2 -- Study Notes</title>
+    <!-- KaTeX for Math -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+        onload="renderMathInElement(document.body,{delimiters:[{left:'\\(',right:'\\)',display:false},{left:'\\[',right:'\\]',display:true}]})">
+        </script>
+    <link rel="stylesheet" href="../../../../../scr/ui/ui.css" />
+    <script src="../../../../../scr/ui/ui.js"></script>
+</head>
+
+<body>
+    <div class="study-guide-container">
+        <h1 class="week-title">WEEK 2: Information Representation, Markup, HTML &amp; CSS Fundamentals</h1>
+
+        <div class="week-overview">
+            <strong>Overview:</strong>
+            This week establishes the foundational concepts of modern web application development. We begin by
+            understanding how information is represented inside machines — from bits and bytes to encoding standards
+            like ASCII and Unicode. We then explore the concept of <em>markup</em> as a way to embed meaning and
+            structure into raw text, distinguishing between presentational, procedural, and descriptive markup. The core
+            of the week covers HTML (HyperText Markup Language) — its history, structure, tags, attributes, nesting
+            rules, and the Document Object Model (DOM). Finally, we delve into CSS (Cascading Style Sheets) to separate
+            content from presentation, covering inline, internal, and external styling, responsive design principles,
+            and a brief introduction to Bootstrap and JavaScript. By the end of this week, you will understand how text
+            is encoded, how markup adds semantics, how HTML structures a web document, and how CSS controls its visual
+            appearance across devices.
+        </div>
+
+        <div class="table-of-contents">
+            <h2>Table of Contents</h2>
+            <ul>
+                <li><a href="#lecture-1">Lecture 2.1: Information Representation in a Machine</a></li>
+                <li><a href="#lecture-2">Lecture 2.2: Efficiency of Encoding</a></li>
+                <li><a href="#lecture-3">Lecture 2.3: What is Markup?</a></li>
+                <li><a href="#lecture-4">Lecture 2.4: Introduction to HTML</a></li>
+                <li><a href="#lecture-5">Lecture 2.5: Introduction to Styling</a></li>
+                <li><a href="#lecture-6">Lecture 2.6: Types of CSS Styling &amp; Responsive Websites</a></li>
+                <li><a href="#screencasts">Screencasts 2.1–2.4: Inline, Internal, External CSS, Selectors &amp;
+                        Bootstrap</a></li>
+            </ul>
+        </div>
+
+        <!-- ==================== LECTURE 2.1 ==================== -->
+        <div class="topic-section" id="lecture-1">
+            <h2 class="topic-title">Lecture 2.1: Information Representation in a Machine</h2>
+
+            <div class="concept-card">
+                <h3>1. Bits: The Fundamental Unit of Digital Information</h3>
+
+                <div class="definition-box">
+                    <strong>Definition:</strong>
+                    A <strong>bit</strong> (binary digit) is the smallest unit of information in a digital computer. It
+                    can take exactly one of two possible states: <code>0</code> or <code>1</code>. Every piece of
+                    information — numbers, text, images, audio, video — is ultimately represented as a sequence of bits.
+                </div>
+
+                <div class="explanation-section">
+                    <div class="section-subtitle">Explanation</div>
+                    <p>Computers are built using digital logic circuits that operate with two distinct voltage levels: a
+                        low voltage representing <code>0</code> (near ground) and a higher voltage representing
+                        <code>1</code>. This binary approach is not arbitrary — it provides excellent robustness against
+                        electrical noise and temperature fluctuations, making digital systems highly reliable.
+                    </p>
+                    <p>Because we have only two symbols (0 and 1), we need <strong>conventions</strong> (encoding
+                        schemes) to interpret what any given sequence of bits means. A sequence like <code>0110</code>
+                        could represent the decimal number 6 under one interpretation, or something entirely different
+                        under another. Without <strong>context</strong>, bits are meaningless.</p>
+                </div>
+
+                <div class="concept-section">
+                    <h3>Key Mechanics &amp; Properties</h3>
+                    <ul class="key-points-list">
+                        <li>A bit is the most fundamental unit of information in computing; it has exactly two states
+                            (<code>0</code> or <code>1</code>).</li>
+                        <li>Groups of bits can represent larger values. With \( n \) bits, you can represent \( 2^n \)
+                            distinct values.</li>
+                        <li>The interpretation of a bit sequence is always <strong>context-dependent</strong>. The same
+                            binary pattern can mean different things depending on the encoding convention being used.
+                        </li>
+                        <li>Digital logic's binary nature makes it inherently resistant to noise, a key advantage over
+                            analog systems.</li>
+                    </ul>
+                </div>
+
+                <div class="example-worked">
+                    <strong>Worked Example / Walkthrough:</strong>
+                    <p>Consider the 4-bit sequence <code>1010</code>:</p>
+                    <ul>
+                        <li>As a <strong>4-bit unsigned binary number</strong>: \( 1 \times 2^3 + 0 \times 2^2 + 1
+                            \times 2^1 + 0 \times 2^0 = 8 + 0 + 2 + 0 = 10_{10} \)</li>
+                        <li>As a <strong>4-bit two's complement number</strong> (signed): The MSB is 1, so it's
+                            negative. Two's complement of <code>1010</code> is <code>0110</code> = 6, so the value is \(
+                            -6_{10} \).</li>
+                    </ul>
+                    <p>The exact same bit pattern yields two completely different numeric values depending on the
+                        interpretation rule.</p>
+                </div>
+
+                <div class="edge-case-box">
+                    <strong>Edge Cases &amp; Corner Cases:</strong>
+                    <ul>
+                        <li>An all-zero sequence (<code>0000...0</code>) is typically interpreted as the numeric value
+                            0, but in some contexts (like the null byte in ASCII), it has a special control meaning.
+                        </li>
+                        <li>In two's complement representation with \( n \) bits, the most negative number (\( -2^{n-1}
+                            \)) has no positive counterpart within the same bit width.</li>
+                    </ul>
+                </div>
+
+                <div class="key-points">
+                    <strong>Key Takeaways:</strong>
+                    <p>
+                        * A bit is a binary digit (0 or 1), the smallest unit of digital data.<br />
+                        * \( n \) bits can represent \( 2^n \) distinct values.<br />
+                        * Interpretation of bits is always context-dependent — the same pattern can mean a number, a
+                        character, or something else entirely.
+                    </p>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>2. Information Interchange &amp; Standard Encoding</h3>
+
+                <div class="definition-box">
+                    <strong>Definition:</strong>
+                    <strong>Information interchange</strong> is the process of communicating data between machines
+                    (computer-to-computer) or between humans and machines. It requires a <strong>standard
+                        encoding</strong> — a pre-agreed mapping between sequences of bits and the characters (or other
+                    information) they represent.
+                </div>
+
+                <div class="explanation-section">
+                    <div class="section-subtitle">Explanation</div>
+                    <p>Machines work only with bits (0s and 1s). To communicate meaningfully — say, to send the letter
+                        'A' from one computer to another — both the sender and receiver must agree on <em>which</em> bit
+                        pattern corresponds to 'A'. This is the role of a standard encoding.</p>
+                    <p>Without a standard, a byte <code>0100 0001</code> could be interpreted as the number 65, the
+                        character 'A', or just a raw sequence of bits. The <strong>context</strong> in which the bits
+                        appear determines their meaning. Inside a computer, a program's memory layout and variable
+                        declarations provide this context — a pointer to a memory location might be declared as a
+                        character pointer, instructing the CPU to interpret that byte as a character.</p>
+                    <p>The key insight is: <strong>the same bit sequence can have multiple valid interpretations
+                            simultaneously</strong>. <code>0100 0001</code> is all of the following: a string of bits,
+                        the decimal number 65, and the uppercase letter 'A'. All are correct — the question is which
+                        interpretation is appropriate in the given context.</p>
+                </div>
+
+                <div class="concept-section">
+                    <h3>Key Mechanics &amp; Properties</h3>
+                    <ul class="key-points-list">
+                        <li>Information interchange between machines requires a mutually agreed-upon encoding standard.
+                        </li>
+                        <li>The sequence <code>0100 0001</code> (binary) = 65 (decimal) = 'A' (ASCII character). It is
+                            simultaneously all three.</li>
+                        <li>Context is essential: if you see bits "scribbled on a wall," you don't know what they mean.
+                            If you see them in a math book, they're probably a number. If you see them in a
+                            character-encoding reference, they're probably a character.</li>
+                        <li>Inside a computer, the program provides context via data types and memory pointers,
+                            determining how specific memory locations are interpreted.</li>
+                    </ul>
+                </div>
+
+                <div class="misconception-box">
+                    <strong>Common Mistakes &amp; Misconceptions:</strong>
+                    <ul>
+                        <li><strong>Mistake:</strong> Thinking a bit pattern inherently "is" one specific thing (e.g.,
+                            <code>0100 0001</code> "is" the number 65). <strong>Correction:</strong> The bit pattern is
+                            just bits. Its meaning is entirely assigned by the encoding convention and program context.
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="pro-tip-card">
+                    <div class="card-icon">💡</div>
+                    <div class="card-content"><strong>Pro Tip:</strong> In exams, when asked "What is 0100 0001?", the
+                        correct answer is always "All of the above" (string of bits, number 65, character 'A') — it's a
+                        test of your understanding of context-dependent interpretation.</div>
+                </div>
+
+                <div class="key-points">
+                    <strong>Key Takeaways:</strong>
+                    <p>
+                        * Standard encodings map bit sequences to characters, enabling information interchange.<br />
+                        * Context determines whether a bit pattern is interpreted as a number, a character, or raw
+                        data.<br />
+                        * The same bit sequence can be legitimately interpreted in multiple ways.
+                    </p>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>3. ASCII: American Standard Code for Information Interchange</h3>
+
+                <div class="definition-box">
+                    <strong>Definition:</strong>
+                    <strong>ASCII</strong> is a 7-bit character encoding standard that maps 128 different entities —
+                    including lowercase letters (a–z), uppercase letters (A–Z), digits (0–9), special characters (!, @,
+                    #, $, etc.), and control characters (Enter, Tab, etc.) — to numeric values from 0 to 127.
+                </div>
+
+                <div class="explanation-section">
+                    <div class="section-subtitle">Explanation</div>
+                    <p>ASCII was designed primarily for English text. With 7 bits (\( 2^7 = 128 \) possible values), it
+                        covers all the basic requirements of English-language communication: 26 uppercase letters, 26
+                        lowercase letters, 10 digits, punctuation marks, mathematical symbols, and control characters
+                        like carriage return and line feed.</p>
+                    <p>Why exactly 7 bits? With 6 bits (\( 2^6 = 64 \)), we could only represent 64 characters — enough
+                        for uppercase letters, digits, and a few special characters, but not enough to include both
+                        uppercase and lowercase letters. Seven bits was the sweet spot, providing enough room for the
+                        full English character set plus control codes, with some room to spare.</p>
+                    <p>Later, <strong>8-bit extended ASCII</strong> was introduced to accommodate characters from
+                        European languages (accented letters, etc.), doubling the capacity to 256 characters. However,
+                        256 is still far too small for scripts like Chinese, Japanese, Hindi, Tamil, and many others,
+                        which require thousands of unique characters.</p>
+                </div>
+
+                <div class="concept-section">
+                    <h3>Key Mechanics &amp; Properties</h3>
+                    <ul class="key-points-list">
+                        <li>Standard (7-bit) ASCII: 128 characters (\( 2^7 = 128 \)), values from 0 to 127.</li>
+                        <li>Extended (8-bit) ASCII: 256 characters (\( 2^8 = 256 \)), values from 0 to 255.</li>
+                        <li>Uppercase 'A' = ASCII decimal 65 = binary <code>0100 0001</code>.</li>
+                        <li>Uppercase 'B' = ASCII decimal 66 = binary <code>0100 0010</code>.</li>
+                        <li>Uppercase 'C' = ASCII decimal 67 = binary <code>0100 0011</code>.</li>
+                        <li>Uppercase 'F' = ASCII decimal 70 = binary <code>0100 0110</code>.</li>
+                        <li>Characters are arranged sequentially: 'A' through 'Z' are consecutive (65–90), and 'a'
+                            through 'z' are consecutive (97–122).</li>
+                    </ul>
+                </div>
+
+                <div class="example-worked">
+                    <strong>Worked Example / Walkthrough:</strong>
+                    <p><strong>Finding the ASCII encoding of 'F':</strong></p>
+                    <p>Given: A = 65 (<code>0100 0001</code>), B = 66 (<code>0100 0010</code>), C = 67
+                        (<code>0100 0011</code>)</p>
+                    <p>Pattern: Each subsequent letter increments the decimal value by 1. So D = 68, E = 69, F = 70.</p>
+                    <p>Decimal 70 in 8-bit binary: \( 70_{10} = 64 + 4 + 2 = 2^6 + 2^2 + 2^1 = 0100 0110_2 \)</p>
+                </div>
+
+                <div class="edge-case-box">
+                    <strong>Edge Cases &amp; Corner Cases:</strong>
+                    <ul>
+                        <li>ASCII only directly supports English and a few European language characters (in the extended
+                            version). It cannot represent scripts like Arabic, Greek, Hindi, Chinese, or Japanese.</li>
+                        <li>The first 32 ASCII codes (0–31) are control characters (like NULL = 0, Line Feed = 10,
+                            Carriage Return = 13), not printable symbols.</li>
+                    </ul>
+                </div>
+
+                <div class="key-points">
+                    <strong>Key Takeaways:</strong>
+                    <p>
+                        * ASCII is a 7-bit encoding with 128 characters, sufficient for English text.<br />
+                        * Extended ASCII uses 8 bits for 256 characters, covering European accented characters.<br />
+                        * ASCII maps characters to sequential numeric codes (e.g., A=65, B=66, ..., F=70).<br />
+                        * ASCII cannot represent thousands of characters needed for non-Latin scripts.
+                    </p>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>4. Unicode &amp; UCS: Universal Character Set</h3>
+
+                <div class="definition-box">
+                    <strong>Definition:</strong>
+                    <strong>Unicode</strong> is a universal character encoding standard developed by a consortium of
+                    companies, universities, and organizations. Its goal is to provide a unique code point for every
+                    character in every writing system — living, historical, or even future languages. The encoding
+                    scheme is known as the <strong>Universal Character Set (UCS)</strong>.
+                </div>
+
+                <div class="explanation-section">
+                    <div class="section-subtitle">Explanation</div>
+                    <p>ASCII's 256-character limit was quickly outgrown once computers became globally ubiquitous.
+                        Unicode was designed to solve this by assigning a unique numeric <strong>code point</strong>
+                        (like U+0041 for 'A') to every character across all known writing systems. This includes Latin,
+                        Greek, Cyrillic, Arabic, Hebrew, Devanagari, Chinese, Japanese, Korean, and many more.</p>
+                    <p>Two main UCS variants exist:</p>
+                    <ul>
+                        <li><strong>UCS-2:</strong> Uses 2 bytes (16 bits) per character, allowing up to \( 2^{16} =
+                            65,536 \) possible characters. This was the original Unicode encoding but proved
+                            insufficient as more scripts were added.</li>
+                        <li><strong>UCS-4 (UTF-32):</strong> Uses 4 bytes (32 bits) per character, allowing up to \(
+                            2^{32} \approx 4.29 \) billion characters. Currently, only about 100,000+ code points are
+                            defined, making UCS-4 very sparse but future-proof.</li>
+                    </ul>
+                </div>
+
+                <div class="concept-section">
+                    <h3>Key Mechanics &amp; Properties</h3>
+                    <ul class="key-points-list">
+                        <li>Unicode provides unique code points for characters across all writing systems worldwide.
+                        </li>
+                        <li>UCS-2: 16-bit encoding → max \( 2^{16} = 65,536 \) characters.</li>
+                        <li>UCS-4 (UTF-32): 32-bit encoding → max \( 2^{32} \approx 4.29 \) billion characters.</li>
+                        <li>Code points are written as U+XXXX (e.g., U+0041 for 'A', U+05D0 for Hebrew Aleph, U+233B4
+                            for a rare CJK character).</li>
+                    </ul>
+                </div>
+
+                <div class="example-worked">
+                    <strong>Worked Example / Walkthrough:</strong>
+                    <p><strong>Encoding 'A' (U+0041) in UCS-4:</strong></p>
+                    <p>U+0041 means the code point is hexadecimal 41 (decimal 65). In UCS-4, we always use 4 bytes:</p>
+                    <p><code>00 00 00 41</code> (hex) — the first three bytes are padded with zeros.</p>
+                    <p><strong>Encoding Hebrew Aleph (U+05D0) in UCS-4:</strong></p>
+                    <p><code>00 00 05 D0</code> (hex) — the code point fills the last two bytes.</p>
+                </div>
+
+                <div class="edge-case-box">
+                    <strong>Edge Cases &amp; Corner Cases:</strong>
+                    <ul>
+                        <li>UCS-2 cannot represent characters with code points beyond U+FFFF (i.e., those requiring more
+                            than 16 bits). This includes many rare CJK characters and historical scripts.</li>
+                        <li>UCS-4 explicitly encodes every character in 4 bytes, even 'A' which only needs 1 byte of
+                            meaningful information. This is space-inefficient for English text.</li>
+                    </ul>
+                </div>
+
+                <div class="key-points">
+                    <strong>Key Takeaways:</strong>
+                    <p>
+                        * Unicode assigns unique code points to characters across all writing systems.<br />
+                        * UCS-2 uses 2 bytes/char (max 65,536 chars); UCS-4 uses 4 bytes/char (max ~4.29 billion
+                        chars).<br />
+                        * UCS-4 is future-proof but space-inefficient; UTF-8 was designed to address this.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== LECTURE 2.2 ==================== -->
+        <div class="topic-section" id="lecture-2">
+            <h2 class="topic-title">Lecture 2.2: Efficiency of Encoding</h2>
+
+            <div class="concept-card">
+                <h3>1. Encoding Efficiency &amp; Space Comparison</h3>
+
+                <div class="definition-box">
+                    <strong>Definition:</strong>
+                    <strong>Encoding efficiency</strong> refers to how many bits are required to represent a given body
+                    of text. Different encoding schemes trade off between the <em>range</em> of characters they can
+                    represent and the <em>storage space</em> they consume.
+                </div>
+
+                <div class="explanation-section">
+                    <div class="section-subtitle">Explanation</div>
+                    <p>Consider a text document with approximately 1000 words, which translates to roughly 5000
+                        characters (including spaces). The storage requirements under different encoding schemes are:
+                    </p>
+                    <ul>
+                        <li><strong>UCS-4:</strong> \( 32 \text{ bits} \times 5000 = 160,000 \text{ bits} \) (20,000
+                            bytes or ~20 KB)</li>
+                        <li><strong>8-bit ASCII:</strong> \( 8 \text{ bits} \times 5000 = 40,000 \text{ bits} \) (5,000
+                            bytes or ~5 KB)</li>
+                        <li><strong>7-bit ASCII:</strong> \( 7 \text{ bits} \times 5000 = 35,000 \text{ bits} \)</li>
+                        <li><strong>Theoretical minimum (6-bit encoding for a–z, 0–9, some special chars):</strong> \( 6
+                            \text{ bits} \times 5000 = 30,000 \text{ bits} \)</li>
+                        <li><strong>Optimal (Huffman encoding based on character frequency):</strong> ~10,000–20,000
+                            bits</li>
+                    </ul>
+                    <p>UCS-4 uses 4× the space of 8-bit ASCII for English text. If your document is primarily in
+                        English, spending 4 bytes per character is wasteful. This motivated the development of more
+                        efficient variable-length encodings like UTF-8.</p>
+                </div>
+
+                <div class="concept-section">
+                    <h3>Key Mechanics &amp; Properties</h3>
+                    <ul class="key-points-list">
+                        <li>UCS-4: 32 bits/char — universal but very space-inefficient for English text.</li>
+                        <li>8-bit ASCII: 8 bits/char — efficient for English but limited to 256 characters.</li>
+                        <li>7-bit ASCII: 7 bits/char — sufficient for English, saves ~12.5% vs. 8-bit ASCII.</li>
+                        <li>The optimal encoding depends on the document's content and character frequency distribution.
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="example-worked">
+                    <strong>Worked Example / Walkthrough:</strong>
+                    <p><strong>Q:</strong> Suppose a document has 1000 characters. How many bits are required to encode
+                        it in UCS-4?</p>
+                    <p><strong>A:</strong> UCS-4 uses 4 bytes = 32 bits per character. \( 32 \times 1000 = 32,000 \)
+                        bits.</p>
+                    <p><strong>Q:</strong> How many bits for 8000 alphanumeric characters using 8-bit ASCII?</p>
+                    <p><strong>A:</strong> \( 8 \times 8000 = 64,000 \) bits.</p>
+                </div>
+
+                <div class="edge-case-box">
+                    <strong>Edge Cases &amp; Corner Cases:</strong>
+                    <ul>
+                        <li>If a document is entirely in a non-English script (e.g., Chinese), UCS-4 becomes relatively
+                            more efficient because the characters require multi-byte encodings in UTF-8 anyway.</li>
+                        <li>The absolute optimal encoding depends on the actual document content — repetitive text can
+                            be compressed far beyond what any fixed-width encoding achieves.</li>
+                    </ul>
+                </div>
+
+                <div class="key-points">
+                    <strong>Key Takeaways:</strong>
+                    <p>
+                        * UCS-4 is space-inefficient for English text (4× ASCII).<br />
+                        * 8-bit ASCII halves the space of UCS-4 but limits character range to 256.<br />
+                        * The ideal encoding is document-dependent; compression algorithms (like zip) can achieve even
+                        greater efficiency.
+                    </p>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>2. UTF-8: Variable-Length Unicode Encoding</h3>
+
+                <div class="definition-box">
+                    <strong>Definition:</strong>
+                    <strong>UTF-8 (Unicode Transformation Format — 8-bit)</strong> is a variable-length character
+                    encoding that uses 1 to 4 bytes per character. It is designed to be backward-compatible with ASCII
+                    while also being able to represent every Unicode code point. All ASCII documents are automatically
+                    valid UTF-8 documents.
+                </div>
+
+                <div class="explanation-section">
+                    <div class="section-subtitle">Explanation</div>
+                    <p>UTF-8 solves the efficiency problem of UCS-4 by using fewer bytes for common characters
+                        (especially ASCII) and more bytes for rarer characters. It does this through a
+                        <strong>prefix-based scheme</strong> that uses the most significant bits (MSBs) of the first
+                        byte to signal how many total bytes the character uses.
+                    </p>
+                    <p>The encoding rules for UTF-8 are:</p>
+                    <table style="width:100%; border-collapse:collapse; margin:1em 0;">
+                        <tr style="background:#f0f0f0;">
+                            <th style="padding:8px;border:1px solid #ccc;">First Byte Pattern</th>
+                            <th style="padding:8px;border:1px solid #ccc;">Total Bytes</th>
+                            <th style="padding:8px;border:1px solid #ccc;">Free Bits (Payload)</th>
+                            <th style="padding:8px;border:1px solid #ccc;">Max Unicode Value</th>
+                        </tr>
+                        <tr>
+                            <td style="padding:8px;border:1px solid #ccc;"><code>0xxxxxxx</code></td>
+                            <td style="padding:8px;border:1px solid #ccc;">1</td>
+                            <td style="padding:8px;border:1px solid #ccc;">7</td>
+                            <td style="padding:8px;border:1px solid #ccc;">U+007F (127)</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:8px;border:1px solid #ccc;"><code>110xxxxx 10xxxxxx</code></td>
+                            <td style="padding:8px;border:1px solid #ccc;">2</td>
+                            <td style="padding:8px;border:1px solid #ccc;">5 + 6 = 11</td>
+                            <td style="padding:8px;border:1px solid #ccc;">U+07FF (2,047)</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:8px;border:1px solid #ccc;"><code>1110xxxx 10xxxxxx 10xxxxxx</code></td>
+                            <td style="padding:8px;border:1px solid #ccc;">3</td>
+                            <td style="padding:8px;border:1px solid #ccc;">4 + 6 + 6 = 16</td>
+                            <td style="padding:8px;border:1px solid #ccc;">U+FFFF (65,535)</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:8px;border:1px solid #ccc;">
+                                <code>11110xxx 10xxxxxx 10xxxxxx 10xxxxxx</code>
+                            </td>
+                            <td style="padding:8px;border:1px solid #ccc;">4</td>
+                            <td style="padding:8px;border:1px solid #ccc;">3 + 6 + 6 + 6 = 21</td>
+                            <td style="padding:8px;border:1px solid #ccc;">U+10FFFF (1,114,111)</td>
+                        </tr>
+                    </table>
+                    <p><strong>How the prefix scheme works:</strong></p>
+                    <ul>
+                        <li>If a byte starts with <code>0</code>, it's a single-byte ASCII character (0–127).</li>
+                        <li>If a byte starts with <code>110</code>, it's the first byte of a 2-byte character. The next
+                            byte must start with <code>10</code> (a <strong>continuation byte</strong>).</li>
+                        <li>If a byte starts with <code>1110</code>, it's the first byte of a 3-byte character. The next
+                            two bytes are continuation bytes (<code>10xxxxxx</code>).</li>
+                        <li>If a byte starts with <code>11110</code>, it's the first byte of a 4-byte character. The
+                            next three bytes are continuation bytes.</li>
+                        <li><strong>Critical rule:</strong> Any byte starting with <code>10</code> can <em>never</em> be
+                            the first byte of a character — it is always a continuation byte. This allows a text
+                            processor to "re-sync" if it starts scanning from the middle of a multi-byte sequence.</li>
+                    </ul>
+                    <p>The "x" bits are the <strong>free/payload bits</strong> that carry the actual Unicode code point
+                        value.</p>
+                </div>
+
+                <div class="concept-section">
+                    <h3>Key Mechanics &amp; Properties</h3>
+                    <ul class="key-points-list">
+                        <li>UTF-8 is a variable-length encoding: 1 byte for ASCII, 2–4 bytes for other characters.</li>
+                        <li>ASCII compatibility: Any valid ASCII document is automatically valid UTF-8.</li>
+                        <li>The number of leading 1-bits in the first byte indicates the total number of bytes.</li>
+                        <li>Continuation bytes always start with <code>10</code>, enabling random-access
+                            resynchronization.</li>
+                        <li>UTF-8 can encode all Unicode code points (up to U+10FFFF).</li>
+                    </ul>
+                </div>
+
+                <div class="example-worked">
+                    <strong>Worked Example / Walkthrough:</strong>
+                    <p><strong>Encoding examples in different UTF formats:</strong></p>
+                    <table style="width:100%; border-collapse:collapse; margin:1em 0;">
+                        <tr style="background:#f0f0f0;">
+                            <th style="padding:8px;border:1px solid #ccc;">Character</th>
+                            <th style="padding:8px;border:1px solid #ccc;">Code Point</th>
+                            <th style="padding:8px;border:1px solid #ccc;">UTF-8</th>
+                            <th style="padding:8px;border:1px solid #ccc;">UTF-16</th>
+                            <th style="padding:8px;border:1px solid #ccc;">UTF-32</th>
+                        </tr>
+                        <tr>
+                            <td style="padding:8px;border:1px solid #ccc;">A</td>
+                            <td style="padding:8px;border:1px solid #ccc;">U+0041</td>
+                            <td style="padding:8px;border:1px solid #ccc;">41</td>
+                            <td style="padding:8px;border:1px solid #ccc;">00 41</td>
+                            <td style="padding:8px;border:1px solid #ccc;">00 00 00 41</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:8px;border:1px solid #ccc;">א (Aleph)</td>
+                            <td style="padding:8px;border:1px solid #ccc;">U+05D0</td>
+                            <td style="padding:8px;border:1px solid #ccc;">D7 90</td>
+                            <td style="padding:8px;border:1px solid #ccc;">05 D0</td>
+                            <td style="padding:8px;border:1px solid #ccc;">00 00 05 D0</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:8px;border:1px solid #ccc;">好</td>
+                            <td style="padding:8px;border:1px solid #ccc;">U+597D</td>
+                            <td style="padding:8px;border:1px solid #ccc;">E5 A5 BD</td>
+                            <td style="padding:8px;border:1px solid #ccc;">59 7D</td>
+                            <td style="padding:8px;border:1px solid #ccc;">00 00 59 7D</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:8px;border:1px solid #ccc;">𣎴 (CJK Ext. B)</td>
+                            <td style="padding:8px;border:1px solid #ccc;">U+233B4</td>
+                            <td style="padding:8px;border:1px solid #ccc;">F0 A3 8E B4</td>
+                            <td style="padding:8px;border:1px solid #ccc;">D8 4C DF B4</td>
+                            <td style="padding:8px;border:1px solid #ccc;">00 02 33 B4</td>
+                        </tr>
+                    </table>
+                    <p>Notice: 'A' (U+0041) is 1 byte in UTF-8, 2 bytes in UTF-16, and 4 bytes in UTF-32. But the CJK
+                        character 不 (U+233B4) requires 4 bytes in all three formats.</p>
+                </div>
+
+                <div class="edge-case-box">
+                    <strong>Edge Cases &amp; Corner Cases:</strong>
+                    <ul>
+                        <li>UTF-8 imposes a restriction that the highest expressible code point is U+10FFFF (~1.1
+                            million), even though the 4-byte scheme could theoretically express up to \( 2^{21} \approx
+                            2.1 \) million values. This was a deliberate design choice to remain compatible with UTF-16
+                            surrogate pairs.</li>
+                        <li>The null byte (0x00) has a special meaning in many programming languages (string terminator
+                            in C), which can cause issues when handling UTF-8 in certain contexts.</li>
+                    </ul>
+                </div>
+
+                <div class="misconception-box">
+                    <strong>Common Mistakes &amp; Misconceptions:</strong>
+                    <ul>
+                        <li><strong>Mistake:</strong> Confusing UTF-8 with Unicode itself. <strong>Correction:</strong>
+                            Unicode is the standard defining code points; UTF-8 is one way (among several) to encode
+                            those code points into bytes.</li>
+                        <li><strong>Mistake:</strong> Thinking UTF-8 always saves space. <strong>Correction:</strong>
+                            UTF-8 is efficient for ASCII-heavy text but uses the same or more space for characters from
+                            scripts like Chinese, Japanese, and Korean compared to UTF-16.</li>
+                    </ul>
+                </div>
+
+                <div class="pro-tip-card">
+                    <div class="card-icon">💡</div>
+                    <div class="card-content"><strong>Pro Tip:</strong> UTF-8 is the most common encoding on the web
+                        today, precisely because it handles English and European languages efficiently while still
+                        supporting all other scripts. Modern HTML documents should always specify
+                        <code>&lt;meta charset="UTF-8"&gt;</code>.
+                    </div>
+                </div>
+
+                <div class="key-points">
+                    <strong>Key Takeaways:</strong>
+                    <p>
+                        * UTF-8 is a variable-length (1–4 byte) encoding, backward-compatible with ASCII.<br />
+                        * The MSB prefix pattern determines the number of bytes: 0→1-byte, 110→2-byte, 1110→3-byte,
+                        11110→4-byte.<br />
+                        * Continuation bytes always start with <code>10</code>.<br />
+                        * UTF-8 is the dominant encoding on the modern web.
+                    </p>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>3. UTF-16 and UTF-32: Fixed vs. Variable Width</h3>
+
+                <div class="definition-box">
+                    <strong>Definition:</strong>
+                    <strong>UTF-16</strong> is a variable-length encoding that uses 2 bytes for most characters (the
+                    Basic Multilingual Plane) and 4 bytes (using <strong>surrogate pairs</strong>) for characters beyond
+                    U+FFFF. <strong>UTF-32</strong> is a fixed-width 4-byte encoding where every character is exactly 32
+                    bits.
+                </div>
+
+                <div class="explanation-section">
+                    <div class="section-subtitle">Explanation</div>
+                    <p>UTF-16 was designed as a compromise: use 2 bytes for the vast majority of commonly used
+                        characters (those in the Basic Multilingual Plane, U+0000–U+FFFF), and use 4-byte surrogate
+                        pairs for rarer characters from the supplementary planes (U+10000–U+10FFFF). However, this makes
+                        UTF-16 a <strong>variable-length</strong> encoding — you cannot assume every character is
+                        exactly 2 bytes.</p>
+                    <p>UTF-32 (also called UCS-4) is the simplest encoding: every character takes exactly 4 bytes. The
+                        code point value is directly stored as a 32-bit number. The advantage is simplicity — you can
+                        find the N-th character by simply looking at bytes [4N, 4N+3]. The disadvantage is space
+                        inefficiency.</p>
+                </div>
+
+                <div class="concept-section">
+                    <h3>Key Mechanics &amp; Properties</h3>
+                    <ul class="key-points-list">
+                        <li>UTF-16: Variable-length — 2 bytes for BMP characters, 4 bytes for supplementary characters
+                            (surrogate pairs).</li>
+                        <li>UTF-32: Fixed-width — always exactly 4 bytes per character. Easy to index but
+                            space-inefficient.</li>
+                        <li>Both UTF-8 and UTF-16 are variable-length encodings; only UTF-32 is fixed-width.</li>
+                    </ul>
+                </div>
+
+                <div class="warning-card">
+                    <div class="card-icon">⚠️</div>
+                    <div class="card-content"><strong>Warning:</strong> Do not assume UTF-16 characters are always 2
+                        bytes. Characters with code points above U+FFFF (like U+233B4) require 4 bytes in UTF-16. This
+                        is a common source of bugs in string processing code.</div>
+                </div>
+
+                <div class="key-points">
+                    <strong>Key Takeaways:</strong>
+                    <p>
+                        * UTF-8 and UTF-16 are variable-length encodings; UTF-32 is fixed-width.<br />
+                        * UTF-32 is simple but space-inefficient (4 bytes for every character).<br />
+                        * UTF-16 uses surrogate pairs for characters beyond U+FFFF.
+                    </p>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>4. Minimum Bits for Character Sets</h3>
+
+                <div class="definition-box">
+                    <strong>Definition:</strong>
+                    The <strong>minimum number of bits</strong> needed to encode a character set of size \( S \) is \(
+                    \lceil \log_2 S \rceil \), assuming fixed-width encoding where every character uses the same number
+                    of bits.
+                </div>
+
+                <div class="explanation-section">
+                    <div class="section-subtitle">Explanation</div>
+                    <p>If you need to uniquely represent \( S \) distinct characters, you need enough bits to create at
+                        least \( S \) unique patterns. With \( b \) bits, you can create \( 2^b \) patterns. So:</p>
+                    <p>\[ b = \lceil \log_2 S \rceil \]</p>
+                    <ul>
+                        <li>3 bits → \( 2^3 = 8 \) characters</li>
+                        <li>5 bits → \( 2^5 = 32 \) characters</li>
+                        <li>6 bits → \( 2^6 = 64 \) characters</li>
+                        <li>7 bits → \( 2^7 = 128 \) characters</li>
+                        <li>8 bits → \( 2^8 = 256 \) characters</li>
+                    </ul>
+                </div>
+
+                <div class="example-worked">
+                    <strong>Worked Example / Walkthrough:</strong>
+                    <p><strong>Q:</strong> A document contains only lowercase English alphabets (a–z, 26 characters).
+                        What's the minimum number of bits per character for a fixed-width encoding?</p>
+                    <p><strong>A:</strong> \( \lceil \log_2 26 \rceil = \lceil 4.700... \rceil = 5 \) bits per
+                        character.</p>
+                    <p>(4 bits → only \( 2^4 = 16 \) patterns, insufficient. 5 bits → \( 2^5 = 32 \) patterns,
+                        sufficient for 26 lowercase letters.)</p>
+                    <p><strong>Q:</strong> A character set Q has only the distinct characters from the sentence "the
+                        five boxing wizards jump quickly". For minimum encoding, each character needs enough bits for
+                        how many distinct characters? (Count unique characters in that sentence including space.)</p>
+                    <p>The sentence "the five boxing wizards jump quickly" contains the following unique characters
+                        (including space): t, h, e, space, f, i, v, b, o, x, n, g, w, z, a, r, d, s, j, u, m, p, q, c,
+                        k, l, y. That's 27 unique characters (check: letters a-z except which ones? Let's count:
+                        a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z — the sentence has all 26 letters plus space
+                        = 27).</p>
+                    <p>For 27 characters: \( \lceil \log_2 27 \rceil = \lceil 4.75... \rceil = 5 \) bits per character.
+                    </p>
+                    <p>The sentence has about 36 characters (including spaces). So total size: \( 36 \times 5 = 180 \)
+                        bits.</p>
+                </div>
+
+                <div class="key-points">
+                    <strong>Key Takeaways:</strong>
+                    <p>
+                        * Minimum bits per character = \( \lceil \log_2 (\text{number of distinct characters}) \rceil
+                        \).<br />
+                        * For 26 lowercase letters: 5 bits/char (since \( 2^4 = 16 \) &lt; 26 ≤ \( 2^5 = 32 \)).<br />
+                        * For all 26 lowercase letters (a–z): need 5 bits, not 4 (since 4 bits gives only 16 values).
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== LECTURE 2.3 ==================== -->
+        <div class="topic-section" id="lecture-3">
+            <h2 class="topic-title">Lecture 2.3: What is Markup?</h2>
+
+            <div class="concept-card">
+                <h3>1. Definition and Purpose of Markup</h3>
+
+                <div class="definition-box">
+                    <strong>Definition:</strong>
+                    <strong>Markup</strong> is a way of using <strong>cues or codes</strong> embedded within the regular
+                    flow of text to indicate how that text should be <strong>displayed</strong>,
+                    <strong>structured</strong>, or <strong>interpreted</strong>. Markup separates the <em>meaning</em>
+                    (semantics) of content from its <em>presentation</em> (visual appearance).
+                </div>
+
+                <div class="explanation-section">
+                    <div class="section-subtitle">Explanation</div>
+                    <p>Even plain text uses informal markup: capital letters at the start of sentences, punctuation
+                        marks, paragraph breaks — all of these are "cues" that help a human reader parse and understand
+                        the structure of written content. Formal markup languages like HTML extend this idea by
+                        providing explicit, machine-readable codes (tags) that describe the logical structure of a
+                        document.</p>
+                    <p>When you take raw text and "mark it up," you're adding metadata: "this is a title," "this is a
+                        heading," "this should be emphasized." This additional information can then be used by a
+                        rendering engine (like a web browser) to display the text appropriately, or by a machine to
+                        understand the document's structure (e.g., for search indexing or screen readers).</p>
+                </div>
+
+                <div class="concept-section">
+                    <h3>Key Mechanics &amp; Properties</h3>
+                    <ul class="key-points-list">
+                        <li>Markup adds structure and meaning to raw text.</li>
+                        <li>It is NOT necessarily computer-readable — handwritten annotations on a printed page are also
+                            markup.</li>
+                        <li>Formal markup languages (HTML, LaTeX, XML) provide standardized syntax for machine
+                            interpretation.</li>
+                        <li>Markup separates content (what the text says) from presentation (how it looks).</li>
+                    </ul>
+                </div>
+
+                <div class="key-points">
+                    <strong>Key Takeaways:</strong>
+                    <p>
+                        * Markup embeds codes/cues in text to indicate structure and display.<br />
+                        * Markup is not inherently computer-readable (scribbled annotations are markup too).<br />
+                        * HTML is a markup language; it's one specific, standardized way of adding markup.
+                    </p>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>2. Three Types of Markup (Coombs et al., 1987)</h3>
+
+                <div class="definition-box">
+                    <strong>Definition:</strong>
+                    According to Coombs, Renear, and DeRose (1987), markup can be classified into three categories:
+                    <strong>Presentational</strong> (WYSIWYG), <strong>Procedural</strong> (step-by-step formatting
+                    instructions), and <strong>Descriptive</strong> (semantic/structural markup based on meaning).
+                </div>
+
+                <div class="explanation-section">
+                    <div class="section-subtitle">Explanation</div>
+                    <p><strong>1. Presentational Markup (WYSIWYG):</strong> "What You See Is What You Get." The text
+                        appears on screen exactly as it will look when printed. Examples: Microsoft Word, Google Docs.
+                        The user directly formats text (bold, italic, font size) without explicitly marking the
+                        <em>meaning</em>. The embedded codes are specific to the editor and not human-readable.
+                    </p>
+                    <p><strong>2. Procedural Markup:</strong> Provides detailed, step-by-step instructions on
+                        <em>how</em> to display the text. Examples: TeX, nroff, PostScript. Procedural markup might say:
+                        "Change font to Times New Roman, size 12, skip 2 lines, indent 4 columns, now print this text."
+                        It focuses on the <em>process</em> of rendering, not on the meaning of the content.
+                    </p>
+                    <p><strong>3. Descriptive Markup (Semantic/Structural):</strong> Marks up content based on <em>what
+                            it means</em> — this is a &lt;title&gt;, this is a &lt;heading&gt;, this is a
+                        &lt;paragraph&gt;. How it gets displayed is a separate decision. Examples: HTML, LaTeX (to some
+                        extent), XML. This is the most powerful form because the meaning is preserved independently of
+                        presentation, enabling reuse, accessibility, and machine processing.</p>
+                </div>
+
+                <div class="concept-section">
+                    <h3>Key Mechanics &amp; Properties</h3>
+                    <ul class="key-points-list">
+                        <li><strong>Presentational:</strong> WYSIWYG; editor-specific codes; focus on appearance.
+                            Example: MS Word.</li>
+                        <li><strong>Procedural:</strong> Step-by-step rendering instructions; focus on the how.
+                            Examples: TeX, nroff, PostScript.</li>
+                        <li><strong>Descriptive:</strong> Semantic labels based on meaning; focus on the what. Examples:
+                            HTML, XML.</li>
+                        <li>HTML is a descriptive markup language — it uses tags like <code>&lt;h1&gt;</code> (heading),
+                            <code>&lt;p&gt;</code> (paragraph), <code>&lt;em&gt;</code> (emphasis) rather than "bold,
+                            size 24."
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="example-worked">
+                    <strong>Worked Example / Walkthrough:</strong>
+                    <p><strong>Presentational (MS Word style):</strong> Highlight text → Click "Bold" → Click "Font Size
+                        24" → Click "Center"</p>
+                    <p><strong>Procedural (TeX style):</strong>
+                        <code>\font\titlefont=cmr10 at 24pt \centerline{\titlefont My Title}</code>
+                    </p>
+                    <p><strong>Descriptive (HTML):</strong> <code>&lt;h1&gt;My Title&lt;/h1&gt;</code> — the browser
+                        decides how to render an &lt;h1&gt; based on its default stylesheet (or your CSS).</p>
+                </div>
+
+                <div class="misconception-box">
+                    <strong>Common Mistakes &amp; Misconceptions:</strong>
+                    <ul>
+                        <li><strong>Mistake:</strong> Thinking HTML is procedural markup. <strong>Correction:</strong>
+                            HTML is descriptive markup — it labels content semantically (&lt;h1&gt; means "this is a
+                            top-level heading"), not procedurally ("make this text 24pt bold").</li>
+                        <li><strong>Mistake:</strong> Confusing WYSIWYG editors with the markup type.
+                            <strong>Correction:</strong> WYSIWYG is a feature of presentational editors; the underlying
+                            format may still be some form of markup, but the user interacts with it presentationally.
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="key-points">
+                    <strong>Key Takeaways:</strong>
+                    <p>
+                        * Three types: Presentational (WYSIWYG), Procedural (how-to-display instructions), Descriptive
+                        (what-it-means labels).<br />
+                        * HTML is a descriptive markup language.<br />
+                        * Descriptive markup preserves semantics independently of presentation.
+                    </p>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>3. WYSIWYG: "What You See Is What You Get"</h3>
+
+                <div class="definition-box">
+                    <strong>Definition:</strong>
+                    <strong>WYSIWYG</strong> stands for <strong>"What You See Is What You Get."</strong> It describes
+                    editing interfaces where the content displayed during editing looks exactly like the final output
+                    (e.g., a printed page or a rendered webpage).
+                </div>
+
+                <div class="explanation-section">
+                    <div class="section-subtitle">Explanation</div>
+                    <p>WYSIWYG was a revolutionary concept in early word processing because older systems (like WordStar
+                        or WordPerfect) required you to insert formatting codes into the text that were only visible
+                        when you "compiled" or printed the document. With WYSIWYG, you see bold text as bold, centered
+                        text as centered, and so on, while you're editing.</p>
+                    <p>Common WYSIWYG tools include Microsoft Word, Google Docs, and many website builders. These tools
+                        focus on <strong>presentational markup</strong> — you format text directly by changing its
+                        appearance, and the software embeds formatting codes behind the scenes.</p>
+                </div>
+
+                <div class="concept-section">
+                    <h3>Key Mechanics &amp; Properties</h3>
+                    <ul class="key-points-list">
+                        <li>WYSIWYG stands for "What You See Is What You Get."</li>
+                        <li>It enables direct visual formatting during editing.</li>
+                        <li>Common in word processors (MS Word, Google Docs).</li>
+                        <li>Focuses on presentation, not semantic meaning.</li>
+                    </ul>
+                </div>
+
+                <div class="edge-case-box">
+                    <strong>Edge Cases &amp; Corner Cases:</strong>
+                    <ul>
+                        <li>Exporting WYSIWYG documents to HTML often produces messy, bloated code with excessive inline
+                            styles and redundant tags. The generated HTML is typically difficult to read and maintain.
+                        </li>
+                        <li>WYSIWYG tools may obscure the semantic structure of a document — a heading might be just
+                            "large bold text" without any &lt;h1&gt; tag to indicate its semantic role.</li>
+                    </ul>
+                </div>
+
+                <div class="key-points">
+                    <strong>Key Takeaways:</strong>
+                    <p>
+                        * WYSIWYG = What You See Is What You Get.<br />
+                        * It is associated with presentational markup (focus on appearance).<br />
+                        * HTML generated from WYSIWYG editors is often bloated and poorly structured.
+                    </p>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>4. Content vs. Presentation (Semantics)</h3>
+
+                <div class="definition-box">
+                    <strong>Definition:</strong>
+                    <strong>Content</strong> is the actual information being conveyed — the words, images, and data.
+                    <strong>Presentation</strong> is how that content <em>looks</em> — its font, color, size, layout,
+                    and styling. <strong>Semantics</strong> refers to the <em>meaning</em> of the content: what each
+                    piece of information represents (a title, a section heading, a paragraph, emphasis).
+                </div>
+
+                <div class="explanation-section">
+                    <div class="section-subtitle">Explanation</div>
+                    <p>Separating content from presentation is a core principle of modern web development. Why?</p>
+                    <ul>
+                        <li><strong>Accessibility:</strong> Screen readers can understand the semantic structure
+                            (headings, paragraphs, navigation) regardless of visual styling.</li>
+                        <li><strong>Multi-device adaptability:</strong> The same content can be styled differently for
+                            desktops, tablets, and phones (responsive design).</li>
+                        <li><strong>Maintainability:</strong> Changing the visual style of an entire website can be done
+                            by editing a single CSS file, without touching the HTML content.</li>
+                        <li><strong>Search Engine Optimization (SEO):</strong> Search engines use semantic markup
+                            (&lt;h1&gt;, &lt;article&gt;, &lt;nav&gt;) to understand page structure and rank content.
+                        </li>
+                    </ul>
+                    <p>In HTML, <strong>logical/semantic tags</strong> like <code>&lt;strong&gt;</code> and
+                        <code>&lt;em&gt;</code> indicate importance and emphasis (meaning), while
+                        <strong>physical/presentational tags</strong> like <code>&lt;b&gt;</code> and
+                        <code>&lt;i&gt;</code> only dictate visual appearance. Modern best practice favors semantic tags
+                        because they convey meaning that can be interpreted in multiple contexts.
+                    </p>
+                </div>
+
+                <div class="concept-section">
+                    <h3>Key Mechanics &amp; Properties</h3>
+                    <ul class="key-points-list">
+                        <li>Semantic markup conveys meaning, not just appearance.</li>
+                        <li><code>&lt;strong&gt;</code> = important (semantic); <code>&lt;b&gt;</code> = bold
+                            (presentational). Both may look identical but convey different information.</li>
+                        <li>Separating content (HTML) from presentation (CSS) is a best practice for accessibility,
+                            maintainability, and multi-device support.</li>
+                    </ul>
+                </div>
+
+                <div class="pro-tip-card">
+                    <div class="card-icon">💡</div>
+                    <div class="card-content"><strong>Pro Tip:</strong> Use <code>&lt;strong&gt;</code> and
+                        <code>&lt;em&gt;</code> instead of <code>&lt;b&gt;</code> and <code>&lt;i&gt;</code> in your
+                        HTML. While they render identically by default, the semantic versions convey meaning to screen
+                        readers and search engines, making your content more accessible and SEO-friendly.
+                    </div>
+                </div>
+
+                <div class="key-points">
+                    <strong>Key Takeaways:</strong>
+                    <p>
+                        * Content = the information; Presentation = the visual appearance.<br />
+                        * Semantics = the meaning/structure of the content.<br />
+                        * Descriptive markup separates meaning from presentation — a cornerstone of modern web
+                        development.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== LECTURE 2.4 ==================== -->
+        <div class="topic-section" id="lecture-4">
+            <h2 class="topic-title">Lecture 2.4: Introduction to HTML</h2>
+
+            <div class="concept-card">
+                <h3>1. HTML: HyperText Markup Language — Origins &amp; Philosophy</h3>
+
+                <div class="definition-box">
+                    <strong>Definition:</strong>
+                    <strong>HTML (HyperText Markup Language)</strong> is a descriptive markup language used to structure
+                    content on the World Wide Web. It was first used by <strong>Tim Berners-Lee</strong> at CERN around
+                    1989 and is considered an application of <strong>SGML</strong> (Standard Generalized Markup
+                    Language).
+                </div>
+
+                <div class="explanation-section">
+                    <div class="section-subtitle">Explanation</div>
+                    <p>HTML was designed with a specific philosophy: <strong>"be forgiving of mistakes."</strong> Unlike
+                        SGML, which has strict syntax and validation rules, HTML was meant for browser interpretation —
+                        and browsers were designed to do a <strong>best-effort</strong> rendering even if the HTML
+                        contains errors (like missing closing tags or improperly nested elements).</p>
+                    <p>This forgiving nature was a conscious design decision: web authors were expected to be ordinary
+                        people, not professional programmers. A strict language that showed error messages for every
+                        minor mistake would have hindered the web's early adoption. Instead, browsers would silently
+                        guess what the author intended and render the page as best they could.</p>
+                    <p><strong>Evolution timeline:</strong></p>
+                    <ul>
+                        <li><strong>1989–1995:</strong> HTML original → HTML 2 (first formal definition)</li>
+                        <li><strong>1997:</strong> HTML 3 and HTML 4 (SGML-based)</li>
+                        <li><strong>1997–mid 2010s:</strong> XHTML (XML-based, stricter rules)</li>
+                        <li><strong>2008–2014:</strong> HTML5 development → W3C Recommendation in 2014</li>
+                        <li><strong>Present:</strong> HTML5 is the dominant standard worldwide</li>
+                    </ul>
+                </div>
+
+                <div class="concept-section">
+                    <h3>Key Mechanics &amp; Properties</h3>
+                    <ul class="key-points-list">
+                        <li>HTML was created by Tim Berners-Lee at CERN (~1989).</li>
+                        <li>It is a descriptive markup language derived from SGML.</li>
+                        <li>Browsers are intentionally forgiving — they perform best-effort rendering even with invalid
+                            HTML.</li>
+                        <li>HTML5 is the current standard (W3C Recommendation, 2014).</li>
+                    </ul>
+                </div>
+
+                <div class="key-points">
+                    <strong>Key Takeaways:</strong>
+                    <p>
+                        * HTML = HyperText Markup Language, created by Tim Berners-Lee.<br />
+                        * HTML is forgiving — browsers do best-effort rendering of invalid markup.<br />
+                        * HTML5 (2014) is the modern standard.
+                    </p>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>2. Basic HTML Document Structure</h3>
+
+                <div class="definition-box">
+                    <strong>Definition:</strong>
+                    An HTML document is a hierarchical structure of <strong>elements</strong> defined by
+                    <strong>tags</strong>. The minimal valid HTML5 document consists of a
+                    <code>&lt;!DOCTYPE html&gt;</code> declaration, an <code>&lt;html&gt;</code> root element containing
+                    <code>&lt;head&gt;</code> and <code>&lt;body&gt;</code> sections.
+                </div>
+
+                <div class="explanation-section">
+                    <div class="section-subtitle">Explanation</div>
+                    <p>Here is the simplest valid HTML5 document:</p>
+                    <div class="code-example">
+                        <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;My Title&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;My First Heading&lt;/h1&gt;
+    &lt;p&gt;My first paragraph.&lt;/p&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                    </div>
+                    <p>Key structural elements:</p>
+                    <ul>
+                        <li><code>&lt;!DOCTYPE html&gt;</code> — Tells the browser this is an HTML5 document. Must
+                            appear at the very top.</li>
+                        <li><code>&lt;html&gt;</code> — The root element that wraps the entire document.</li>
+                        <li><code>&lt;head&gt;</code> — Contains metadata (title, character set, stylesheets, scripts) —
+                            NOT displayed on the page.</li>
+                        <li><code>&lt;body&gt;</code> — Contains the actual content that will be rendered and displayed
+                            to the user.</li>
+                    </ul>
+                </div>
+
+                <div class="concept-section">
+                    <h3>Key Mechanics &amp; Properties</h3>
+                    <ul class="key-points-list">
+                        <li>Every HTML document must start with <code>&lt;!DOCTYPE html&gt;</code> (HTML5 standard).
+                        </li>
+                        <li>The <code>&lt;html&gt;</code> tag is the root; it encloses everything.</li>
+                        <li><code>&lt;head&gt;</code> holds metadata (title, meta tags, style, link);
+                            <code>&lt;body&gt;</code> holds visible content.
+                        </li>
+                        <li>Tags are case-insensitive (<code>&lt;H1&gt;</code> = <code>&lt;h1&gt;</code>), but lowercase
+                            is conventional.</li>
+                    </ul>
+                </div>
+
+                <div class="key-points">
+                    <strong>Key Takeaways:</strong>
+                    <p>
+                        * Minimal HTML5: DOCTYPE → html → head + body.<br />
+                        * <code>&lt;head&gt;</code> = metadata; <code>&lt;body&gt;</code> = visible content.<br />
+                        * Tags are case-insensitive but lowercase is standard practice.
+                    </p>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>3. HTML Tags, Attributes, and Nesting</h3>
+
+                <div class="definition-box">
+                    <strong>Definition:</strong>
+                    HTML <strong>tags</strong> are markers enclosed in angle brackets (<code>&lt; &gt;</code>) that
+                    define elements. Most tags come in <strong>pairs</strong> (opening and closing).
+                    <strong>Attributes</strong> provide additional information about an element and are specified in the
+                    opening tag using the syntax <code>attribute="value"</code>.
+                </div>
+
+                <div class="explanation-section">
+                    <div class="section-subtitle">Explanation</div>
+                    <p><strong>Tag syntax:</strong></p>
+                    <ul>
+                        <li>Opening tag: <code>&lt;tagname&gt;</code></li>
+                        <li>Closing tag: <code>&lt;/tagname&gt;</code> (note the forward slash)</li>
+                        <li>Self-closing (void) tags: <code>&lt;br /&gt;</code>, <code>&lt;hr /&gt;</code>,
+                            <code>&lt;img /&gt;</code>
+                        </li>
+                    </ul>
+                    <p><strong>Attribute syntax:</strong></p>
+                    <ul>
+                        <li>Format: <code>attributeName="attributeValue"</code> (use equals sign, value in quotes)</li>
+                        <li>Example: <code>&lt;a href="https://example.com"&gt;Click here&lt;/a&gt;</code></li>
+                        <li>The <code>href</code> attribute specifies the hyperlink destination.</li>
+                    </ul>
+                    <p><strong>Nesting rules:</strong> Tags must be properly nested — the most recently opened tag must
+                        be the first one closed (LIFO order).</p>
+                    <p>Correct: <code>&lt;em&gt;&lt;strong&gt;Hello&lt;/strong&gt;&lt;/em&gt;</code></p>
+                    <p>Incorrect: <code>&lt;em&gt;&lt;strong&gt;Hello&lt;/em&gt;&lt;/strong&gt;</code> (crossed nesting)
+                    </p>
+                </div>
+
+                <div class="concept-section">
+                    <h3>Key Mechanics &amp; Properties</h3>
+                    <ul class="key-points-list">
+                        <li>Tags use angle brackets: <code>&lt;tagname&gt;content&lt;/tagname&gt;</code>.</li>
+                        <li>Closing tags include a forward slash: <code>&lt;/tagname&gt;</code>.</li>
+                        <li>Attributes are written as <code>name="value"</code> inside the opening tag.</li>
+                        <li>An element can have multiple attributes:
+                            <code>&lt;p id="abc" class="First Second"&gt;</code>.
+                        </li>
+                        <li>Multiple classes are separated by spaces: <code>class="class1 class2"</code> — this defines
+                            <strong>two</strong> different classes.
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="example-worked">
+                    <strong>Worked Example / Walkthrough:</strong>
+                    <p><strong>Hyperlink creation:</strong>
+                        <code>&lt;a href="https://www.example.com"&gt;Visit Example.com&lt;/a&gt;</code>
+                    </p>
+                    <p>This creates a clickable link with the text "Visit Example.com" that navigates to
+                        https://www.example.com. The <code>href</code> attribute specifies the URL; the content between
+                        the opening and closing <code>&lt;a&gt;</code> tags is the visible anchor text.</p>
+                </div>
+
+                <div class="misconception-box">
+                    <strong>Common Mistakes &amp; Misconceptions:</strong>
+                    <ul>
+                        <li><strong>Mistake:</strong> Using <code>url</code>, <code>link</code>, or <code>src</code> as
+                            the attribute for hyperlinks. <strong>Correction:</strong> The correct attribute is
+                            <code>href</code> (Hypertext REFerence). <code>src</code> is used for images and scripts.
+                        </li>
+                        <li><strong>Mistake:</strong> Thinking <code>class="First Second"</code> is one class with a
+                            space in its name. <strong>Correction:</strong> This defines <strong>two</strong> separate
+                            classes — "First" and "Second". Spaces separate multiple class names.</li>
+                    </ul>
+                </div>
+
+                <div class="key-points">
+                    <strong>Key Takeaways:</strong>
+                    <p>
+                        * Tags: <code>&lt;tag&gt;...&lt;/tag&gt;</code> (paired) or <code>&lt;tag /&gt;</code>
+                        (self-closing).<br />
+                        * Attributes: <code>name="value"</code> in the opening tag.<br />
+                        * Hyperlinks use <code>&lt;a href="URL"&gt;</code>.<br />
+                        * Proper nesting is required; multiple classes are space-separated.
+                    </p>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>4. Common HTML Elements &amp; Tags</h3>
+
+                <div class="definition-box">
+                    <strong>Definition:</strong>
+                    HTML provides a rich set of semantic elements for structuring content, including headings
+                    (<code>&lt;h1&gt;</code>–<code>&lt;h6&gt;</code>), paragraphs (<code>&lt;p&gt;</code>), lists
+                    (<code>&lt;ul&gt;</code>, <code>&lt;ol&gt;</code>, <code>&lt;li&gt;</code>), links
+                    (<code>&lt;a&gt;</code>), images (<code>&lt;img&gt;</code>), tables (<code>&lt;table&gt;</code>),
+                    and many more.
+                </div>
+
+                <div class="explanation-section">
+                    <div class="section-subtitle">Explanation</div>
+                    <p><strong>Heading hierarchy:</strong> <code>&lt;h1&gt;</code> is the highest-level heading (most
+                        important), <code>&lt;h2&gt;</code> is a subheading, down to <code>&lt;h6&gt;</code> (lowest
+                        level). Hierarchy: h1 &gt; h2 &gt; h3 &gt; h4 &gt; h5 &gt; h6 (in importance, not numerical
+                        comparison).</p>
+                    <p><strong>Lists:</strong></p>
+                    <ul>
+                        <li><code>&lt;ul&gt;</code> = Unordered List (bulleted). Use <code>&lt;li&gt;</code> for each
+                            list item.</li>
+                        <li><code>&lt;ol&gt;</code> = Ordered List (numbered). Use <code>&lt;li&gt;</code> for each list
+                            item.</li>
+                        <li><code>&lt;ol type="a"&gt;</code> creates an ordered list with lowercase letter markers (a,
+                            b, c...).</li>
+                        <li><code>&lt;ol type="1"&gt;</code> creates an ordered list with decimal numbers (1, 2, 3...).
+                        </li>
+                    </ul>
+                    <p><strong>Horizontal rule:</strong> <code>&lt;hr&gt;</code> creates a horizontal line across the
+                        page.</p>
+                    <p><strong>Image with fallback:</strong> <code>&lt;img src="image.jpg" alt="Description"&gt;</code>
+                        — the <code>alt</code> attribute provides alternative text if the image fails to load or for
+                        screen readers.</p>
+                    <p><strong>Line break:</strong> <code>&lt;br&gt;</code> inserts a line break without starting a new
+                        paragraph.</p>
+                    <p><strong>Forms:</strong></p>
+                    <ul>
+                        <li><code>&lt;input type="text"&gt;</code> — single-line text field.</li>
+                        <li><code>&lt;input type="checkbox"&gt;</code> — checkbox.</li>
+                    </ul>
+                    <p><strong>Block vs. Inline:</strong></p>
+                    <ul>
+                        <li><code>&lt;div&gt;</code> is a <strong>block-level</strong> element — it takes up the full
+                            width and starts on a new line.</li>
+                        <li><code>&lt;span&gt;</code> is an <strong>inline</strong> element — it only takes up as much
+                            width as necessary and flows within text.</li>
+                    </ul>
+                </div>
+
+                <div class="concept-section">
+                    <h3>Key Mechanics &amp; Properties</h3>
+                    <ul class="key-points-list">
+                        <li>Headings: h1 (highest) through h6 (lowest).</li>
+                        <li>Unordered list: <code>&lt;ul&gt;&lt;li&gt;...&lt;/li&gt;&lt;/ul&gt;</code> (bulleted).</li>
+                        <li>Ordered list: <code>&lt;ol&gt;&lt;li&gt;...&lt;/li&gt;&lt;/ol&gt;</code> (numbered).</li>
+                        <li>Horizontal line: <code>&lt;hr&gt;</code>.</li>
+                        <li>Image fallback: <code>alt</code> attribute (NOT title, message, or alternate).</li>
+                        <li>Text field: <code>&lt;input type="text"&gt;</code>.</li>
+                        <li>Checkbox: <code>&lt;input type="checkbox"&gt;</code>.</li>
+                        <li><code>&lt;div&gt;</code> = block; <code>&lt;span&gt;</code> = inline.</li>
+                    </ul>
+                </div>
+
+                <div class="edge-case-box">
+                    <strong>Edge Cases &amp; Corner Cases:</strong>
+                    <ul>
+                        <li>A <code>&lt;ul&gt;</code> with <code>type="i"</code> is invalid — type is an
+                            <code>&lt;ol&gt;</code> attribute, not a <code>&lt;ul&gt;</code> attribute. Using
+                            <code>&lt;ul type="i"&gt;</code> does NOT create a Roman-numeral list.
+                        </li>
+                        <li>The <code>&lt;table&gt;</code> tag cannot appear inside <code>&lt;head&gt;</code>. Valid
+                            <code>&lt;head&gt;</code> children include <code>&lt;title&gt;</code>,
+                            <code>&lt;meta&gt;</code>, <code>&lt;style&gt;</code>, <code>&lt;link&gt;</code>, and
+                            <code>&lt;script&gt;</code>.
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="key-points">
+                    <strong>Key Takeaways:</strong>
+                    <p>
+                        * <code>&lt;ul&gt;</code> for bulleted lists; <code>&lt;ol&gt;</code> for numbered lists; both
+                        use <code>&lt;li&gt;</code> for items.<br />
+                        * <code>alt</code> attribute provides alternative text for images.<br />
+                        * <code>&lt;div&gt;</code> is block-level; <code>&lt;span&gt;</code> is inline.<br />
+                        * <code>&lt;table&gt;</code> cannot be inside <code>&lt;head&gt;</code>.
+                    </p>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>5. The Document Object Model (DOM)</h3>
+
+                <div class="definition-box">
+                    <strong>Definition:</strong>
+                    The <strong>Document Object Model (DOM)</strong> is a tree-structured representation of an HTML
+                    document where each element, attribute, and piece of text is a <strong>node</strong> in the tree.
+                    The browser parses the HTML and builds the DOM, which can then be programmatically manipulated
+                    (e.g., via JavaScript) to dynamically change the page content and structure.
+                </div>
+
+                <div class="explanation-section">
+                    <div class="section-subtitle">Explanation</div>
+                    <p>When a browser loads an HTML page, it doesn't just display the raw HTML text. It first
+                        <strong>parses</strong> the HTML into a tree structure — the DOM. The DOM tree represents the
+                        logical hierarchy of the document:
+                    </p>
+                    <ul>
+                        <li><strong>Document node</strong> (root) → <strong>html</strong> → <strong>head</strong> +
+                            <strong>body</strong> → their children → deeper descendants.
+                        </li>
+                        <li>Each tag becomes an <strong>element node</strong>.</li>
+                        <li>Text content becomes <strong>text nodes</strong>.</li>
+                        <li>Attributes become properties of element nodes.</li>
+                    </ul>
+                    <p>The DOM is what enables dynamic web applications. JavaScript can traverse the tree,
+                        add/remove/modify nodes, and change styles — all of which cause the browser to
+                        <strong>reflow</strong> (recalculate layout) and repaint the page.
+                    </p>
+                    <p><strong>When does DOM reflow occur?</strong></p>
+                    <ul>
+                        <li>When an element is inserted, removed, or updated in the DOM.</li>
+                        <li>When the position of an element in the DOM is changed.</li>
+                        <li>When a CSS style is changed (which affects layout).</li>
+                    </ul>
+                </div>
+
+                <div class="concept-section">
+                    <h3>Key Mechanics &amp; Properties</h3>
+                    <ul class="key-points-list">
+                        <li>The DOM is a tree structure representing the logical layout of the HTML document.</li>
+                        <li>The browser parses HTML → builds DOM tree → renders the page.</li>
+                        <li>JavaScript can manipulate the DOM to create dynamic, interactive pages.</li>
+                        <li>DOM reflow happens when elements are inserted/removed/updated, positions change, or CSS
+                            styles affecting layout are modified.</li>
+                    </ul>
+                </div>
+
+                <div class="key-points">
+                    <strong>Key Takeaways:</strong>
+                    <p>
+                        * DOM = tree representation of an HTML document.<br />
+                        * Enables programmatic manipulation of page structure via JavaScript.<br />
+                        * Reflow occurs on DOM modifications, position changes, and CSS layout changes.
+                    </p>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>6. HTML5 Features &amp; Semantic Elements</h3>
+
+                <div class="definition-box">
+                    <strong>Definition:</strong>
+                    <strong>HTML5</strong> introduced new semantic elements (<code>&lt;nav&gt;</code>,
+                    <code>&lt;footer&gt;</code>, <code>&lt;article&gt;</code>, <code>&lt;section&gt;</code>), media
+                    elements (<code>&lt;audio&gt;</code>, <code>&lt;video&gt;</code>), and APIs (Canvas, Web Storage,
+                    Drag &amp; Drop, Offline). It also removed purely presentational tags like
+                    <code>&lt;center&gt;</code> and <code>&lt;font&gt;</code>.
+                </div>
+
+                <div class="explanation-section">
+                    <div class="section-subtitle">Explanation</div>
+                    <p>HTML5 represents a significant evolution from HTML4/XHTML, with a focus on:</p>
+                    <ul>
+                        <li><strong>Semantic structure:</strong> New logical elements like <code>&lt;nav&gt;</code>
+                            (navigation), <code>&lt;footer&gt;</code>, <code>&lt;header&gt;</code>,
+                            <code>&lt;article&gt;</code>, and <code>&lt;section&gt;</code> provide clearer document
+                            structure for accessibility and SEO.
+                        </li>
+                        <li><strong>Native media support:</strong> <code>&lt;audio&gt;</code> and
+                            <code>&lt;video&gt;</code> tags allow direct embedding of media without plugins (replacing
+                            Flash).
+                        </li>
+                        <li><strong>Removal of presentational tags:</strong> <code>&lt;center&gt;</code> and
+                            <code>&lt;font&gt;</code> were deprecated because they mix presentation with structure — CSS
+                            should handle styling instead.
+                        </li>
+                        <li><strong>Block and inline elements:</strong> <code>&lt;div&gt;</code> is a generic block
+                            container; <code>&lt;span&gt;</code> is a generic inline container.</li>
+                    </ul>
+                </div>
+
+                <div class="concept-section">
+                    <h3>Key Mechanics &amp; Properties</h3>
+                    <ul class="key-points-list">
+                        <li>HTML5 introduced <code>&lt;nav&gt;</code>, <code>&lt;footer&gt;</code>,
+                            <code>&lt;article&gt;</code>, <code>&lt;section&gt;</code> for semantic structure.
+                        </li>
+                        <li><code>&lt;audio&gt;</code> and <code>&lt;video&gt;</code> enable native media playback.</li>
+                        <li><code>&lt;center&gt;</code> and <code>&lt;font&gt;</code> are removed (deprecated in favor
+                            of CSS).</li>
+                        <li><code>&lt;div&gt;</code> = block element; <code>&lt;span&gt;</code> = inline element.</li>
+                    </ul>
+                </div>
+
+                <div class="key-points">
+                    <strong>Key Takeaways:</strong>
+                    <p>
+                        * HTML5 emphasizes semantic markup over presentational tags.<br />
+                        * New semantic elements: nav, footer, article, section.<br />
+                        * Deprecated presentational tags: center, font.<br />
+                        * Media can be embedded natively with audio and video tags.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== LECTURE 2.5 ==================== -->
+        <div class="topic-section" id="lecture-5">
+            <h2 class="topic-title">Lecture 2.5: Introduction to Styling</h2>
+
+            <div class="concept-card">
+                <h3>1. Markup vs. Style: The Core Distinction</h3>
+
+                <div class="definition-box">
+                    <strong>Definition:</strong>
+                    <strong>Markup</strong> defines the <em>meaning and structure</em> of content (what it IS — a
+                    heading, a paragraph, a link). <strong>Style</strong> defines the <em>visual presentation</em> of
+                    that content (how it LOOKS — font, color, size, spacing). The same markup can be styled in countless
+                    different ways.
+                </div>
+
+                <div class="explanation-section">
+                    <div class="section-subtitle">Explanation</div>
+                    <p>Consider a simple <code>&lt;h1&gt;Hello&lt;/h1&gt;</code> element. The markup only says "this is
+                        a top-level heading." It does NOT say anything about how it should look. The rendering could be:
+                    </p>
+                    <ul>
+                        <li>Font: Garamond, Size: 24pt, Bold (a classic heading look).</li>
+                        <li>Font: Arial, Size: 30pt, Bold (a modern, larger heading).</li>
+                        <li>Font: Comic Sans, Size: 24pt, Bold Italic, Green text on Red background (a deliberately ugly
+                            choice).</li>
+                    </ul>
+                    <p>All three are valid stylings of the same <code>&lt;h1&gt;</code> element. This separation of
+                        concerns is what makes the web flexible: the same HTML content can be styled differently for
+                        different contexts, devices, and user preferences.</p>
+                </div>
+
+                <div class="concept-section">
+                    <h3>Key Mechanics &amp; Properties</h3>
+                    <ul class="key-points-list">
+                        <li>Markup = what it IS (semantics); Style = how it LOOKS (presentation).</li>
+                        <li>The same <code>&lt;h1&gt;</code> tag can be styled in unlimited ways — bold, italic,
+                            colored, sized, etc.</li>
+                        <li>Separating markup from style enables themes, responsive design, and maintainability.</li>
+                    </ul>
+                </div>
+
+                <div class="key-points">
+                    <strong>Key Takeaways:</strong>
+                    <p>
+                        * Markup defines meaning; styling defines appearance.<br />
+                        * Separation of concerns enables themes, accessibility, and multi-device support.
+                    </p>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>2. CSS: Cascading Style Sheets</h3>
+
+                <div class="definition-box">
+                    <strong>Definition:</strong>
+                    <strong>CSS (Cascading Style Sheets)</strong> is a stylesheet language used to describe the
+                    presentation of a document written in HTML. It allows you to define styles (colors, fonts, spacing,
+                    layout) separately from the content. The term <strong>"cascading"</strong> refers to how multiple
+                    style rules can apply to the same element, with later or more specific rules taking precedence.
+                </div>
+
+                <div class="explanation-section">
+                    <div class="section-subtitle">Explanation</div>
+                    <p>CSS solves the problem of mixing content with presentation. Instead of embedding font, color, and
+                        size information directly into every HTML tag, you define style rules in a separate place (a
+                        stylesheet). The browser then applies those rules to the corresponding HTML elements.</p>
+                    <p>The <strong>cascading</strong> mechanism means that styles can come from multiple sources
+                        (browser defaults, external stylesheets, internal styles, inline styles) and they combine
+                        according to a well-defined priority scheme. If two rules conflict, the one with <strong>higher
+                            specificity</strong> or <strong>later in the cascade order</strong> wins.</p>
+                    <p>CSS is NOT a programming language — it's a declarative language for describing how elements
+                        should be rendered. (Though technically, under specific contrived conditions, CSS can be shown
+                        to be Turing-complete with user interaction — but it's not designed or used as a programming
+                        language.)</p>
+                </div>
+
+                <div class="concept-section">
+                    <h3>Key Mechanics &amp; Properties</h3>
+                    <ul class="key-points-list">
+                        <li>CSS = Cascading Style Sheets.</li>
+                        <li>It separates content (HTML) from presentation (styling).</li>
+                        <li>"Cascading" means multiple style definitions can apply, with later/more-specific ones
+                            overriding earlier ones.</li>
+                        <li>CSS is declarative, not a programming language.</li>
+                    </ul>
+                </div>
+
+                <div class="key-points">
+                    <strong>Key Takeaways:</strong>
+                    <p>
+                        * CSS stands for Cascading Style Sheets.<br />
+                        * It handles presentation, leaving HTML to handle content/structure.<br />
+                        * Cascading determines which styles take precedence when multiple rules apply.
+                    </p>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>3. Browser Default Styles</h3>
+
+                <div class="definition-box">
+                    <strong>Definition:</strong>
+                    <strong>Browser default styles</strong> are the built-in CSS rules that browsers apply to HTML
+                    elements even when no explicit stylesheet is provided. For example, <code>&lt;h1&gt;</code> is
+                    rendered as large, bold text; <code>&lt;a&gt;</code> links are blue and underlined; and paragraphs
+                    have default margins.
+                </div>
+
+                <div class="explanation-section">
+                    <div class="section-subtitle">Explanation</div>
+                    <p>Every modern browser has an internal "user agent stylesheet" that defines default rendering for
+                        all standard HTML elements. When you write a plain HTML file with no CSS, you're seeing these
+                        defaults:</p>
+                    <ul>
+                        <li><code>&lt;h1&gt;</code>: <code>font-size: 2em; font-weight: bold; display: block;</code>
+                        </li>
+                        <li><code>&lt;a&gt;</code>:
+                            <code>color: blue; text-decoration: underline; cursor: pointer;</code>
+                        </li>
+                        <li><code>&lt;p&gt;</code>:
+                            <code>display: block; margin-top/block-start; margin-bottom/block-end;</code>
+                        </li>
+                    </ul>
+                    <p>These defaults are just CSS rules — you can override any of them by providing your own styles.
+                        The cascading nature of CSS means your styles layer on top of the browser defaults, replacing or
+                        augmenting them as needed.</p>
+                </div>
+
+                <div class="pro-tip-card">
+                    <div class="card-icon">💡</div>
+                    <div class="card-content"><strong>Pro Tip:</strong> Use the browser's Developer Tools (F12) to
+                        inspect any element and see exactly which CSS rules are being applied — including browser
+                        defaults, your styles, and which rules are being overridden. This is essential for debugging
+                        styling issues.</div>
+                </div>
+
+                <div class="key-points">
+                    <strong>Key Takeaways:</strong>
+                    <p>
+                        * Browsers have built-in default styles for all HTML elements.<br />
+                        * Defaults can be overridden by your own CSS rules.<br />
+                        * Developer Tools reveal exactly which styles are active on any element.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== LECTURE 2.6 ==================== -->
+        <div class="topic-section" id="lecture-6">
+            <h2 class="topic-title">Lecture 2.6: Types of CSS Styling &amp; Responsive Websites</h2>
+
+            <div class="concept-card">
+                <h3>1. Three Ways to Apply CSS: Inline, Internal, External</h3>
+
+                <div class="definition-box">
+                    <strong>Definition:</strong>
+                    CSS can be applied to HTML in three ways:
+                    <strong>Inline CSS</strong> (style attribute directly on an element),
+                    <strong>Internal CSS</strong> (<code>&lt;style&gt;</code> block inside the
+                    <code>&lt;head&gt;</code>),
+                    and <strong>External CSS</strong> (linked <code>.css</code> file). Each has a different level of
+                    reusability and precedence.
+                </div>
+
+                <div class="explanation-section">
+                    <div class="section-subtitle">Explanation</div>
+                    <p><strong>1. Inline CSS:</strong> Styles are applied directly to an element via the
+                        <code>style</code> attribute.
+                    </p>
+                    <div class="code-example">
+                        <pre><code>&lt;h1 style="color: blue; text-align: center;"&gt;Hello&lt;/h1&gt;</code></pre>
+                    </div>
+                    <p>Inline CSS has the <strong>highest precedence</strong> but is the <strong>least
+                            maintainable</strong> — changing a style requires editing every individual element. It
+                        should be used sparingly.</p>
+
+                    <p><strong>2. Internal CSS:</strong> Styles are embedded in a <code>&lt;style&gt;</code> block
+                        inside the <code>&lt;head&gt;</code> of the HTML document.</p>
+                    <div class="code-example">
+                        <pre><code>&lt;head&gt;
+  &lt;style&gt;
+    body { background-color: linen; }
+    h1 { color: maroon; margin-left: 40px; }
+  &lt;/style&gt;
+&lt;/head&gt;</code></pre>
+                    </div>
+                    <p>Internal CSS applies to all matching elements in that document, making it more maintainable than
+                        inline styles. However, styles cannot be shared across multiple pages.</p>
+
+                    <p><strong>3. External CSS:</strong> Styles are written in a separate <code>.css</code> file and
+                        linked in the HTML <code>&lt;head&gt;</code>.</p>
+                    <div class="code-example">
+                        <pre><code>&lt;head&gt;
+  &lt;link rel="stylesheet" href="style.css"&gt;
+&lt;/head&gt;</code></pre>
+                    </div>
+                    <p>External CSS is the <strong>most maintainable and reusable</strong> approach. A single CSS file
+                        can style an entire website. It also enables <strong>browser caching</strong> — the CSS file is
+                        downloaded once and reused across page loads.</p>
+                </div>
+
+                <div class="concept-section">
+                    <h3>Key Mechanics &amp; Properties</h3>
+                    <ul class="key-points-list">
+                        <li><strong>Inline CSS:</strong> Highest precedence, lowest maintainability. Applies to a single
+                            element via <code>style=""</code>.</li>
+                        <li><strong>Internal CSS:</strong> Medium precedence. Placed in <code>&lt;style&gt;</code> block
+                            in <code>&lt;head&gt;</code>. Applies to the whole document.</li>
+                        <li><strong>External CSS:</strong> Lowest precedence of the three, but highest reusability.
+                            Linked via <code>&lt;link&gt;</code>. Can style multiple pages.</li>
+                        <li><strong>Precedence order (highest to lowest):</strong> Inline &gt; Internal &gt; External
+                            &gt; Browser Defaults.</li>
+                    </ul>
+                </div>
+
+                <div class="edge-case-box">
+                    <strong>Edge Cases &amp; Corner Cases:</strong>
+                    <ul>
+                        <li>If both internal and external CSS define the same property for the same element, the one
+                            that appears <strong>later</strong> in the cascade (usually internal, if it comes after the
+                            external link in the head) takes precedence — unless specificity overrides this.</li>
+                        <li>Multiple external CSS files can be linked; the last one loaded has higher precedence for
+                            conflicting rules.</li>
+                    </ul>
+                </div>
+
+                <div class="key-points">
+                    <strong>Key Takeaways:</strong>
+                    <p>
+                        * Inline CSS has the highest precedence but least reusability.<br />
+                        * Internal CSS styles a single document from the <code>&lt;head&gt;</code>.<br />
+                        * External CSS (separate .css file) is the best practice for real-world projects.<br />
+                        * Precedence: Inline &gt; Internal &gt; External.
+                    </p>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>2. CSS Selectors &amp; Shorthand Properties</h3>
+
+                <div class="definition-box">
+                    <strong>Definition:</strong>
+                    <strong>CSS selectors</strong> are patterns used to select the HTML elements you want to style.
+                    Common selectors include tag selectors (<code>h1</code>), class selectors (<code>.classname</code>),
+                    ID selectors (<code>#idname</code>), and the universal selector (<code>*</code>). <strong>Shorthand
+                        properties</strong> combine multiple related CSS properties into a single declaration (e.g.,
+                    <code>border</code> combines width, style, and color).
+                </div>
+
+                <div class="explanation-section">
+                    <div class="section-subtitle">Explanation</div>
+                    <p><strong>CSS comment syntax:</strong> <code>/* This is a CSS comment */</code> — NOT
+                        <code>#</code> or <code>&lt;!-- --&gt;</code>.
+                    </p>
+                    <p><strong>Color specification in CSS:</strong> All of the following are valid:</p>
+                    <ul>
+                        <li>Named colors: <code>color: sienna;</code></li>
+                        <li>RGB functional notation: <code>color: rgb(23, 12, 156);</code></li>
+                        <li>Hexadecimal: <code>color: #f5b520;</code></li>
+                    </ul>
+                    <p><strong>Centering block elements:</strong> Use <code>margin: auto;</code> — NOT
+                        <code>margin: center;</code> or <code>margin align: center;</code>. This gives equal left and
+                        right margins to a block element along the x-axis.
+                    </p>
+                    <p><strong>Border shorthand property:</strong> The <code>border</code> property can combine width,
+                        style, and color in one declaration:</p>
+                    <div class="code-example">
+                        <pre><code>border: 5px solid blue;</code></pre>
+                    </div>
+                    <p>This sets the border width to 5 pixels, the border style to solid, and the border color to blue.
+                        The correct order is: <strong>border-width, border-style, border-color.</strong></p>
+                    <p><strong>Universal selector:</strong> <code>* { margin: 10px; border-radius: 10px; }</code>
+                        applies the styles to ALL tags in the document body.</p>
+                </div>
+
+                <div class="concept-section">
+                    <h3>Key Mechanics &amp; Properties</h3>
+                    <ul class="key-points-list">
+                        <li>CSS comments use <code>/* ... */</code> syntax.</li>
+                        <li>Colors can be specified by name, rgb(), or hex code — all are valid.</li>
+                        <li><code>margin: auto;</code> centers a block element horizontally.</li>
+                        <li><code>border</code> is a shorthand property (combines width, style, color). The order is:
+                            width, style, color.</li>
+                        <li><code>*</code> (universal selector) targets all elements.</li>
+                    </ul>
+                </div>
+
+                <div class="misconception-box">
+                    <strong>Common Mistakes &amp; Misconceptions:</strong>
+                    <ul>
+                        <li><strong>Mistake:</strong> Using <code>margin: center;</code> or
+                            <code>margin align: center;</code> to center elements. <strong>Correction:</strong> Use
+                            <code>margin: auto;</code> for horizontal centering of block elements.
+                        </li>
+                        <li><strong>Mistake:</strong> Thinking the border shorthand order is width, color, style.
+                            <strong>Correction:</strong> The correct order is width, style, color (though browsers may
+                            be forgiving).
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="key-points">
+                    <strong>Key Takeaways:</strong>
+                    <p>
+                        * CSS comments: <code>/* ... */</code>.<br />
+                        * Colors: named, rgb(), or hex — all correct.<br />
+                        * Centering: <code>margin: auto;</code>.<br />
+                        * Border shorthand: <code>border: width style color;</code>.
+                    </p>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>3. Responsive Design</h3>
+
+                <div class="definition-box">
+                    <strong>Definition:</strong>
+                    <strong>Responsive design</strong> is an approach to web design that makes web pages render well on
+                    a variety of devices and screen sizes — from desktop monitors to tablets to mobile phones. A
+                    <strong>responsive website</strong> adapts its layout and styling based on the viewport size,
+                    typically using CSS media queries.
+                </div>
+
+                <div class="explanation-section">
+                    <div class="section-subtitle">Explanation</div>
+                    <p>The key insight of responsive design: <strong>CSS controls the styling, HTML controls the
+                            content.</strong> The HTML remains unchanged across devices — only the CSS rules change
+                        based on screen size. This is achieved through:</p>
+                    <ul>
+                        <li><strong>Media queries:</strong> CSS rules that apply only when certain conditions are met
+                            (e.g., <code>@media (max-width: 768px) { ... }</code>). These allow you to define different
+                            layouts for different screen widths.</li>
+                        <li><strong>Flexible grids and layouts:</strong> Using relative units (percentages,
+                            <code>em</code>, <code>rem</code>, <code>vw</code>, <code>vh</code>) instead of fixed pixel
+                            values.
+                        </li>
+                        <li><strong>Flexible images:</strong> Images that scale within their containers
+                            (<code>max-width: 100%;</code>).</li>
+                    </ul>
+                    <p>On a large desktop screen, a webpage might show a multi-column layout with a sidebar. On a
+                        tablet, the sidebar might move below the main content. On a phone, everything stacks vertically
+                        in a single column, with navigation collapsed into a hamburger menu. All of this is accomplished
+                        through CSS — the HTML stays the same.</p>
+                </div>
+
+                <div class="concept-section">
+                    <h3>Key Mechanics &amp; Properties</h3>
+                    <ul class="key-points-list">
+                        <li>A responsive website adapts to different screen sizes automatically.</li>
+                        <li>Responsive design is enabled by separating HTML (content) from CSS (presentation).</li>
+                        <li>Media queries allow conditional CSS based on viewport size.</li>
+                        <li>Mobile-first design prioritizes the mobile experience and progressively enhances for larger
+                            screens.</li>
+                    </ul>
+                </div>
+
+                <div class="key-points">
+                    <strong>Key Takeaways:</strong>
+                    <p>
+                        * Responsive = adapts to different screen sizes.<br />
+                        * HTML stays the same; CSS changes based on viewport via media queries.<br />
+                        * Separation of content and style is the foundation of responsive design.
+                    </p>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>4. Bootstrap: A CSS Framework</h3>
+
+                <div class="definition-box">
+                    <strong>Definition:</strong>
+                    <strong>Bootstrap</strong> is a popular open-source CSS framework originally developed by Twitter.
+                    It provides pre-designed, reusable components (buttons, forms, navigation bars, modals, icons) and a
+                    responsive grid system. Bootstrap is <strong>mobile-first</strong>, meaning it's designed to work on
+                    small screens by default and scale up.
+                </div>
+
+                <div class="explanation-section">
+                    <div class="section-subtitle">Explanation</div>
+                    <p>Bootstrap solves the problem of repetitive CSS work. Instead of writing common UI patterns from
+                        scratch, developers can use Bootstrap's pre-built classes. For example,
+                        <code>&lt;button class="btn btn-primary"&gt;Click Me&lt;/button&gt;</code> instantly creates a
+                        styled button without any custom CSS.
+                    </p>
+                    <p>Key features of Bootstrap:</p>
+                    <ul>
+                        <li><strong>Grid system:</strong> A 12-column responsive layout system that adapts to screen
+                            size.</li>
+                        <li><strong>Pre-styled components:</strong> Buttons, navigation bars, cards, modals, forms,
+                            alerts, and more.</li>
+                        <li><strong>Mobile-first:</strong> Styles are designed for phones first, then enhanced for
+                            larger screens.</li>
+                        <li><strong>Customizable:</strong> You can override Bootstrap styles with your own CSS.</li>
+                    </ul>
+                    <p>Bootstrap is just one of many CSS frameworks (others include Tailwind CSS, Foundation, Bulma).
+                        All of them leverage the principle of reusable, pre-written CSS to speed up development.</p>
+                </div>
+
+                <div class="concept-section">
+                    <h3>Key Mechanics &amp; Properties</h3>
+                    <ul class="key-points-list">
+                        <li>Bootstrap originated from Twitter and is now widely used open-source.</li>
+                        <li>It provides pre-designed CSS classes for common UI components.</li>
+                        <li>Mobile-first: designed for small screens, enhanced for larger ones.</li>
+                        <li>Uses a 12-column responsive grid system.</li>
+                    </ul>
+                </div>
+
+                <div class="key-points">
+                    <strong>Key Takeaways:</strong>
+                    <p>
+                        * Bootstrap = popular CSS framework (Twitter origin, open-source).<br />
+                        * Provides ready-made, responsive components and a grid system.<br />
+                        * Mobile-first approach — works on small screens by default.
+                    </p>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>5. JavaScript: Brief Introduction</h3>
+
+                <div class="definition-box">
+                    <strong>Definition:</strong>
+                    <strong>JavaScript</strong> is an interpreted programming language that runs inside the browser. It
+                    is NOT related to Java despite the name (formally called ECMAScript). JavaScript enables dynamic
+                    manipulation of the DOM, user interaction handling, and complex logic that HTML and CSS alone cannot
+                    provide.
+                </div>
+
+                <div class="explanation-section">
+                    <div class="section-subtitle">Explanation</div>
+                    <p>Neither HTML nor CSS are programming languages — HTML is a markup language, and CSS is a
+                        stylesheet language. JavaScript fills the gap by providing <strong>programmability</strong> in
+                        the browser: it can respond to user events (clicks, keystrokes), validate form input before
+                        submission, dynamically modify the DOM, fetch data from servers, and much more.</p>
+                    <p>JavaScript was originally introduced for simple tasks like form validation, but it has evolved to
+                        power entire web applications (Single Page Applications) through frameworks like React, Angular,
+                        and Vue.js. In the context of this course, JavaScript is not the primary focus — the emphasis is
+                        on the core presentation layer (HTML + CSS) and server-side functionality.</p>
+                </div>
+
+                <div class="key-points">
+                    <strong>Key Takeaways:</strong>
+                    <p>
+                        * JavaScript adds programmability to the browser.<br />
+                        * HTML = markup (not a programming language); CSS = styling (not a programming language).<br />
+                        * JavaScript manipulates the DOM, enabling dynamic, interactive web pages.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== SCREENCASTS ==================== -->
+        <div class="topic-section" id="screencasts">
+            <h2 class="topic-title">Screencasts 2.1–2.4: CSS Practical Techniques</h2>
+
+            <div class="concept-card">
+                <h3>1. Inline CSS Styling (Screencast 2.1)</h3>
+
+                <div class="definition-box">
+                    <strong>Definition:</strong>
+                    <strong>Inline CSS</strong> adds style directly to an HTML element via the <code>style</code>
+                    attribute. Each CSS property-value pair is separated by a colon (<code>:</code>) and terminated by a
+                    semicolon (<code>;</code>). Multiple property-value pairs are separated by semicolons.
+                </div>
+
+                <div class="explanation-section">
+                    <div class="section-subtitle">Explanation</div>
+                    <p><strong>Syntax:</strong> <code>style="property: value; property: value;"</code></p>
+                    <p>Examples:</p>
+                    <div class="code-example">
+                        <pre><code>&lt;th style="background-color: lightgreen;"&gt;Header&lt;/th&gt;
+&lt;tr style="background-color: lightgray;"&gt;...&lt;/tr&gt;
+&lt;table style="border: 1px solid black;"&gt;
+&lt;td style="border: 1px solid black; text-align: center;"&gt;</code></pre>
+                    </div>
+                    <p>Inline styling is simple to understand but leads to significant <strong>duplication</strong> and
+                        maintenance challenges. If you want to change the border of all table cells, you must edit every
+                        single <code>&lt;td&gt;</code> tag. This approach does NOT separate content from style
+                        effectively.</p>
+                </div>
+
+                <div class="concept-section">
+                    <h3>Key Mechanics &amp; Properties</h3>
+                    <ul class="key-points-list">
+                        <li>Format: <code>property: value;</code> (colon-separated, semicolon-terminated).</li>
+                        <li>Applied directly to a tag via the <code>style</code> attribute.</li>
+                        <li>Leads to code duplication; not efficient for large projects.</li>
+                    </ul>
+                </div>
+
+                <div class="warning-card">
+                    <div class="card-icon">⚠️</div>
+                    <div class="card-content"><strong>Warning:</strong> Inline CSS is inefficient, unmanageable, and
+                        prone to errors for anything beyond quick prototyping. Always prefer external CSS for production
+                        work.</div>
+                </div>
+
+                <div class="key-points">
+                    <strong>Key Takeaways:</strong>
+                    <p>
+                        * Inline CSS: <code>style="property: value;"</code> directly on a tag.<br />
+                        * Simple but leads to duplication; not recommended for real projects.
+                    </p>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>2. Internal CSS (Screencast 2.2)</h3>
+
+                <div class="definition-box">
+                    <strong>Definition:</strong>
+                    <strong>Internal CSS</strong> places styles within a <code>&lt;style&gt;</code> block inside the
+                    <code>&lt;head&gt;</code> of the HTML document. Styles are written using CSS selector syntax (curly
+                    braces <code>{}</code>), NOT HTML tag syntax. This approach applies styles to all matching elements
+                    in the document.
+                </div>
+
+                <div class="explanation-section">
+                    <div class="section-subtitle">Explanation</div>
+                    <p>Internal CSS uses <strong>tag selectors</strong> to target elements. For example:</p>
+                    <div class="code-example">
+                        <pre><code>&lt;style&gt;
+  table {
+    border: 1px solid black;
+    border-collapse: collapse;
+    text-align: center;
+  }
+  td, th {
+    border: 1px solid black;
+  }
+  thead {
+    background-color: lightgreen;
+  }
+  tr:nth-child(even) {
+    background-color: lightgray;
+  }
+&lt;/style&gt;</code></pre>
+                    </div>
+                    <p>Key advantages over inline CSS:</p>
+                    <ul>
+                        <li>Style all matching elements with a single rule (e.g., all <code>&lt;td&gt;</code> tags).
+                        </li>
+                        <li>Multiple selectors can share the same style block (<code>td, th { ... }</code>).</li>
+                        <li>The <code>nth-child</code> pseudo-class enables alternating row styling.</li>
+                    </ul>
+                </div>
+
+                <div class="key-points">
+                    <strong>Key Takeaways:</strong>
+                    <p>
+                        * Internal CSS uses <code>&lt;style&gt;</code> in <code>&lt;head&gt;</code>.<br />
+                        * Uses CSS selector syntax (<code>selector { property: value; }</code>).<br />
+                        * Better than inline CSS but still limited to one document.
+                    </p>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>3. External CSS (Screencast 2.2)</h3>
+
+                <div class="definition-box">
+                    <strong>Definition:</strong>
+                    <strong>External CSS</strong> places all style rules in a separate <code>.css</code> file, which is
+                    linked to the HTML document via a <code>&lt;link&gt;</code> tag in the <code>&lt;head&gt;</code>.
+                    This is the preferred approach for real-world web development.
+                </div>
+
+                <div class="explanation-section">
+                    <div class="section-subtitle">Explanation</div>
+                    <p>Creating an external stylesheet involves:</p>
+                    <ol>
+                        <li>Create a new file (e.g., <code>style.css</code>) containing only CSS rules (no
+                            <code>&lt;style&gt;</code> tags needed).
+                        </li>
+                        <li>Link it in the HTML <code>&lt;head&gt;</code> using:</li>
+                    </ol>
+                    <div class="code-example">
+                        <pre><code>&lt;link rel="stylesheet" href="style.css"&gt;</code></pre>
+                    </div>
+                    <p><strong>Benefits of external CSS:</strong></p>
+                    <ul>
+                        <li><strong>Reusability:</strong> One CSS file can style multiple HTML pages.</li>
+                        <li><strong>Caching:</strong> The browser downloads the CSS file once and reuses it across page
+                            loads.</li>
+                        <li><strong>Separation of concerns:</strong> Content (HTML) and presentation (CSS) are in
+                            separate files.</li>
+                        <li><strong>Maintainability:</strong> Changing a style across the entire website requires
+                            editing only one file.</li>
+                    </ul>
+                </div>
+
+                <div class="pro-tip-card">
+                    <div class="card-icon">💡</div>
+                    <div class="card-content"><strong>Pro Tip:</strong> The browser's Network tab (in Developer Tools)
+                        shows the loading order of resources. The HTML file loads first, then the linked CSS file — you
+                        can see the waterfall to verify that your stylesheet is being loaded correctly.</div>
+                </div>
+
+                <div class="key-points">
+                    <strong>Key Takeaways:</strong>
+                    <p>
+                        * External CSS = separate .css file linked via <code>&lt;link&gt;</code>.<br />
+                        * Enables reuse across multiple pages and browser caching.<br />
+                        * This is the industry-standard best practice for CSS.
+                    </p>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>4. CSS Specificity &amp; Cascading Behavior</h3>
+
+                <div class="definition-box">
+                    <strong>Definition:</strong>
+                    <strong>CSS specificity</strong> determines which style rule takes precedence when multiple rules
+                    target the same element. The <strong>cascading</strong> nature of CSS means that styles "cascade"
+                    from higher-level to lower-level elements, with more specific selectors overriding more general
+                    ones, and later rules overriding earlier ones when specificity is equal.
+                </div>
+
+                <div class="explanation-section">
+                    <div class="section-subtitle">Explanation</div>
+                    <p>The cascading behavior follows these principles:</p>
+                    <ol>
+                        <li><strong>Origin precedence:</strong> Inline &gt; Internal &gt; External &gt; Browser Default.
+                        </li>
+                        <li><strong>Specificity:</strong> ID selectors (<code>#id</code>) are more specific than class
+                            selectors (<code>.class</code>), which are more specific than tag selectors
+                            (<code>tag</code>). The universal selector (<code>*</code>) has the lowest specificity.</li>
+                        <li><strong>Source order:</strong> When specificity is equal, the rule that appears
+                            <strong>later</strong> in the CSS wins.
+                        </li>
+                        <li><strong>Inheritance:</strong> Some CSS properties (like <code>color</code> and
+                            <code>font-family</code>) are inherited by child elements from their parents, reducing the
+                            need to style every element individually.
+                        </li>
+                    </ol>
+                    <p>Example: If a <code>&lt;table&gt;</code> has <code>text-align: center;</code> and a specific
+                        <code>&lt;td&gt;</code> has <code>text-align: left;</code>, the <code>&lt;td&gt;</code>'s style
+                        overrides the table-level style for that cell because lower-level (more specific) styles
+                        override higher-level ones.
+                    </p>
+                </div>
+
+                <div class="concept-section">
+                    <h3>Key Mechanics &amp; Properties</h3>
+                    <ul class="key-points-list">
+                        <li>Specificity hierarchy: ID &gt; class &gt; tag &gt; universal (*).</li>
+                        <li>Inline styles override all CSS in <code>&lt;style&gt;</code> blocks and external files.</li>
+                        <li>When specificity is equal, the later rule wins.</li>
+                        <li>Lower-level tags can override higher-level inherited styles.</li>
+                    </ul>
+                </div>
+
+                <div class="key-points">
+                    <strong>Key Takeaways:</strong>
+                    <p>
+                        * CSS cascades: more specific &gt; less specific; later &gt; earlier.<br />
+                        * Inline &gt; Internal &gt; External in precedence.<br />
+                        * Child elements can override parent-level styles.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>
