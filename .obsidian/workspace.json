@@ -1,14 +1,14 @@
 {
   "main": {
-    "id": "9ed6f576910f00e6",
+    "id": "93766d038b817400",
     "type": "split",
     "children": [
       {
-        "id": "c65519c666bd800c",
+        "id": "85189fe926460394",
         "type": "tabs",
         "children": [
           {
-            "id": "cb5d19e84002ab9b",
+            "id": "c9776f7eb41f7f81",
             "type": "leaf",
             "state": {
               "type": "empty",
@@ -23,15 +23,15 @@
     "direction": "vertical"
   },
   "left": {
-    "id": "aad8dd0eb2b63d0c",
+    "id": "04a89e8c5f0d3b4f",
     "type": "split",
     "children": [
       {
-        "id": "d72fd6337a4d2d05",
+        "id": "bade55fa41a102e8",
         "type": "tabs",
         "children": [
           {
-            "id": "660e6adeb296a78b",
+            "id": "7db42a2e2614198d",
             "type": "leaf",
             "state": {
               "type": "file-explorer",
@@ -44,7 +44,7 @@
             }
           },
           {
-            "id": "2f3bf147840b86ab",
+            "id": "5cbb72c5f81cdd6b",
             "type": "leaf",
             "state": {
               "type": "search",
@@ -61,7 +61,7 @@
             }
           },
           {
-            "id": "db6612f99e2a0d86",
+            "id": "4253fafc289e422d",
             "type": "leaf",
             "state": {
               "type": "bookmarks",
@@ -77,15 +77,15 @@
     "width": 300
   },
   "right": {
-    "id": "02fd82266765f642",
+    "id": "bfb98ecba9db4dca",
     "type": "split",
     "children": [
       {
-        "id": "ec8871335957ec21",
+        "id": "b807d8dec575102f",
         "type": "tabs",
         "children": [
           {
-            "id": "de9f0681632d12fd",
+            "id": "56a0ae1efd271321",
             "type": "leaf",
             "state": {
               "type": "backlink",
@@ -103,7 +103,7 @@
             }
           },
           {
-            "id": "28151bde97ed2cd8",
+            "id": "eff85fb84f134f38",
             "type": "leaf",
             "state": {
               "type": "outgoing-link",
@@ -116,7 +116,7 @@
             }
           },
           {
-            "id": "8b4055d17fa2fd8b",
+            "id": "a06a25b0fc1db1ab",
             "type": "leaf",
             "state": {
               "type": "tag",
@@ -131,7 +131,7 @@
             }
           },
           {
-            "id": "6c1edcc9ab41b186",
+            "id": "797b441dbc6bcab3",
             "type": "leaf",
             "state": {
               "type": "all-properties",
@@ -145,7 +145,7 @@
             }
           },
           {
-            "id": "bc13c651dbc24f3b",
+            "id": "06c710bd1b0c6927",
             "type": "leaf",
             "state": {
               "type": "outline",
@@ -176,6 +176,31 @@
       "bases:Create new base": false
     }
   },
-  "active": "cb5d19e84002ab9b",
-  "lastOpenFiles": []
+  "active": "c9776f7eb41f7f81",
+  "lastOpenFiles": [
+    "scr/ui/ui.js",
+    "scr/ui/ui.css",
+    "scr/ui",
+    "scr/script.js",
+    "scr",
+    "sol/practice/WEEK 11/README.md",
+    "sol/practice/WEEK 11",
+    "sol/practice/WEEK 10/README.md",
+    "sol/practice/WEEK 10",
+    "sol/practice/WEEK 09/README.md",
+    "sol/practice/WEEK 09",
+    "sol/practice/WEEK 08/README.md",
+    "sol/practice/WEEK 08",
+    "sol/practice/WEEK 07/README.md",
+    "sol/practice/WEEK 07",
+    "sol/practice/WEEK 12/README.md",
+    "sol/practice/WEEK 12",
+    "sol/practice/WEEK 06/README.md",
+    "sol/practice/WEEK 05/README.md",
+    "sol/practice/WEEK 04/README.md",
+    "sol/practice/WEEK 03/README.md",
+    "sol/practice/WEEK 02/README.md",
+    "sol/practice/WEEK 01/README.md",
+    "sol/practice/README.md"
+  ]
 }

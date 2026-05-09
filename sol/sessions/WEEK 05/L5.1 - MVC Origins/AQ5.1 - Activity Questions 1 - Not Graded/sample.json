@@ -1,0 +1,201 @@
+[
+    {
+        "id": 1,
+        "type": "mcq",
+        "difficulty": "hard",
+        "points": 3,
+        "problem-statement": "In a classic MVC design for a desktop GUI, the user clicks a button that should increment a counter displayed on the screen. The following claims are made about the resulting flow:\n\n1. The View captures the click event and directly updates the counter variable inside the Model.\n2. The Controller interprets the click, calls a method on the Model to increment the counter, and then the View automatically refreshes because it is an observer of the Model.\n3. The Model contains the counter value, the business rule that the counter cannot exceed 100, and notifies all registered Views when the counter changes.\n4. The Controller should only contain logic for setting up the initial View; all event handling belongs inside the View itself.\n\nWhich of the above correctly describe the responsibilities and interactions in the original MVC pattern?",
+        "code": {
+            "prefix": "",
+            "body": []
+        },
+        "options-statement": "Select the single best option.",
+        "options": [
+            "Only 1 and 4 are correct.",
+            "Only 2 and 3 are correct.",
+            "Only 2, 3, and 4 are correct.",
+            "All four statements are correct."
+        ],
+        "correct": 1,
+        "explanation": "Statement 2 and 3 accurately reflect the classic MVC flow and the Model’s role. Statement 1 is wrong because the View must never directly modify the Model; it forwards events to the Controller. Statement 4 is wrong because the Controller is responsible for all input handling, not just initial View setup.",
+        "detailed": {
+            "concept": {
+                "title": "MVC Interaction Flow and Separation of Concerns",
+                "description": "In the original Smalltalk‑80 MVC pattern, user actions are captured by the View but processed exclusively by the Controller. The Controller translates them into operations on the Model. The Model encapsulates data and business rules, and uses the Observer pattern to notify attached Views of state changes. The View then re‑renders itself without direct involvement of the Controller.",
+                "points": [
+                    "The View captures low‑level input events (mouse click, key press) but must not interpret or act on them.",
+                    "The Controller is the only component that processes user input and decides which Model methods to call.",
+                    "The Model never knows about the existence of Views; it only announces changes via the Observer pattern.",
+                    "Business rules (e.g., counter ≤ 100) always reside in the Model, never in the View or Controller.",
+                    "The View automatically refreshes when the Model notifies it; the Controller does not push updates to the View."
+                ],
+                "prerequisites": [
+                    "Understand the three MVC components: Model, View, Controller.",
+                    "Know the Observer pattern: subject (Model) maintains a list of observers (Views) and calls their update() method.",
+                    "Differentiate between capturing an event (View) and processing an event (Controller)."
+                ],
+                "invariants-required-by-algorithm": [
+                    "User input must always flow: User → View → Controller → Model.",
+                    "Model must never directly update a View’s presentation; it only signals change.",
+                    "Controller must not contain business logic; it delegates to Model methods.",
+                    "Views must not call Model methods that modify state; they only query for display."
+                ],
+                "why-this-code-breaks-the-contract": [
+                    "Statement 1 breaks the invariant because the View directly modifies the Model. In classic MVC, the View forwards all input to the Controller.",
+                    "Statement 4 breaks the invariant by claiming the Controller is only for initial setup; the Controller handles all user input throughout the application lifetime.",
+                    "Statements 2 and 3 enforce the invariants: Controller interprets input and calls Model methods; Model holds business rules and notifies Views."
+                ]
+            },
+            "line-by-line-explanation": [
+                {
+                    "line": "Statement 1",
+                    "code": "View captures click and directly updates counter in Model",
+                    "purpose": "Describes a direct View→Model modification path.",
+                    "risk": "Violates separation of concerns: Views become stateful and tightly coupled to Model internals, making it impossible to reuse the Model with a different View or to test the Model in isolation."
+                },
+                {
+                    "line": "Statement 2",
+                    "code": "Controller interprets click, calls Model.increment(), View refreshes via Observer",
+                    "purpose": "Describes the correct MVC flow.",
+                    "risk": "No risk; this is the intended design."
+                },
+                {
+                    "line": "Statement 3",
+                    "code": "Model holds counter, enforces max 100, notifies observers",
+                    "purpose": "Describes the Model’s encapsulation of data and business rules.",
+                    "risk": "No risk; the Model is self‑contained and testable."
+                },
+                {
+                    "line": "Statement 4",
+                    "code": "Controller only for initial setup; all event handling in View",
+                    "purpose": "Misattributes event‑handling responsibility.",
+                    "risk": "Results in a 'smart View' anti‑pattern, where presentation and input logic are mixed, making the View difficult to maintain and the Controller useless after startup."
+                }
+            ],
+            "trace": [
+                {
+                    "step": 1,
+                    "op": "User clicks 'Increment' button",
+                    "state": "The View’s button widget detects a mouse click event.",
+                    "out": "The View does not alter any data; it simply notifies its associated Controller about the event (e.g., by calling controller.handleIncrement())."
+                },
+                {
+                    "step": 2,
+                    "op": "Controller receives the event",
+                    "state": "The Controller’s handleIncrement() method is invoked. It may perform input validation (e.g., check for double‑clicks) but does not contain business rules.",
+                    "out": "Controller calls model.incrementCounter()."
+                },
+                {
+                    "step": 3,
+                    "op": "Model processes the business operation",
+                    "state": "The incrementCounter() method checks the current counter value. If counter < 100, it increments; otherwise, it ignores the request or raises an error.",
+                    "out": "If the counter was updated, the Model iterates over its list of registered observers and calls update() on each View."
+                },
+                {
+                    "step": 4,
+                    "op": "Views refresh",
+                    "state": "Each registered View’s update() method queries the Model for the new counter value (e.g., via model.getCounter()) and re‑renders the counter label.",
+                    "out": "User sees the updated counter on screen."
+                }
+            ],
+            "analysis": {
+                "why-correct-option-is-c": "Options B and C: only statements 2 and 3 are fully correct. Statement 2 describes the normal MVC interaction; statement 3 accurately captures the Model’s role. Therefore, the answer 'Only 2 and 3 are correct' is the single best option.",
+                "whyOptionsWrong": [
+                    {
+                        "option": "A",
+                        "reason": "Statement 1 is incorrect because the View should never directly update the Model. The flow must go through the Controller."
+                    },
+                    {
+                        "option": "C",
+                        "reason": "Statement 4 is incorrect. The Controller handles all user input throughout the application’s life, not just initial setup."
+                    },
+                    {
+                        "option": "D",
+                        "reason": "Both statement 1 and statement 4 contain fundamental violations of MVC principles, so not all four can be correct."
+                    }
+                ],
+                "exam-trap-signals": [
+                    "Statements that say 'View directly modifies Model' are always wrong in classic MVC – this is a common trick.",
+                    "Any claim that the Controller is only needed at startup or can be omitted signals a misunderstanding of the pattern.",
+                    "Statements that describe the Model as having no business rules are suspicious; the Model should always contain domain logic.",
+                    "The presence of 'Observer pattern' is a strong indicator of classic MVC fidelity."
+                ]
+            },
+            "deep-diagnostics": {
+                "standard-contract-checklist": [
+                    "Check: Does the user input flow through the Controller? Statement 1 fails, statement 2 passes.",
+                    "Check: Is business logic confined to the Model? Statement 3 passes.",
+                    "Check: Are Views passive observers? Statement 2 implies it, statement 4 violates it.",
+                    "Check: Does the Controller delegate to the Model instead of performing business operations itself? Statement 2 passes."
+                ],
+                "undefined-behavior-consequences": [
+                    "If the View updates the Model directly, the application may still work superficially but becomes fragile: changing the GUI framework would require rewriting Model‑update code.",
+                    "Placing business rules in the Controller leads to duplication when the same Model is used from different Controllers (e.g., web and desktop).",
+                    "Without the Observer pattern, Views might not refresh after a Model change, leading to stale displays."
+                ],
+                "debugging-playbook": [
+                    "Trace a single user action and ensure it goes: View captures → Controller acts → Model updates → Views refresh.",
+                    "Inspect the Controller code: it should contain zero domain‑specific calculations; all such logic belongs in the Model.",
+                    "Ensure the Model has a list of observers and calls their update() method on state change.",
+                    "Verify that no View class imports or directly calls Model setter methods.",
+                    "Test the Model in isolation by calling its methods from a unit test – it should work without any View or Controller instances."
+                ]
+            },
+            "fix-and-verify": {
+                "corrected-comparator": {
+                    "prefix": "",
+                    "body": []
+                },
+                "expected-behavior-after-fix": [
+                    "Re‑design so that the View only forwards events to the Controller.",
+                    "The Controller interprets the event, calls Model.increment(), and the Model notifies observers.",
+                    "Business rules (max 100) stay in the Model.",
+                    "The View updates automatically via its observer callback."
+                ],
+                "verification-tests": [
+                    {
+                        "name": "View does not modify Model",
+                        "input": "Button click",
+                        "expected": "View's event handler calls a Controller method; no Model write occurs in View code."
+                    },
+                    {
+                        "name": "Model enforces maximum",
+                        "input": "Counter at 100, increment called",
+                        "expected": "Model refuses increment, counter stays 100."
+                    },
+                    {
+                        "name": "Observer notification",
+                        "input": "Increment from 5 to 6",
+                        "expected": "All registered Views receive update() and re‑render the new value."
+                    },
+                    {
+                        "name": "Controller is stateless per action",
+                        "input": "Multiple concurrent increments",
+                        "expected": "Each click produces a correct increment; Controller does not accumulate state incorrectly."
+                    }
+                ],
+                "engineering-note": "In modern web MVC, the Observer pattern is often replaced by the Controller explicitly rendering a new View. However, the principle that the View never modifies the Model directly still holds. The correct MVC flow remains: User → Controller → Model → View → User."
+            },
+            "common-mistakes": [
+                "Assuming the View can update the Model directly because modern frameworks offer two‑way data binding. Classic MVC forbids this; two‑way binding is a convenience that often obscures the true Controller role.",
+                "Putting validation (e.g., counter ≤ 100) in the Controller because it seems like 'input processing'. Validation is business logic and belongs in the Model.",
+                "Thinking the Controller is only a 'router' that maps URLs to Views. In classic MVC, the Controller actively processes user input and decides how to modify the Model."
+            ],
+            "interview-and-exam-extension-questions": [
+                "How does the Observer pattern decouple the Model from the View?",
+                "Why is a 'Smart View' considered an anti‑pattern even if the application works correctly?",
+                "In a web MVC framework like Rails, how is the Controller’s role adapted compared to the classic Smalltalk Controller?"
+            ],
+            "tips": [
+                "Memorise the unidirectional flow: User → Controller → Model → View → User.",
+                "Use the restaurant waiter analogy: View = menu, Model = kitchen, Controller = waiter.",
+                "When in doubt, ask: 'If I replaced the GUI with a command line, would this code need to change?' If yes, it probably belongs in the Controller or View layer."
+            ],
+            "warnings": [
+                "Placing business logic in the Controller leads to fat controllers and code duplication.",
+                "Allowing the View to directly modify the Model breaks the entire separation of concerns – a single such shortcut can make the application untestable."
+            ],
+            "solution-summary-for-engineers": "The correct statements are 2 and 3. In classic MVC, user input flows: View → Controller → Model. The Model encapsulates data and business rules and notifies Views via the Observer pattern. The View never modifies the Model directly, and the Controller handles all input, not just initial setup."
+        }
+    }
+]

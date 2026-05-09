@@ -3,7 +3,7 @@ const path = require('path');
 
 const ROOT = path.resolve(__dirname, '..');
 const SEARCH_DIRS = ['sol', 'src'];
-const OUTPUT_FILE = path.join(ROOT, 'index.js');
+const OUTPUT_FILE = path.join(ROOT, 'index.json');
 
 async function walk(dir) {
     const entries = await fs.promises.readdir(dir, { withFileTypes: true });
@@ -39,7 +39,8 @@ async function main() {
     htmlFiles.sort((a, b) => normalizePath(a).localeCompare(normalizePath(b), undefined, { numeric: true, sensitivity: 'base' }));
 
     const payload = htmlFiles.map(filePath => ({ path: normalizePath(filePath) }));
-    const content = `window.htmlFiles = ${JSON.stringify(payload, null, 4)};\n`;
+    const jsonContent = JSON.stringify(payload, null, 4);
+    const content = `window.htmlFiles = ${jsonContent};`;
     await fs.promises.writeFile(OUTPUT_FILE, content, 'utf8');
     console.log(`Generated ${payload.length} HTML file entries in ${OUTPUT_FILE}`);
 }

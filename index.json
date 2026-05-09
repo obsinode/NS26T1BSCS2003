@@ -1,0 +1,443 @@
+window.htmlFiles = [
+    {
+        "path": "sol/sessions/WEEK 05/L5.1 - MVC Origins/AQ5.1 - Activity Questions 1 - Not Graded.html"
+    },
+    {
+        "path": "sol/sessions/WEEK 05/L5.1 - MVC Origins/AQ5.2 - Activity Questions 1 - Not Graded.html"
+    },
+    {
+        "path": "sol/sessions/WEEK 05/L5.1 - MVC Origins/AQ5.3 - Activity Questions 1 - Not Graded.html"
+    },
+    {
+        "path": "sol/sessions/WEEK 05/L5.1 - MVC Origins/AQ5.4 - Activity Questions 1 - Not Graded.html"
+    },
+    {
+        "path": "sol/sessions/WEEK 05/L5.1 - MVC Origins/AQ5.5 - Activity Questions 1 - Not Graded.html"
+    },
+    {
+        "path": "sol/sessions/WEEK 05/L5.1 - MVC Origins/AQ5.6 - Activity Questions 1 - Not Graded.html"
+    },
+    {
+        "path": "sol/sessions/WEEK 05/L5.1 - MVC Origins/AQ5.7 - Activity Questions 1 - Not Graded.html"
+    },
+    {
+        "path": "sol/sessions/WEEK 05/L5.1 - MVC Origins/AQ5.8 - Activity Questions 1 - Not Graded.html"
+    },
+    {
+        "path": "sol/sessions/WEEK 05/L5.1 - MVC Origins/L5-1.html"
+    },
+    {
+        "path": "sol/sessions/WEEK 05/L5.1 - MVC Origins/L5-2.html"
+    },
+    {
+        "path": "sol/sessions/WEEK 05/L5.1 - MVC Origins/L5-3.html"
+    },
+    {
+        "path": "sol/sessions/WEEK 05/L5.1 - MVC Origins/L5-4.html"
+    },
+    {
+        "path": "sol/sessions/WEEK 05/L5.1 - MVC Origins/L5.1 - MVC Origins.html"
+    },
+    {
+        "path": "sol/sessions/WEEK 06/L6.1 - API Design/AQ6.1 - Activity Questions 1 - Not Graded.html"
+    },
+    {
+        "path": "sol/sessions/WEEK 06/L6.1 - API Design/AQ6.2 - Activity Questions 1 - Not Graded.html"
+    },
+    {
+        "path": "sol/sessions/WEEK 06/L6.1 - API Design/AQ6.3 - Activity Questions 1 - Not Graded.html"
+    },
+    {
+        "path": "sol/sessions/WEEK 06/L6.1 - API Design/AQ6.4 - Activity Questions 1 - Not Graded.html"
+    },
+    {
+        "path": "sol/sessions/WEEK 06/L6.1 - API Design/AQ6.5 - Activity Questions 1 - Not Graded.html"
+    },
+    {
+        "path": "sol/sessions/WEEK 06/L6.1 - API Design/L6.1 - API Design.html"
+    },
+    {
+        "path": "sol/solution/Mock Unit/Mock - Quiz 1 __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/Mock Unit/Mock - Quiz 2 __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 01/AQ1.1_ Activity Questions 1 - Not Graded __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 01/AQ1.1_ Activity Questions 1 - Not Graded __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 01/AQ1.2_ Activity Questions 2 - Not Graded __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 01/AQ1.2_ Activity Questions 2 - Not Graded __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 01/AQ1.3_ Activity Questions 3 - Not Graded __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 01/AQ1.3_ Activity Questions 3 - Not Graded __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 01/AQ1.4_ Activity Questions 4 - Not Graded __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 01/AQ1.4_ Activity Questions 4 - Not Graded __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 01/AQ1.5_ Activity Questions 5 - Not Graded __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 01/AQ1.5_ Activity Questions 5 - Not Graded __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 01/AQ1.6_ Activity Questions 6 - Not Graded __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 01/AQ1.6_ Activity Questions 6 - Not Graded __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 01/AQ1.7_ Activity Questions 7 - Not Graded __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 01/AQ1.7_ Activity Questions 7 - Not Graded __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 01/AQ1.8_ Activity Questions 8 - Not Graded __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 01/AQ1.8_ Activity Questions 8 - Not Graded __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 01/AQ1.9_ Activity Questions 9 - Not Graded __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 01/AQ1.9_ Activity Questions 9 - Not Graded __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 01/Practice assignment 1 - Not Graded __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 01/Practice assignment 1 - Not Graded __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 01/Week 1 - Graded Assignment 1 __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 01/Week 1 - Graded Assignment 1 __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 02/AQ2.1_ Activity Questions 1 - Not Graded __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 02/AQ2.1_ Activity Questions 1 - Not Graded __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 02/AQ2.2_ Activity Questions 2 - Not Graded __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 02/AQ2.2_ Activity Questions 2 - Not Graded __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 02/AQ2.3_ Activity Questions 3 - Not Graded __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 02/AQ2.3_ Activity Questions 3 - Not Graded __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 02/AQ2.4_ Activity Questions 4 - Not Graded __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 02/AQ2.4_ Activity Questions 4 - Not Graded __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 02/AQ2.5_ Activity Questions 5 - Not Graded __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 02/AQ2.5_ Activity Questions 5 - Not Graded __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 02/AQ2.6_ Activity Questions 6 - Not Graded __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 02/AQ2.6_ Activity Questions 6 - Not Graded __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 02/Graded Assignment 2 __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 02/Graded Assignment 2 __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 02/Practice assignment 2 - Not Graded __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 02/Practice assignment 2 - Not Graded __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 03/AQ3.1_ Activity Questions 1 - Not Graded __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 03/AQ3.1_ Activity Questions 1 - Not Graded __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 03/AQ3.2_ Activity Questions 2 - Not Graded __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 03/AQ3.2_ Activity Questions 2 - Not Graded __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 03/AQ3.3_ Activity Questions 3 - Not Graded __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 03/AQ3.3_ Activity Questions 3 - Not Graded __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 03/AQ3.4_ Activity Questions 4 - Not Graded __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 03/AQ3.4_ Activity Questions 4 - Not Graded __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 03/AQ3.5_ Activity Questions 5 - Not Graded __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 03/AQ3.5_ Activity Questions 5 - Not Graded __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 03/AQ3.6_ Activity Questions 6 - Not Graded __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 03/AQ3.6_ Activity Questions 6 - Not Graded __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 03/AQ3.7_ Activity Questions 7 - Not Graded __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 03/AQ3.7_ Activity Questions 7 - Not Graded __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 03/Practice assignment 3 - Not Graded __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 03/Practice assignment 3 - Not Graded __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 03/Week 3 - Graded Assignment 3 __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 03/Week 3 - Graded Assignment 3 __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 04/AQ 4.1_ Activity Question 1 - Not Graded __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 04/AQ 4.1_ Activity Question 1 - Not Graded __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 04/AQ 4.2_ Activity Question 2 - Not Graded __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 04/AQ 4.2_ Activity Question 2 - Not Graded __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 04/AQ 4.3_ Activity Question 3 - Not Graded __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 04/AQ 4.3_ Activity Question 3 - Not Graded __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 04/AQ 4.4_ Activity Question 4 - Not Graded __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 04/AQ 4.4_ Activity Question 4 - Not Graded __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 04/Graded Assignment 4 __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 04/Graded Assignment 4 __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 04/Practice assignment 4 - Not Graded __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 04/Practice assignment 4 - Not Graded __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 05/AQ 5.1_ Activity Question 1 - Not Graded __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 05/AQ 5.1_ Activity Question 1 - Not Graded __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 05/AQ 5.2_ Activity Question 2 - Not Graded __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 05/AQ 5.2_ Activity Question 2 - Not Graded __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 05/AQ 5.3_ Activity Question 3 - Not Graded __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 05/AQ 5.3_ Activity Question 3 - Not Graded __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 05/AQ 5.4_ Activity Question 4 - Not Graded __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 05/AQ 5.4_ Activity Question 4 - Not Graded __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 05/AQ 5.5_ Activity Question 5 - Not Graded __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 05/AQ 5.5_ Activity Question 5 - Not Graded __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 05/Graded Assignment 5 __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 05/Graded Assignment 5 __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 05/Practice Assignment 5 - Not Graded __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 05/Practice Assignment 5 - Not Graded __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 06/AQ6.1_ Activity Questions 1 - Not Graded __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 06/AQ6.1_ Activity Questions 1 - Not Graded __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 06/AQ6.2_ Activity Questions 2 - Not Graded __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 06/AQ6.2_ Activity Questions 2 - Not Graded __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 06/AQ6.3_ Activity Questions 3 - Not Graded __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 06/AQ6.3_ Activity Questions 3 - Not Graded __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 06/AQ6.4_ Activity Questions 4 - Not Graded __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 06/AQ6.4_ Activity Questions 4 - Not Graded __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 06/AQ6.5_ Activity Questions 5 - Not Graded __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 06/AQ6.5_ Activity Questions 5 - Not Graded __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 06/AQ6.6_ Activity Questions 6 - Not Graded __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 06/AQ6.6_ Activity Questions 6 - Not Graded __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 06/Graded Assignment 6 __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 06/Graded Assignment 6 __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 06/Practice Assignment 6 - Not Graded __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 06/Practice Assignment 6 - Not Graded __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 07/AQ7.1_ Activity Questions 1 - Not Graded __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 07/AQ7.1_ Activity Questions 1 - Not Graded __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 07/AQ7.2_ Activity Questions 2 - Not Graded __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 07/AQ7.2_ Activity Questions 2 - Not Graded __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 07/AQ7.3_ Activity Questions 3 - Not Graded __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 07/AQ7.3_ Activity Questions 3 - Not Graded __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 07/AQ7.4_ Activity Questions 4 - Not Graded __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 07/AQ7.4_ Activity Questions 4 - Not Graded __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 07/AQ7.5_ Activity Questions 5 - Not Graded __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 07/AQ7.5_ Activity Questions 5 - Not Graded __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 07/AQ7.6_ Activity Questions 6 - Not Graded __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 07/AQ7.6_ Activity Questions 6 - Not Graded __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 07/Graded Assignment 7 __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 07/Graded Assignment 7 __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 07/Practice Assignment 7 - Not Graded __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 07/Practice Assignment 7 - Not Graded __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 08/AQ8.1_ Activity Questions 1 - Not Graded __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 08/AQ8.1_ Activity Questions 1 - Not Graded __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 08/AQ8.2_ Activity Questions 2 - Not Graded __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 08/AQ8.2_ Activity Questions 2 - Not Graded __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 08/AQ8.3_ Activity Questions 3 - Not Graded __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 08/AQ8.3_ Activity Questions 3 - Not Graded __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 08/AQ8.4_ Activity Questions 4 - Not Graded __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 08/AQ8.4_ Activity Questions 4 - Not Graded __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 08/Practice Assignment 8 - Not Graded __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 08/Practice Assignment 8 - Not Graded __ IITM Online Degree.html"
+    },
+    {
+        "path": "sol/solution/WEEK 08/week 8 - Graded Assignment 8 __ IITM Online Degree_files/iframe.html"
+    },
+    {
+        "path": "sol/solution/WEEK 08/week 8 - Graded Assignment 8 __ IITM Online Degree.html"
+    }
+];

@@ -1,0 +1,721 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Business Data Management – Week 11 Advanced Study Notes</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+        onload="renderMathInElement(document.body,{delimiters:[{left:'\\(',right:'\\)',display:false},{left:'\\[',right:'\\]',display:true}]})">
+        </script>
+    <link rel="stylesheet" href="../../../../scr/ui/ui.css" />
+    <script src="../../../../scr/ui/ui.js"></script>
+    <style>
+        /* additional inline styling for readability */
+        .concept-card table {
+            margin: 1rem 0;
+            background: #f9fafc;
+        }
+
+        .concept-card th {
+            background: #e6edf4;
+        }
+
+        .concept-card td,
+        .concept-card th {
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            vertical-align: top;
+        }
+
+        .concept-card h2 {
+            border-left: 6px solid #0b5e7e;
+            padding-left: 16px;
+            margin-top: 1.8rem;
+        }
+
+        .assessment-top-info {
+            background: #f0f4f8;
+            padding: 12px 20px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="assignment-container">
+        <div class="gcb-assessment-title">Business Data Management (IIT Madras) – Week 11: A/B Testing &amp; Credit Risk
+            Analysis</div>
+        <div class="assessment-top-info">
+            <strong>Topics:</strong> A/B Testing (introduction, experimental design, engagement analysis, statistical
+            significance), Credit Risk Analysis (credit scoring, approval trends, profitability, loss calculation,
+            dataset structure) <br />
+            <strong>Prerequisites:</strong> Basic descriptive statistics (percentages, averages), spreadsheet operations
+            (pivot tables), understanding of business metrics (revenue, profit, churn) <br />
+            <strong>Learning Outcomes:</strong> After studying this week, the student will be able to: <br />
+            – Design and interpret A/B tests for marketing nudges, ensuring comparable test/control groups <br />
+            – Compute lift and evaluate engagement transition matrices using pivot tables <br />
+            – Define credit risk, identify key drivers (credit score, application amount, engagement segment) <br />
+            – Analyse monthly approval/decline rates, average credit scores, and transaction amounts <br />
+            – Calculate revenue (3.5% commission), loss (full amount if default), and profit per transaction <br />
+            – Recognise trade‑offs between higher approval rates and increased credit risk <br />
+            <strong>Total Concepts:</strong> 16
+        </div>
+
+        <!-- ==================== CONCEPT CARD 1 ==================== -->
+        <div class="concept-card">
+            <h2>1. A/B Testing – Definition &amp; Purpose (Control Method)</h2>
+            <h3>Definition</h3>
+            <p><strong>A/B testing</strong> (also called <strong>control method</strong> or split‑testing) is a
+                controlled experiment that compares two variants (A and B) to determine which performs better on a
+                predefined metric. In business analytics, it is the gold standard for evaluating the causal impact of a
+                change (e.g., a new marketing nudge, website redesign, or pricing strategy).</p>
+            <h3>Explanation</h3>
+            <p><strong>Motivation:</strong> Without a controlled experiment, any observed change in behaviour could be
+                due to external factors (seasonality, economic shifts). A/B testing isolates the effect of the
+                intervention.</p>
+            <p><strong>First principles:</strong> Users are randomly split into two statistically identical
+                groups:<br />
+                – <strong>Control group (A):</strong> experiences the existing system (no change).<br />
+                – <strong>Test group (B):</strong> exposed to the new feature / nudge.<br />
+                Both groups are observed over the same time period; any significant difference in the outcome (e.g.,
+                conversion rate, engagement score) is attributed to the change.</p>
+            <h3>Intuition / Mental Model</h3>
+            <p><strong>Medical trial analogy:</strong> Just as a new drug is tested against a placebo using a treatment
+                group and a control group, a business “treatment” (pink website, PayLater recommendation) is tested
+                against the current “placebo”. Random assignment ensures that both groups are equivalent before the
+                experiment.</p>
+            <h3>Key Definitions</h3>
+            <ul>
+                <li><strong>Control group:</strong> Subjects who <strong>do not</strong> receive the experimental
+                    treatment (they see the old website / original payment options).</li>
+                <li><strong>Test (treatment) group:</strong> Subjects who <strong>do</strong> receive the new treatment
+                    (nudge, new default).</li>
+                li><li><strong>Lift:</strong> The relative (or absolute) improvement in the target metric for the test
+                    group over the control group. \( \text{Lift} = \frac{\text{metric}_{\text{test}} -
+                    \text{metric}_{\text{control}}}{\text{metric}_{\text{control}}} \times 100\% \).</li>
+                <li><strong>Statistical significance:</strong> A measure that the observed difference is unlikely to
+                    have occurred by random chance (typically p‑value &lt; 0.05).</li>
+            </ul>
+            <h3>Common Mistakes &amp; Misconceptions</h3>
+            <ul>
+                <li><strong>Misconception: “We can compare this month’s performance to last month (pre‑post) and call it
+                        A/B testing.”</strong><br />
+                    <em>Why it’s wrong:</em> Pre‑post designs cannot control for time‑based confounders (e.g.,
+                    macroeconomic changes, holidays, competitor actions).<br />
+                    <em>Correction:</em> True A/B testing runs test and control groups simultaneously, eliminating
+                    temporal bias.<br />
+                    <em>How to avoid:</em> Always run the experiment in the same calendar period using random
+                    assignment.
+                </li>
+            </ul>
+            <h3>Real‑World Application</h3>
+            <p><strong>E‑commerce checkout optimisation:</strong> An online retailer tests two versions of the payment
+                page – one showing “Pay Later” prominently, the other showing standard credit/debit options – to measure
+                impact on cart completion rates.</p>
+            <h3>Key Takeaways</h3>
+            <p>* A/B testing isolates causal effect of a change by comparing two parallel groups.<br />
+                * Control group continues as usual; test group receives the treatment.<br />
+                * The difference (lift) must be statistically significant before rolling out the change globally.<br />
+                * Simultaneous execution avoids pitfalls of pre‑post analysis.</p>
+        </div>
+
+        <!-- CONCEPT CARD 2 -->
+        <div class="concept-card">
+            <h2>2. Experimental Design &amp; Group Similarity Checks</h2>
+            <h3>Definition</h3>
+            <p>Before analysing the outcome of an A/B test, we must verify that the assignment of users to test and
+                control groups was <strong>balanced</strong> – meaning that the groups are statistically similar on all
+                relevant pre‑experiment characteristics (e.g., past transaction behaviour, credit/debit usage, age,
+                tenure).</p>
+            <h3>Explanation</h3>
+            <p><strong>Why similarity matters:</strong> If the test group already had higher average transaction value
+                before the experiment, any observed post‑test difference could be due to pre‑existing disparity, not the
+                nudge.</p>
+            <p><strong>Common approach (as used in PayBuddy):</strong> Compare average of key metrics (3‑month credit
+                card spend, 3‑month debit card spend) between test and control using a pivot table. For a well‑designed
+                experiment, these averages should be roughly equal.</p>
+            <h3>Formulas / Formal Notation</h3>
+            <p>Let \( \bar{X}_{\text{test}} \) and \( \bar{X}_{\text{control}} \) be the sample means for a
+                pre‑experiment metric. Practical equivalence holds when \( |\bar{X}_{\text{test}} -
+                \bar{X}_{\text{control}}| \) is small relative to the scale of the metric. In the PayBuddy case:</p>
+            <p>\[
+                \text{Control: avg credit (3m)} = 1719,\quad \text{Test: avg credit (3m)} = 1796
+                \]</p>
+            <p>Student’s t‑test or simple visual inspection confirms similarity.</p>
+            <h3>Step‑by‑Step Procedure (using pivot tables)</h3>
+            <ol>
+                <li><strong>Select the dataset</strong><br />Include columns: group (test/control), pre‑trial credit
+                    usage, pre‑trial debit usage.</li>
+                <li><strong>Insert pivot table</strong><br />Rows = group; Values = AVERAGE(credit_3m) and
+                    AVERAGE(debit_3m).</li>
+                <li><strong>Compare the averages</strong><br />Verify that both groups are within a reasonable tolerance
+                    (no large divergence).</li>
+                <li><strong>Optional – additional dimensions</strong><br />Add age, tenure, or past engagement to ensure
+                    robustness (though correlated dimensions often behave similarly).</li>
+            </ol>
+            <h3>Diagrams / Tables</h3>
+            <p><strong>Example from AB Testing Working.pdf:</strong></p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Group</th>
+                        <th>Avg Credit (3 months)</th>
+                        <th>Avg Debit (3 months)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Control (C)</td>
+                        <td>1,719</td>
+                        <td>3,434</td>
+                    </tr>
+                    <tr>
+                        <td>Test (T)</td>
+                        <td>1,796</td>
+                        <td>slightly higher (≈3,460)</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p><em>Interpretation:</em> Groups are sufficiently similar; the experiment design is valid.</p>
+            <h3>Key Takeaways</h3>
+            <p>* Always check group equivalence on key behavioural metrics before analysing outcomes.<br />
+                * In practice, selecting 2‑3 representative dimensions (e.g., credit/debit spend) is enough because
+                correlated variables will also match.<br />
+                * Unbalanced groups invalidate causal conclusions.</p>
+        </div>
+
+        <!-- CONCEPT CARD 3 – engagement transition matrices -->
+        <div class="concept-card">
+            <h2>3. Measuring A/B Test Outcomes – Engagement Segment Migration</h2>
+            <h3>Definition</h3>
+            <p>Instead of a single binary metric, customer <strong>engagement segments</strong> (Low, Medium, High,
+                About‑to‑churn) show how behaviour evolves. The test’s success is measured by how many customers move
+                from lower to higher engagement (or stay in high) compared to the control group.</p>
+            <h3>Explanation</h3>
+            <p><strong>Motivation:</strong> A nudge (e.g., showing PayLater on mobile) aims to increase long‑term
+                engagement, not just one transaction. Engagement transition matrices capture the effect.</p>
+            <p><strong>Calculation method:</strong> Use a pivot table with <strong>old engagement segment</strong> as
+                rows, <strong>new engagement segment</strong> as columns, and count of customers as values. Then filter
+                by test/control group and compute row percentages.</p>
+            <h3>Example results (from PayBuddy experiment)</h3>
+            <ul>
+                <li><strong>About‑to‑churn → High:</strong> Control 32%, Test 59% → large positive lift.</li>
+                <li><strong>High → High retention:</strong> Control 50%, Test 73% → test group customers stay engaged
+                    longer.</li>
+                <li><strong>Low → Low (stuck):</strong> Control 53%, Test only 16% → nudge helps low‑engagement users
+                    move up.</li>
+            </ul>
+            <h3>Formulas / Formal Notation</h3>
+            <p>For a given starting segment \( i \) and ending segment \( j \), the transition proportion for group \( g
+                \) is:</p>
+            <p>\[
+                P_{ij}^{(g)} = \frac{\text{Count of customers moving from } i \text{ to } j \text{ in group }
+                g}{\text{Total customers starting in } i \text{ in group } g}
+                \]</p>
+            <p>The <strong>net positive mobility</strong> is the sum of probabilities moving to higher‑value segments
+                minus those moving downward.</p>
+            <h3>Diagrams / Tables</h3>
+            <p><strong>Control group transition (%) – about‑to‑churn:</strong></p>
+            <table>
+                <tr>
+                    <th>→ Medium</th>
+                    <th>→ High</th>
+                </tr>
+                <tr>
+                    <td>68%</td>
+                    <td>32%</td>
+                </tr>
+            </table>
+            <p><strong>Test group transition (%) – about‑to‑churn:</strong></p>
+            <table>
+                <tr>
+                    <th>→ Medium</th>
+                    <th>→ High</th>
+                </tr>
+                <tr>
+                    <td>41%</td>
+                    <td>59%</td>
+                </tr>
+            </table>
+            <p>Absolute improvement in “High” destination = 27 percentage points.</p>
+            <h3>Common Mistakes &amp; Misconceptions</h3>
+            <ul>
+                <li><strong>Misconception: “Any movement to higher engagement proves our nudge
+                        works.”</strong><br /><em>Correction:</em> Compare against the control group; natural organic
+                    improvements happen over time (e.g., 32% already moved to high without nudge). The lift (extra 27%)
+                    is the true causal effect.</li>
+            </ul>
+            <h3>Key Takeaways</h3>
+            <p>* Use contingency tables (old vs new segment) to visualise behaviour change.<br />
+                * Row percentages control for different starting group sizes.<br />
+                * Significant lift in upward migration indicates the nudge is effective.</p>
+        </div>
+
+        <!-- CONCEPT CARD 4 – Statistical significance & novelty effect -->
+        <div class="concept-card">
+            <h2>4. Statistical Significance &amp; The Novelty Effect</h2>
+            <h3>Definition</h3>
+            <p><strong>Statistical significance</strong> quantifies the probability that an observed difference between
+                test and control is due to the intervention rather than random variation. The <strong>novelty
+                    effect</strong> (or “Hawthorne effect”) occurs when an improvement stems purely from the fact that
+                something new has been introduced, not from the intrinsic value of the change.</p>
+            <h3>Explanation</h3>
+            <p>After an A/B test, even if the test group shows higher engagement, we must ask:<br />
+                1) Could this difference have arisen by chance? (hypothesis test).<br />
+                2) Will the effect persist over time or fade once the novelty wears off?<br />
+                In the PayBuddy case, the test group’s engagement uplift was large (e.g., 59% vs 32%), making random
+                chance extremely unlikely. However, the novelty effect might still cause the lift to erode after a few
+                months.</p>
+            <h3>Formulas / Formal Notation</h3>
+            <p>For two proportions \( p_{\text{test}} \) and \( p_{\text{control}} \) (e.g., % moving to High), a Z‑test
+                is used:</p>
+            <p>\[
+                Z = \frac{p_{\text{test}} - p_{\text{control}}}{\sqrt{p(1-p)(\frac{1}{n_{\text{test}}} +
+                \frac{1}{n_{\text{control}}})}}, \quad p = \frac{n_{\text{test}}p_{\text{test}} +
+                n_{\text{control}}p_{\text{control}}}{n_{\text{test}} + n_{\text{control}}}
+                \]</p>
+            <p>If \(|Z| > 1.96\), the difference is significant at the 5% level.</p>
+            <h3>Real‑World Application</h3>
+            <p>E‑commerce platforms run “holdout” tests lasting 4–8 weeks. If the treatment group’s lift remains
+                significant after the first two weeks (and doesn’t taper), the feature is permanently rolled out.</p>
+            <h3>Key Takeaways</h3>
+            <p>* Always test for statistical significance before declaring a winner.<br />
+                * Large effect sizes (e.g., 27 pp lift) are often significant even with moderate sample sizes.<br />
+                * Novelty effect can inflate short‑term results; consider running the test for multiple cycles or
+                analysing week‑by‑week trends.</p>
+        </div>
+
+        <!-- CONCEPT CARD 5 – Credit risk analysis definition -->
+        <div class="concept-card">
+            <h2>5. What is Credit Risk Analysis? (PayBuddy Perspective)</h2>
+            <h3>Definition</h3>
+            <p><strong>Credit risk analysis</strong> is the process of evaluating the likelihood that a borrower will
+                default on a loan (fail to repay the borrowed amount). For a “Buy Now Pay Later” (BNPL) company like
+                PayBuddy, it involves assessing each credit application using credit scores, transaction history,
+                engagement segments, and application amount to approve only those who are likely to repay.</p>
+            <h3>Explanation</h3>
+            <p><strong>Why credit risk matters:</strong> PayBuddy lends without collateral. If a customer defaults, the
+                entire loan amount is lost. At the same time, declining too many applications loses revenue and customer
+                goodwill. The credit risk officer (Nikita Sharma) balances <strong>approval rate</strong> and
+                <strong>default loss</strong>.
+            </p>
+            <p><strong>Key components:</strong> Credit score (internal or CIBIL-like), application amount, customer
+                segment (high/medium/low engagement), decline reasons (compliance, eligibility, fraud risk, system
+                issue).</p>
+            <h3>Intuition / Mental Model</h3>
+            <p><strong>Bank teller analogy:</strong> A bank loan officer checks your credit history, income, and purpose
+                of loan before saying “yes”. The credit risk analysis automates that decision using data and rules.</p>
+            <h3>Key Definitions</h3>
+            <ul>
+                <li><strong>Default:</strong> Failure to pay an EMI when due. In the dataset, default is binary (paid
+                    back = 0, default = 1).</li>
+                <li><strong>Credit score (internal):</strong> A numerical score (e.g., 400–800) summarising a customer’s
+                    creditworthiness; higher is better.</li>
+                <li><strong>CIBIL / external score:</strong> Centralised credit bureau score used by many lenders in
+                    India.</li>
+                <li><strong>Reject inferencing:</strong> Techniques to estimate the performance of declined applicants
+                    using external data (since they never receive a loan).</li>
+            </ul>
+            <h3>Edge Cases &amp; Corner Cases</h3>
+            <ul>
+                <li><strong>No historical credit data:</strong> PayBuddy may rely on other signals – transaction
+                    frequency, device information, or tenure with the platform.</li>
+                <li><strong>Compliance decline:</strong> Even with excellent credit score, a customer may be declined
+                    for being under 18 or having incomplete KYC.</li>
+            </ul>
+            <h3>Key Takeaways</h3>
+            <p>* Credit risk is about predicting probability of default.<br />
+                * A credit risk officer balances approval volume vs. losses.<br />
+                * Internal scores, engagement level, and application amount are typical predictors.</p>
+        </div>
+
+        <!-- CONCEPT CARD 6 – Credit risk dataset columns -->
+        <div class="concept-card">
+            <h2>6. Credit Risk Dataset – Detailed Explanation</h2>
+            <h3>Definition</h3>
+            <p>The credit risk dataset contains every credit application (Buy Now Pay Later) over a three‑month period.
+                Each row represents one application and includes customer information, application details, approval
+                decision, decline reason (if any), and repayment outcome.</p>
+            <h3>Columns &amp; Explanation</h3>
+            <table>
+                <tr>
+                    <th>Column</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td>Customer ID</td>
+                    <td>Unique identifier for each customer.</td>
+                </tr>
+                <tr>
+                    <td>Date of Application</td>
+                    <td>Day when the credit was requested (Jan – April).</td>
+                </tr>
+                <tr>
+                    <td>Customer Segment</td>
+                    <td>Engagement level: High, Medium, Low (based on past behaviour).</td>
+                </tr>
+                <tr>
+                    <td>Credit Score</td>
+                    <td>Internal risk score (higher = less risky).</td>
+                </tr>
+                <tr>
+                    <td>Application Amount (₹ / $)</td>
+                    <td>Dollar value of the credit requested.</td>
+                </tr>
+                <tr>
+                    <td>Approved/Declined</td>
+                    <td>Binary decision.</td>
+                </tr>
+                <tr>
+                    <td>Decline Reason</td>
+                    <td>If declined: Compliance, Credit Risk, Eligibility, Fraud Risk, System Issue.</td>
+                </tr>
+                <tr>
+                    <td>Paid Back / Default</td>
+                    <td>For approved loans: indicates whether the customer eventually repaid.</td>
+                </tr>
+            </table>
+            <h3>Common Decline Reasons</h3>
+            <ul>
+                <li><strong>Compliance:</strong> KYC missing, age under 18, regulatory restrictions.</li>
+                <li><strong>Credit risk:</strong> Internal or external credit score below threshold.</li>
+                <li><strong>Eligibility:</strong> Does not meet company rules (e.g., less than 30 days on platform).
+                </li>
+                <li><strong>Fraud risk:</strong> Suspicious activity, unusual device/location.</li>
+                <li><strong>System issue:</strong> Technical glitch during evaluation.</li>
+            </ul>
+            <h3>Data Quality Notes</h3>
+            <p>For declined applications, “Paid Back / Default” is marked NA (no loan given). For approved applications,
+                the field is binary (paid back / default). The dataset is simplified for education; real‑world data
+                would include delinquency stages (30‑60‑90 days past due).</p>
+            <h3>Key Takeaways</h3>
+            <p>* Each column plays a role in the approval rule.<br />
+                * Decline reasons help understand why customers are rejected.<br />
+                * Default flag enables calculation of loss and model validation.</p>
+        </div>
+
+        <!-- CONCEPT CARD 7 – Monthly trends: approval rate and credit score -->
+        <div class="concept-card">
+            <h2>7. Monthly Trends – Approval Rate &amp; Credit Score Analysis</h2>
+            <h3>Definition</h3>
+            <p>Monitoring key risk metrics month over month reveals if the company is becoming more lenient (or
+                stricter) and how the credit quality of applicants changes.</p>
+            <h3>Analysis from PayBuddy data (Jan – Mar 2020)</h3>
+            <p><strong>Approval rate trend:</strong><br />
+                January: 48% approved, 52% declined.<br />
+                February: 46% approved.<br />
+                March: 58% approved → significant jump.<br />
+                April: limited data (only two days).</p>
+            <p><strong>Average credit score of approved applicants:</strong><br />
+                January: 670, February: 635, March: 599 → steady decline. This suggests the company lowered the credit
+                score threshold to approve more customers.</p>
+            <p><strong>Average credit score of declined applicants:</strong> remained roughly flat (~500-520),
+                indicating that the overall applicant pool’s quality deteriorated slightly, but the main driver of
+                higher approval was relaxed criteria.</p>
+            <h3>Formulas / Formal Notation</h3>
+            <p>Approval rate = \(\frac{\text{Number of approved applications}}{\text{Total applications}} \times
+                100\)<br />
+                Average credit score for approved = \(\frac{\sum \text{credit score of approved}}{\text{count of
+                approved}}\)</p>
+            <h3>Visualisation recommendation</h3>
+            <p>Line chart with two lines: approval rate (%) and average credit score (approved). A negative correlation
+                (approval ↑ while score ↓) indicates riskier lending.</p>
+            <h3>Key Takeaways</h3>
+            <p>* A sudden increase in approval rate often stems from a rule change (lower score threshold).<br />
+                * Declining credit score of approved customers signals elevated future default risk.<br />
+                * Overall population credit score can also drop due to economic conditions (e.g., COVID) independently
+                of company policy.</p>
+        </div>
+
+        <!-- CONCEPT CARD 8 – Application amount analysis -->
+        <div class="concept-card">
+            <h2>8. Monthly Trends – Application Amount (Ticket Size)</h2>
+            <h3>Definition</h3>
+            <p>The <strong>application amount</strong> (loan size) is a critical risk factor: larger loans expose the
+                company to higher loss if default occurs. Companies often enforce a maximum approved amount that
+                increases gradually as they gain confidence.</p>
+            <h3>Observed trends from PayBuddy</h3>
+            <ul>
+                <li><strong>Average approved amount:</strong> Jan $73 → Feb $112 → Mar $150 → Apr $184 (upward).</li>
+                <li><strong>Average declined amount:</strong> stayed flat ~$358 – meaning customers’ requested amounts
+                    did not change; only approval policy changed.</li>
+                <li><strong>Maximum approved amount:</strong> Jan $90, Feb $130, Mar $180, Apr $242 → the company
+                    systematically raised the cap.</li>
+            </ul>
+            <h3>Formulas / Formal Notation</h3>
+            <p>Let \( A_{\text{approved}}^{(m)} \) be the set of approved loan amounts in month \( m \). Then:<br />
+                \[
+                \text{Avg approved amount}_m = \frac{1}{|A_{\text{approved}}^{(m)}|}\sum_{a \in
+                A_{\text{approved}}^{(m)}} a
+                \]<br />
+                Max approved \( = \max(A_{\text{approved}}^{(m)}) \).</p>
+            <h3>Implication for risk</h3>
+            <p>Higher average loan amount combined with lower credit score leads to larger losses when defaults occur.
+                This explains why losses increased month over month (see profit analysis).</p>
+            <h3>Key Takeaways</h3>
+            <p>* Rising approved amount while keeping income/score constant increases risk exposure.<br />
+                * The gap between approved and declined amounts narrows over time, meaning the company is “pushing the
+                envelope”.</p>
+        </div>
+
+        <!-- CONCEPT CARD 9 – Revenue, Loss, and Profit calculation -->
+        <div class="concept-card">
+            <h2>9. Transaction‑level Profitability: Revenue, Loss, Profit</h2>
+            <h3>Definition</h3>
+            <p>For every credit application, PayBuddy can compute:<br />
+                <strong>Revenue</strong> = commission earned on the transaction if approved (3.5% of application
+                amount).<br />
+                <strong>Loss</strong> = entire application amount if the customer defaults (conservative
+                assumption).<br />
+                <strong>Profit</strong> = Revenue – Loss.
+            </p>
+            <h3>Assumptions &amp; Formulas</h3>
+            <p>\[
+                \text{Revenue} = \begin{cases}
+                \text{Application Amount} \times 0.035, & \text{if Approved} \\
+                0, & \text{if Declined}
+                \end{cases}
+                \]<br />
+                \[
+                \text{Loss} = \begin{cases}
+                \text{Application Amount}, & \text{if Approved and Default} \\
+                0, & \text{otherwise}
+                \end{cases}
+                \]</p>
+            <p>\[
+                \text{Profit} = \text{Revenue} - \text{Loss}
+                \]</p>
+            <h3>Example from dataset</h3>
+            <ul>
+                <li><strong>Transaction 1:</strong> Approved, amount $168, paid back → Revenue = $5.88, Loss = $0,
+                    Profit = $5.88.</li>
+                <li><strong>Transaction 2:</strong> Approved, amount $109, default → Revenue = $3.82, Loss = $109,
+                    Profit = –$105.18.</li>
+                <li><strong>Declined transaction:</strong> Revenue = 0, Loss = 0, Profit = 0 (customer may still pay via
+                    debit card, but model assumes worst case).</li>
+            </ul>
+            <h3>Step‑by‑Step (Excel) Implementation</h3>
+            <ol>
+                <li>Create column `Revenue`: `=IF(approved_cell="Approved", app_amount*0.035, 0)`.</li>
+                <li>Create column `Loss`: `=IF(AND(approved_cell="Approved", default_cell="Default"), app_amount, 0)`.
+                </li>
+                <li>Create column `Profit`: `=Revenue - Loss`.</li>
+                <li>Use pivot tables to sum Profit by month or segment.</li>
+            </ol>
+            <h3>Key Takeaways</h3>
+            <p>* Revenue is capped at 3.5% commission, while a default can wipe out the entire principal.<br />
+                * Even a small default rate can erase all profits from many successful transactions.<br />
+                * This simple model helps quantify the risk‑return trade‑off.</p>
+        </div>
+
+        <!-- CONCEPT CARD 10 – Profit/Loss trends and risk-return -->
+        <div class="concept-card">
+            <h2>10. Monthly Profit / Loss Aggregation &amp; Strategic Trade‑off</h2>
+            <h3>Definition</h3>
+            <p>By summing profit across all transactions each month, we see whether the credit business is profitable or
+                not and how losses evolve as approval policy becomes more aggressive.</p>
+            <h3>Findings from PayBuddy analysis</h3>
+            <ul>
+                <li><strong>January:</strong> Small profit (or low loss).</li>
+                <li><strong>February:</strong> Loss increased.</li>
+                <li><strong>March:</strong> Loss significantly higher despite higher revenue.</li>
+                <li>Reason: higher approval rate + larger average loan amounts + lower credit quality → more defaults in
+                    dollar terms.</li>
+            </ul>
+            <p>Loss as percentage of revenue rose from single digits to over 400% (in the short April sample),
+                indicating unsustainable risk.</p>
+            <h3>Intuition / Mental Model</h3>
+            <p><strong>Gas pedal analogy:</strong> Approving more customers (especially with larger loans) is like
+                pressing the accelerator; revenue grows, but default losses grow even faster if risk scoring is weak.
+                The credit risk officer must find the “sweet spot”.</p>
+            <h3>Formulas / Formal Notation</h3>
+            <p>Monthly profit \( \Pi_m = \sum_{\text{transactions in month } m} (\text{Revenue}_t - \text{Loss}_t)
+                \).<br />
+                Loss ratio = \( \frac{\text{Total loss in month } m}{\text{Total revenue in month } m} \). A loss ratio
+                > 1 means the business is cash‑negative on credit operations.</p>
+            <h3>Key Takeaways</h3>
+            <p>* Aggressive approval can lead to explosive growth in losses, even if revenue increases.<br />
+                * Monitoring monthly profit/loss trends is essential to prevent insolvency.<br />
+                * The long‑term customer engagement benefits must eventually outweigh short‑term losses.</p>
+        </div>
+
+        <!-- CONCEPT CARD 11 – Segment based approval & amount analysis -->
+        <div class="concept-card">
+            <h2>11. Engagement Segment &amp; Credit Approval Strategy</h2>
+            <h3>Observation</h3>
+            <p>When analysing approval rates across engagement segments (High/Medium/Low), PayBuddy approved roughly
+                half of the applications in each segment. That means <strong>high‑engaged customers were not treated
+                    preferentially</strong> – a missed opportunity because engaged customers are more valuable and have
+                lower default risk.</p>
+            <h3>Average approved amount by segment</h3>
+            <ul>
+                <li>High segment: avg approved amount $134, max $240.</li>
+                <li>Medium segment: similar to high.</li>
+                <li>Low segment: avg approved amount $110, max $180.</li>
+            </ul>
+            <p>While the approved <em>amount</em> differed, the approval <em>rate</em> did not. Recommendation: increase
+                approval rate for high‑engagement customers to boost loyalty and revenue.</p>
+            <h3>Why this matters</h3>
+            <p>Credit risk is not only about credit score; engagement history is a strong proxy for future transactions.
+                Companies should incorporate engagement into the approval model (higher weight for High segment).</p>
+            <h3>Key Takeaways</h3>
+            <p>* Approval rates alone can be misleading – look at amounts and default rates per segment.<br />
+                * High‑engagement customers should get higher approval rates, not just higher loan caps.<br />
+                * Segment‑based policies improve customer lifetime value and reduce adverse selection.</p>
+        </div>
+
+        <!-- CONCEPT CARD 12 – Reject inferencing & regulatory context -->
+        <div class="concept-card">
+            <h2>12. Reject Inferencing &amp; Regulatory Constraints</h2>
+            <h3>Definition</h3>
+            <p><strong>Reject inferencing</strong> is the practice of estimating how declined applicants would have
+                performed if they had received a loan, using external data (e.g., CIBIL scores of that population) or by
+                running small‑scale shadow approvals. It helps refine credit models without taking excessive risk.</p>
+            <h3>Motivation</h3>
+            <p>If you never approve borderline applicants, you never learn whether they would have paid back. This leads
+                to overly conservative models and lost revenue. Reject inferencing provides a feedback loop.</p>
+            <h3>Regulatory considerations</h3>
+            <ul>
+                <li><strong>US (Fair Lending):</strong> Cannot use race, gender, age, or zip code as a proxy for
+                    discrimination.</li>
+                <li><strong>India:</strong> Regulations are evolving but currently allow more flexibility. However, best
+                    practice is to avoid protected attributes.</li>
+                <li>PayBuddy must ensure that its credit model does not indirectly discriminate against any group.</li>
+            </ul>
+            <h3>Key Takeaways</h3>
+            <p>* Reject inferencing closes the loop for declined applications.<br />
+                * Regulatory compliance is essential when deploying credit models.<br />
+                * Internal data (like engagement) can be used freely but must be fair.</p>
+        </div>
+
+        <!-- CONCEPT CARD 13 – Cost of capital and float -->
+        <div class="concept-card">
+            <h2>13. Buy Now Pay Later Economics – Cost of Capital &amp; Float</h2>
+            <h3>Definition</h3>
+            <p>PayBuddy lends at 0% interest to the customer, but it has to pay its own cost of capital (e.g., 2‑5%
+                borrowing rate). The gap is funded either by the company’s own capital or by using the
+                <strong>float</strong> (customer wallet balances held with PayBuddy).
+            </p>
+            <h3>Explanation</h3>
+            <p>Even if PayBuddy uses customer float (money sitting in wallets), that money could have earned interest in
+                a bank deposit. Therefore, an opportunity cost exists. The only sustainable way to make BNPL profitable
+                is to generate enough incremental transaction volume (and merchant commissions) to offset the cost of
+                funds and default losses.</p>
+            <h3>Formulas / Formal Notation</h3>
+            <p>Let \( r_{\text{cost}} \) = effective cost of capital (borrowing or opportunity). Then the net profit
+                contribution of a transaction is:<br />
+                \[
+                \Pi_{\text{net}} = \text{Commission} - \text{Expected Default Loss} - r_{\text{cost}} \times \text{Loan
+                Amount}
+                \]
+            </p>
+            <h3>Strategic Takeaway</h3>
+            <p>In the PayBuddy A/B test, the test group’s higher engagement (more transactions) must eventually create
+                enough commission revenue to outweigh the extra risk and capital cost. The initial losses are an
+                investment in customer loyalty.</p>
+            <h3>Key Takeaways</h3>
+            <p>* BNPL is not free; lenders pay interest or forego float income.<br />
+                * Customer engagement (frequency of purchase) is the key profit driver.<br />
+                * Short‑term losses are acceptable if long‑term lifetime value improves.</p>
+        </div>
+
+        <!-- CONCEPT CARD 14 – Pivot tables for credit risk aggregation -->
+        <div class="concept-card">
+            <h2>14. Using Pivot Tables for Credit Risk Diagnostics</h2>
+            <h3>Definition</h3>
+            <p>Spreadsheet pivot tables are the primary tool used in the course to summarise credit risk data – e.g.,
+                computing approval rates by month, average credit scores by approval status, and total profit per
+                period.</p>
+            <h3>Common Pivot Table Setups</h3>
+            <ul>
+                <li><strong>Approval rate by month:</strong> Rows = Date (month), Columns = Approved/Declined, Values =
+                    Count of Customer ID → then compute %.</li>
+                <li><strong>Average credit score by month:</strong> Same rows/columns, but Values = Average of Credit
+                    Score.</li>
+                <li><strong>Average application amount:</strong> Values = Average of Application Amount.</li>
+                <li><strong>Monthly profit/loss:</strong> Rows = Date, Values = Sum of Profit.</li>
+            </ul>
+            <h3>Step‑by‑step for approval rate</h3>
+            <ol>
+                <li>Insert pivot table using credit risk dataset.</li>
+                <li>Drag `Date of application` to Rows (group by month).</li>
+                <li>Drag `Approved/Declined` to Columns.</li>
+                <li>Drag `Customer ID` to Values (Count).</li>
+                <li>Compute %: add calculated field or copy pivot and divide approved count by total count.</li>
+            </ol>
+            <h3>Advantages over manual calculation</h3>
+            <p>Pivot tables are fast, update automatically when data changes, and reduce human error when handling
+                hundreds of rows.</p>
+            <h3>Key Takeaways</h3>
+            <p>* Pivot tables are essential for slicing credit data by time, segment, or decision.<br />
+                * Always verify that aggregates (average, count) are appropriate for the question.<br />
+                * Use formatting (percentages, decimals) to improve readability.</p>
+        </div>
+
+        <!-- CONCEPT CARD 15 – Cause of increasing losses -->
+        <div class="concept-card">
+            <h2>15. Why Did PayBuddy’s Losses Increase? (Root Cause)</h2>
+            <h3>Diagnosis</h3>
+            <ol>
+                <li>Relaxed credit score threshold → approved lower‑quality borrowers.</li>
+                <li>Increased maximum approved amount (from $90 to $242) → larger exposure per default.</li>
+                <li>Overall applicant credit quality slightly declined (economic environment).</li>
+            </ol>
+            <p>Together, these three factors caused the loss per month to rise faster than revenue, even though revenue
+                also grew.</p>
+            <h3>Trade‑off for the credit risk officer</h3>
+            <p>If Nikita keeps approving more people with higher amounts, short‑term losses will continue to increase.
+                She can either:<br />
+                – Tighten criteria (lower approval rate, smaller loan caps) → reduces losses but stunts growth.<br />
+                – Keep looser criteria but improve collection mechanisms and hope that engagement lift compensates
+                later.<br />
+                – Adopt a more nuanced model: approve high‑engagement customers more often but keep strict risk rules
+                for low‑engagement ones.</p>
+            <h3>Real‑world parallel</h3>
+            <p>Many fintechs (e.g., Affirm, Klarna) initially report losses as they scale, then adjust underwriting
+                models to become profitable after gaining market share.</p>
+            <h3>Key Takeaways</h3>
+            <p>* Loss growth is not necessarily a sign of failure; it can reflect deliberate expansion.<br />
+                * However, without corresponding growth in high‑quality repeat customers, losses become unsustainable.
+            </p>
+        </div>
+
+        <!-- CONCEPT CARD 16 – Summary of IIT Madras Week 11 takeaways -->
+        <div class="concept-card">
+            <h2>16. Week 11 Synthesis – A/B Testing meets Credit Risk</h2>
+            <h3>Bridge between topics</h3>
+            <p>Both A/B testing and credit risk analysis rely on <strong>controlled comparison</strong> and
+                <strong>data‑driven decision making</strong>:
+            </p>
+            <ul>
+                <li>A/B testing isolates the effect of a nudge on engagement – which in turn affects a customer’s
+                    creditworthiness (more engaged → lower risk).</li>
+                <li>Credit risk analysis uses historical data to predict default, and A/B testing can validate whether
+                    offering BNPL to previously risky segments improves their repayment behaviour.</li>
+            </ul>
+            <h3>Final Checklist for Exam / Assignment</h3>
+            <ul>
+                <li><strong>For an A/B test:</strong> Verify group similarity, compute engagement transition
+                    percentages, test statistical significance, watch for novelty effect, calculate lift.</li>
+                <li><strong>For credit risk:</strong> Understand each dataset column, compute approval rates and average
+                    credit scores per month, calculate revenue (3.5% commission), loss (full amount on default), profit
+                    = revenue – loss, and aggregate by month/segment.</li>
+                <li><strong>Business insight:</strong> Always balance growth (approval rate) with risk (default loss).
+                    Use segment‑specific strategies.</li>
+            </ul>
+            <p><em>“Everything we learned in Week 11 shows that data without a controlled experiment cannot prove
+                    causality, and credit without risk quantification is gambling.”</em></p>
+        </div>
+
+        <div class="assessment-top-info" style="margin-top: 32px; text-align: center;">
+            ✅ End of Week 11 study notes – extracted from IIT Madras lectures &amp; case materials (PayBuddy, A/B
+            Testing, Credit Risk).<br />
+            All formulas, tables, and procedures follow the original course content.
+        </div>
+    </div>
+</body>
+
+</html>

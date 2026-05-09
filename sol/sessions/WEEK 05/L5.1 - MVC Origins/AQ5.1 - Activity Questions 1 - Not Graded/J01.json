@@ -1,0 +1,23 @@
+[
+    {
+        "id": 1,
+        "type": "mcq",
+        "variant": "standard",
+        "difficulty": "easy",
+        "points": 1,
+        "text": "Which component of the MVC pattern acts as the link between the user and the system, processing all input?",
+        "options": [
+            "Model",
+            "View",
+            "Controller",
+            "Database"
+        ],
+        "correct": 2,
+        "explanation": "The Controller receives user input from the View, interprets it, and triggers appropriate changes in the Model. It is the mediator that never contains business logic.",
+        "detailed": "<strong>Step‑by‑step solution:</strong><br>1. Recall the three MVC roles: Model = data/​logic, View = presentation, Controller = input handling.<br>2. The View captures clicks and key presses but does not decide what they mean – it forwards them to the Controller.<br>3. The Controller translates the input into actions on the Model (e.g., “increase counter”).<br>4. The Model never handles user input directly, and the database is not part of MVC.<br><br><strong>Why the correct answer is correct:</strong><br>The lecture defines the Controller as “the link between a user and the system”.<br><br><strong>Why other options are incorrect:</strong><br>* Option A (Model): The Model only manages data, not input.<br>* Option B (View): The View only displays and captures events, but delegates to the Controller.<br>* Option D (Database): Not an MVC component.<br><br><strong>Concept tested:</strong> Controller responsibility.<br><strong>Key takeaway:</strong> All user input goes through the Controller, making it the central coordinator.",
+        "diagram": {
+            "type": "mermaid",
+            "code": "flowchart LR\n    User((User))\n    View[View]\n    Controller[Controller]\n    Model[Model]\n\n    User -- 1. interacts --> View\n    View -- 2. forwards event --> Controller\n    Controller -- 3. updates --> Model\n    Model -- 4. notifies (Observer) --> View\n    View -. 5. renders .-> User"
+        }
+    }
+]
